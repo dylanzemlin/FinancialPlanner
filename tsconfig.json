@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "pages/api/user/[userId]"  ],
   "exclude": [
     "node_modules"
   ]

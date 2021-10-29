@@ -1,25 +1,26 @@
 {
-  "name": "1411p2",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@auth0/nextjs-auth0": "^1.6.1",
-    "next": "^12.0.1",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-loader-spinner": "^4.0.0",
-    "sass": "^1.43.4"
-  },
-  "devDependencies": {
-    "@types/react": "17.0.31",
-    "eslint": "8.0.1",
-    "eslint-config-next": "11.1.2",
-    "typescript": "4.4.4"
-  }
+    "name": "1411p2",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@auth0/nextjs-auth0": "^1.6.1",
+        "next": "^12.0.1",
+        "nextjs-redirect": "^5.0.2",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-loader-spinner": "^4.0.0",
+        "sass": "^1.43.4"
+    },
+    "devDependencies": {
+        "@types/react": "17.0.31",
+        "eslint": "8.0.1",
+        "eslint-config-next": "11.1.2",
+        "typescript": "4.4.4"
+    }
 }
