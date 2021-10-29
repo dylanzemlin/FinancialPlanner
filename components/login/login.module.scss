@@ -1,0 +1,28 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    & a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 15%;
+        height: 35px;
+        color: white;
+        font-size: 1.2rem;
+    
+        border: 1px solid white;
+        border-radius: 5px;
+        background: rgb(30, 108, 134);
+
+        transition: background 0.15s ease;
+
+        &:hover {
+            background: rgb(18, 82, 104);
+            cursor: pointer;
+        }
+    }
+}

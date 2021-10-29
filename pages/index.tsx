@@ -1,11 +1,22 @@
-import type { NextPage } from 'next'
+// pages/index.js
+import { useUser } from '@auth0/nextjs-auth0';
+import Login from '../components/login';
 
-const Home: NextPage = () => {
-    return (
-        <div>
-            <h1> Project 1411 </h1>
-        </div>
-    )
+export default function Index() {
+    // const { user, error, isLoading } = useUser();
+
+    // if (isLoading) return <div>Loading...</div>;
+    // if (error) return <div>{error.message}</div>;
+
+    // if (user) {
+    //     return (
+    //         <div>
+    //             Welcome {user.email}! <a href="/api/auth/logout">Logout</a>
+    //         </div>
+    //     );
+    // }
+
+    // return <a href="/api/auth/login">Login</a>;
+    
+    return <Login />
 }
-
-export default Home
