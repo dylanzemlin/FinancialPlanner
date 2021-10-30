@@ -10,7 +10,6 @@ const Dashboard: NextPage = (props) => {
     const { user, error, isLoading } = useUser();
     const { response, responseError, fetching } = useApi('/api/user/finance');
 
-    console.log(isLoading + " | " + fetching);
     return (
         <Container title="ENGR 1411 | Dashboard" loading={isLoading || fetching}>
             <Navbar />
