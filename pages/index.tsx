@@ -2,15 +2,18 @@
 import { useUser } from '@auth0/nextjs-auth0';
 import Login from '../components/login';
 import Loading from '../modules/loading/loading';
-import redirect from 'nextjs-redirect'
+import { useRouter } from 'next/router';
 
 export default function Index() {
     const { user, error, isLoading } = useUser();
+    const router = useRouter();
 
     if (isLoading) return <Loading />
-    if (error) return <div>{error.message}</div>;
-
-    if (user) return redirect('/dashboard');
+    if (error) return <div>Error: {error.message}</div>;
+    if (user) {
+        router.push('/dashboard');
+        return <Loading />;
+    }
 
     return <Login />
 }

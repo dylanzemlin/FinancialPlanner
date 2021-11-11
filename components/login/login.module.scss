@@ -1,28 +1,29 @@
-.login {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.login form {
+    background: var(--color-bg-secondary);
 
-    & a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    input {
+        margin: 0.75rem;
+        background: var(--color-bg-primary);
+        border: none;
+        padding: 0.2rem;
 
-        width: 15%;
-        height: 35px;
+        font-size: 1.3rem;
+    }
+
+    input[aria-invalid='true'] {
+        border: 2px solid var(--color-bg-error)
+    }
+
+    input[type="submit"] {
         color: white;
-        font-size: 1.2rem;
-    
-        border: 1px solid white;
-        border-radius: 5px;
-        background: rgb(30, 108, 134);
-
-        transition: background 0.15s ease;
+        width: 50%;
+        padding: 0.3rem 0;
+        background-color: var(--color-bg-accent);
+        transition: 0.25s ease-in-out;
 
         &:hover {
-            background: rgb(18, 82, 104);
             cursor: pointer;
+            filter: brightness(80%);
         }
     }
 }

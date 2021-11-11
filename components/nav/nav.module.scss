@@ -1,7 +1,7 @@
 .nav {
     width: 14%;
     height: 100%;
-    background-color: red;
+    background-color: var(--color-bg-secondary);
 
     &.collapsed {
         width: 7%;

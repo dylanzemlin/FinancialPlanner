@@ -1,9 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
-html,
-body {
+:root {
+    --font-primary: "Roboto", sans-serif;
+    --font-secondary: "OSwald", sans-serif;
+}
+
+body, html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: sans-serif;
+    
     padding: 0;
     margin: 0;
+}
+
+body 
+body[data-theme="light"] {
+    --color-text-primary: #27201a;
+    --color-text-secondary: #076963;
+    --color-bg-primary: #fff;
+    --color-bg-secondary: #dadada;
+}
+
+body[data-theme="dark"] {
+    --color-text-primary: #e3e3e3;
+    --color-text-secondary: #ff6b00;
+    --color-bg-primary: #141414;
+    --color-bg-secondary: #242424;
+    --color-bg-accent: rgb(63, 4, 63);
+    --color-bg-error: rgb(180, 30, 30);
+}
+
+h1 {
+    color: var(--color-text-secondary)
 }
 
 a {
@@ -13,6 +45,34 @@ a {
 
 * {
     box-sizing: border-box;
-    font-family: 'Roboto Mono', monospace;
-    color: white;
+}
+
+/* Some Default Styling */
+.flex {
+    display: flex;
+}
+
+.flex.centered {
+    align-items: center;
+    justify-content: center;
+}
+
+.flex.column {
+    flex-direction: column;
+}
+
+.height-fill {
+    height: 100%;
+}
+
+.height-fit {
+    height: fit-content;
+}
+
+.width-fill {
+    width: 100%;
+}
+
+.width-fit {
+    width: fit-content;
 }
