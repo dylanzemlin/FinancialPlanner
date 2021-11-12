@@ -10,6 +10,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     useEffect(() => {
         if (document?.body != undefined) {
             let theme = localStorage.getItem('1411-theme');
+            if(theme == undefined) {
+                localStorage.setItem('1411-theme', 'dark');
+            }
+            
             document.body.dataset.theme = theme ?? 'dark';
         }
     });

@@ -1,11 +1,24 @@
-import { faArrowLeft, faArrowRight, faChartLine, faCog, faHome } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight, faChartLine, faCog, faHome, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Styles from './nav.module.scss';
 
 const Navbar: NextPage = () => {
     const [isCollapsed, setCollapsed] = useState(true);
+    const [theme, setTheme] = useState('dark');
+
+    useEffect(() => {
+        let theme = localStorage.getItem('1411-theme') ?? 'dark';
+        setTheme(theme);
+    });
+
+    const changeTheme = ((themeName: string) => {
+        localStorage.setItem('1411-theme', themeName);
+        document.body.dataset.theme = themeName;
+
+        setTheme(themeName);
+    });
 
     return (
         <div className={[Styles.nav, isCollapsed ? Styles.collapsed : '', 'flex column'].join(' ')}>
@@ -28,6 +41,13 @@ const Navbar: NextPage = () => {
                 <p className={Styles.navbody}>
                     Account
                 </p>
+            </a>
+
+            <a style={{ width: "100%" }} onClick={(e) => changeTheme(theme == 'light' ? 'dark' : 'light')} className={Styles.navitem}>
+                {theme == 'light'
+                    ? <FontAwesomeIcon icon={faMoon} style={{ marginLeft: "0", marginRight: "0" }} className={Styles.navicon} />
+                    : <FontAwesomeIcon icon={faSun} style={{ marginLeft: "0", marginRight: "0" }} className={Styles.navicon} />
+                }
             </a>
 
             <a style={{ width: "100%" }} onClick={(e) => setCollapsed(!isCollapsed)} className={Styles.navitem}>

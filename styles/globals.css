@@ -17,12 +17,17 @@ body, html {
     margin: 0;
 }
 
-body 
 body[data-theme="light"] {
     --color-text-primary: #27201a;
     --color-text-secondary: #076963;
-    --color-bg-primary: #fff;
-    --color-bg-secondary: #dadada;
+    --color-bg-primary: #dadada;
+    --color-bg-secondary: #b9b5b5;
+
+    --color-graph-chart: #000000;
+
+    --color-bg-scrollbar-track: #404040;
+    --color-bg-scrollbar-thumb: #343434;
+    --color-bg-scrollbar-thumb-hover: #303030;
 }
 
 body[data-theme="dark"] {
@@ -35,6 +40,10 @@ body[data-theme="dark"] {
 
     --color-graph-chart: #fff;
     --color-graph-title: #fff;
+
+    --color-bg-scrollbar-track: #404040;
+    --color-bg-scrollbar-thumb: #343434;
+    --color-bg-scrollbar-thumb-hover: #303030;
 }
 
 h1 {
@@ -150,4 +159,26 @@ tbody:before {
 
 .width-fit {
     width: fit-content;
+}
+
+/* Scroll Bar */
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--color-bg-scrollbar-track);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--color-bg-scrollbar-thumb);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    transition: 0.25s ease;
+    background: var(--color-bg-scrollbar-thumb-hover);
 }

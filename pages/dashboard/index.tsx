@@ -80,13 +80,12 @@ const Dashboard: NextPage = (props) => {
                         <LineChart
                             data={data}
                             margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-
                         >
                             <XAxis dataKey="date" height={60} minTickGap={15}>
-                                <Label value="Date" position="end" dy={20} fill={"white"} offset={10} />
+                                <Label value="Date" position="end" dy={20} fill={"var(--color-text-primary)"} offset={10} />
                             </XAxis>
                             <YAxis dataKey="spending">
-                                <Label value="Amount" position="end" dx={-20} angle={90} fill={"white"} offset={10} />
+                                <Label value="Amount" position="end" dx={-20} angle={90} fill={"var(--color-text-primary)"} offset={10} />
                             </YAxis>
 
                             <CartesianGrid stroke="var(--color-graph-chart)" />
