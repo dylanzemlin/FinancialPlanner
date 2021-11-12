@@ -1,16 +1,13 @@
 import mongoose from 'mongoose'
 
-export interface FinanceModel {
+export interface IFinance {
     baseIncome: number,
     incomePeriod: number
 }
 
-const FinanceSchema = new mongoose.Schema({
+const FinanceSchema = new mongoose.Schema<IFinance>({
     baseIncome: Number,
     incomePeriod: Number
 })
 
-module.exports = 
-    mongoose.models.Finance 
-        || 
-    mongoose.model<FinanceModel>('Finance', FinanceSchema, 'finances')
+export default mongoose.models.Finance || mongoose.model<IFinance>('Finance', FinanceSchema, 'finances');

@@ -26,8 +26,8 @@ body[data-theme="light"] {
 }
 
 body[data-theme="dark"] {
-    --color-text-primary: #e3e3e3;
-    --color-text-secondary: #ff6b00;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #e3e3e3;
     --color-bg-primary: #141414;
     --color-bg-secondary: #242424;
     --color-bg-accent: rgb(63, 4, 63);
@@ -47,7 +47,33 @@ a {
     box-sizing: border-box;
 }
 
-/* Some Default Styling */
+/* Default Styles */
+input {
+    outline: none;
+    border: none;
+
+    background: var(--color-bg-primary);
+    border: 2px solid var(--color-bg-secondary);
+    padding: 0.35rem;
+
+    color: var(--color-text-primary);
+}
+
+input:hover {
+    transition: 0.25s ease;
+    filter:brightness(140%);
+}
+
+input:active {
+    outline: none;
+    color: var(--color-text-primary);
+}
+
+input[type="submit"]:hover {
+    cursor: pointer;
+}
+
+/* Some Global Classes */
 .flex {
     display: flex;
 }

@@ -24,9 +24,9 @@ export default (url: string, options = {}) => {
                     response: await res.json(),
                     fetching: false
                 }));
-            } catch (error) {
+            } catch (responseError) {
                 setState(initialState({
-                    error
+                    responseError
                 }));
             }
         };

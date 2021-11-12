@@ -1,9 +1,10 @@
 .nav {
-    width: 14%;
+    width: 12rem;
     height: 100%;
+    margin-right: 1rem;
     background-color: var(--color-bg-secondary);
 
     &.collapsed {
-        width: 7%;
+        width: 5rem;
     }
 }

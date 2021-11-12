@@ -5,7 +5,7 @@ if(process.env.MongoUri == undefined) {
 }
 
 let cachedDb: mongoose.Mongoose | undefined = undefined;
-export async function connect(name: string) {
+export async function connect() {
     if(cachedDb != undefined) {
         return cachedDb;
     }
