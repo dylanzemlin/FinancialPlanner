@@ -3,7 +3,7 @@ import { useUser } from '@auth0/nextjs-auth0';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../../components/nav';
 import useApi from '../../lib/useApi';
 import Container from '../../modules/container';
@@ -12,6 +12,7 @@ import NewUser from '../../modules/dashboard/newuser';
 const Dashboard: NextPage = (props) => {
     const { user, error, isLoading } = useUser();
     const { response: userData, responseError, fetching } = useApi('/api/user');
+    const router = useRouter();
 
     if(error || responseError) {
         return (
@@ -19,7 +20,15 @@ const Dashboard: NextPage = (props) => {
         );
     }
 
-    if(user == undefined || userData == null) {
+    if(user == undefined) {
+        useEffect(() => {
+            router.push('/'); 
+        });
+
+        return <Container title="ENGR 1411 | Dashboard" loading={true} />
+    }
+
+    if(userData == undefined) {
         return <Container title="ENGR 1411 | Dashboard" loading={true} />
     }
 
