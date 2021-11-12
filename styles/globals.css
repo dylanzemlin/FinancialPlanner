@@ -43,20 +43,28 @@ a {
     text-decoration: none;
 }
 
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
 /* Default Styles */
-input {
+select, input {
     outline: none;
     border: none;
 
     background: var(--color-bg-primary);
     border: 2px solid var(--color-bg-secondary);
+    border-radius: 5px;
     padding: 0.35rem;
 
     color: var(--color-text-primary);
+}
+
+select:focus {
+    transition: 0.25s ease;
+    filter:brightness(140%);
 }
 
 input:hover {
