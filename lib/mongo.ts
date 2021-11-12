@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
-if(process.env.MongoUri == undefined) {
+if (process.env.MongoUri == undefined) {
     throw new Error("MongoUri environment variable is not defined");
 }
 
 let cachedDb: mongoose.Mongoose | undefined = undefined;
 export async function connect() {
-    if(cachedDb != undefined) {
+    if (cachedDb != undefined) {
         return cachedDb;
     }
 

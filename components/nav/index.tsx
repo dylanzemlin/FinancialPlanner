@@ -16,7 +16,7 @@ const Navbar: NextPage = () => {
                 </p>
             </a>
 
-            <a href="/finances" className={Styles.navitem}>
+            <a href="/dashboard/finances" className={Styles.navitem}>
                 <FontAwesomeIcon icon={faChartLine} className={Styles.navicon} />
                 <p className={Styles.navbody}>
                     Finances

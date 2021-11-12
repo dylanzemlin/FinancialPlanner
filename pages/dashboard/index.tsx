@@ -36,8 +36,8 @@ const Dashboard: NextPage = (props) => {
     const date = new Date();
     const data: any[] = [];
 
-    for(let m = 6; m <= 12; m++) {
-        for(let i = 1; i < 28; i += 3) {
+    for (let m = 6; m <= 12; m++) {
+        for (let i = 1; i < 28; i += 3) {
             let x = Math.floor(Math.random() * 800) + 500;
             data.push({
                 date: `${m}/${i}/2021`,
@@ -80,11 +80,11 @@ const Dashboard: NextPage = (props) => {
                         <LineChart
                             data={data}
                             margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-                            
+
                         >
                             <XAxis dataKey="date" height={60} minTickGap={15}>
                                 <Label value="Date" position="end" dy={20} fill={"white"} offset={10} />
-                            </XAxis> 
+                            </XAxis>
                             <YAxis dataKey="spending">
                                 <Label value="Amount" position="end" dx={-20} angle={90} fill={"white"} offset={10} />
                             </YAxis>
@@ -100,4 +100,4 @@ const Dashboard: NextPage = (props) => {
     )
 }
 
-export default Dashboard;``
+export default Dashboard; ``

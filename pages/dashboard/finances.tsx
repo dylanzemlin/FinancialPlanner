@@ -7,7 +7,6 @@ import React, { useEffect } from 'react';
 import Navbar from '../../components/nav';
 import useApi from '../../lib/useApi';
 import Container from '../../modules/container';
-import NewUser from '../../modules/dashboard/newuser';
 
 const Dashboard: NextPage = (props) => {
     const { user, error, isLoading } = useUser();
@@ -18,21 +17,21 @@ const Dashboard: NextPage = (props) => {
     console.log(userData);
     console.log(financeData);
 
-    if(error || responseError) {
+    if (error || responseError) {
         return (
-            <p> Error: { error + " | " + responseError } </p>
+            <p> Error: {error + " | " + responseError} </p>
         );
     }
 
-    if(user == undefined) {
+    if (user == undefined) {
         return <Container title="ENGR 1411 | Finance Dashboard" loading={true} />
     }
 
-    if(userData == undefined) {
+    if (userData == undefined) {
         return <Container title="ENGR 1411 | Finance Dashboard" loading={true} />
     }
 
-    if(userData?.code == 404) {
+    if (userData?.code == 404) {
         return <Container title="ENGR 1411 | Finance Dashboard" loading={true} />
     }
 
@@ -41,7 +40,7 @@ const Dashboard: NextPage = (props) => {
             <Navbar />
 
             <div className="flex column">
-                <h1 style={{ borderBottom: "2px solid var(--color-bg-secondary)", marginBottom: "0.2rem"}}> Finances </h1>  
+                <h1 style={{ borderBottom: "2px solid var(--color-bg-secondary)", marginBottom: "0.2rem" }}> Finances </h1>
 
                 <h2> Income </h2>
                 <table id="incomeTable">
@@ -79,7 +78,7 @@ const Dashboard: NextPage = (props) => {
                     height: "2rem"
                 }}> Create Income </button>
 
-                
+
                 <h2> Expenses </h2>
                 <table id="expenseTable">
                     <thead>

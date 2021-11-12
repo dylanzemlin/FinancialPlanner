@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
     useEffect(() => {
-        if(document?.body != undefined) {
+        if (document?.body != undefined) {
             let theme = localStorage.getItem('1411-theme');
             document.body.dataset.theme = theme ?? 'dark';
         }
@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     return (
         <UserProvider>
-            <Component { ...pageProps } />
+            <Component {...pageProps} />
 
             <ToastContainer />
         </UserProvider>
