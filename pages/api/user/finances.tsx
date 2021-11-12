@@ -10,5 +10,5 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
 
     await mongoConnect();
 
-    res.status(200).json({ echoId: session?.user.sub });
+    res.status(200).json({ echoId: session?.user.sub, code: 200 });
 });

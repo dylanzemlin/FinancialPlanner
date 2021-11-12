@@ -32,6 +32,9 @@ body[data-theme="dark"] {
     --color-bg-secondary: #242424;
     --color-bg-accent: rgb(63, 4, 63);
     --color-bg-error: rgb(180, 30, 30);
+
+    --color-graph-chart: #fff;
+    --color-graph-title: #fff;
 }
 
 h1 {
@@ -79,6 +82,44 @@ input:active {
 
 input[type="submit"]:hover {
     cursor: pointer;
+}
+
+/* Button Styling */
+button {
+    background-color: var(--color-bg-primary);
+    border: 2px solid var(--color-bg-accent);
+    width: fit-content;
+    color: var(--color-text-primary);
+}
+
+button:hover {
+    cursor: pointer;
+    filter: brightness(140%);
+    transition: 0.25s ease;
+}
+
+/* Table Styling */
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid var(--color-bg-secondary);
+    border-radius: 5px;
+}
+
+td {
+    padding: 0.3rem;
+    text-align: center;
+}
+
+thead {
+    border-bottom: 1px solid var(--color-bg-accent);
+}
+
+tbody:before {
+    line-height: 0.4rem; 
+    content: "\200C"; 
+    display: block;
 }
 
 /* Some Global Classes */
