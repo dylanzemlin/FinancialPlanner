@@ -3,7 +3,10 @@ import { useUser } from '@auth0/nextjs-auth0';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
-import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
+
+import { Popup } from 'reactjs-popup';
+import React, { useState } from 'react';
 import Navbar from '../../components/nav';
 import useApi from '../../lib/useApi';
 import Container from '../../modules/container';
@@ -11,11 +14,13 @@ import Container from '../../modules/container';
 const Dashboard: NextPage = (props) => {
     const { user, error, isLoading } = useUser();
     const { response: userData, responseError, fetching } = useApi('/api/user');
-    const { response: financeData, responseError: financeError, fetching: financeFetching } = useApi('/api/user/finances');
-    const router = useRouter();
+    let { response: financeData, responseError: financeError, fetching: financeFetching } = useApi('/api/user/finance/');
 
-    console.log(userData);
-    console.log(financeData);
+    const [title, setTitle] = useState("");
+    const [amount, setAmount] = useState("0");
+    const [type, setType] = useState("weekly");
+
+    const router = useRouter();
 
     if (error || responseError) {
         return (
@@ -27,13 +32,100 @@ const Dashboard: NextPage = (props) => {
         return <Container title="ENGR 1411 | Finance Dashboard" loading={true} />
     }
 
-    if (userData == undefined) {
+    if (userData == undefined || financeData == undefined || fetching || financeFetching) {
         return <Container title="ENGR 1411 | Finance Dashboard" loading={true} />
     }
 
-    if (userData?.code == 404) {
+    if (userData?.code == 404 || financeError) {
         return <Container title="ENGR 1411 | Finance Dashboard" loading={true} />
     }
+
+    const parseNum = (num: string): string => {
+        console.log(num + " | " + amount);
+        let numPeriods = num.split('').filter(x => x == '.').length;
+        if (numPeriods > 1) {
+            return amount;
+        }
+
+        if (numPeriods != 0) {
+            if (num.indexOf('.') == -1) {
+                return parseInt(amount).toString();
+            }
+
+            if (num.lastIndexOf('.') == num.length - 1) {
+                return (parseFloat(amount) + '.');
+            }
+
+            if (num.lastIndexOf('.') == 0) {
+                return ('.' + parseFloat(amount));
+            }
+        }
+
+        return parseFloat(num).toString();
+    };
+
+    const resetInputs = () => {
+        setTitle("");
+        setAmount("0.0");
+        setType('weekly');
+    };
+
+    const validateInputs = (): boolean => {
+        if (title.trim() == "") {
+            toast.error("You must have a title to create a expense/income!");
+            return false;
+        }
+        if (isNaN(parseFloat(amount)) || amount == "0") {
+            toast.error("You must input a valid amount to create a expense/income!");
+            return false;
+        }
+
+        return true;
+    };
+
+    const createIncome = async () => {
+        console.log(`Attempting to create income \"${title}\" for amount $${amount} and type: ${type}`);
+        if (!validateInputs()) return;
+
+        let financePost = await fetch('/api/user/finance/', {
+            method: 'POST',
+            body: JSON.stringify({
+                financeType: 'INCOME',
+                financeAmount: amount,
+                financePeriod: type,
+                financeTitle: title
+            })
+        });
+
+        if (financePost.status == 200) {
+            // Refresh Page
+            router.reload();
+        } else {
+            toast.error(`Failed to create income: ${(await financePost.text())}`)
+        }
+    };
+
+    const createExpense = async () => {
+        console.log(`Attempting to create expense \"${title}\" for amount $${amount} and type: ${type}`);
+        if (!validateInputs()) return;
+
+        let financePost = await fetch('/api/user/finance/', {
+            method: 'POST',
+            body: JSON.stringify({
+                financeType: 'EXPENSE',
+                financeAmount: amount,
+                financePeriod: type,
+                financeTitle: title
+            })
+        });
+
+        if (financePost.status == 200) {
+            // Refresh Page
+            router.reload();
+        } else {
+            toast.error(`Failed to create expense: ${(await financePost.text())}`)
+        }
+    };
 
     return (
         <Container title="ENGR 1411 | Finance Dashboard" className={"flex"} loading={isLoading || fetching}>
@@ -48,35 +140,71 @@ const Dashboard: NextPage = (props) => {
                         <tr>
                             <th>Name</th>
                             <th>Amount</th>
-                            <th>Date</th>
-                            <th>Recurring</th>
+                            <th>Period</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td> Paycheck </td>
-                            <td> $1,502 </td>
-                            <td> 11/12/2021 </td>
-                            <td> No </td>
-                        </tr>
-                        <tr>
-                            <td> Lottery </td>
-                            <td> $11,302,123 </td>
-                            <td> 07/25/2021 </td>
-                            <td> No </td>
-                        </tr>
-                        <tr>
-                            <td> Child Support </td>
-                            <td> $200 </td>
-                            <td> 11/01/2021 </td>
-                            <td> Monthly </td>
-                        </tr>
+                        {financeData.finances.map((x: any) => {
+                            if (x.type == "INCOME") {
+                                return <tr>
+                                    <td> {x.title} </td>
+                                    <td> ${parseFloat(x.amount).toLocaleString('en-US')} </td>
+                                    <td> {x.period} </td>
+                                </tr>
+                            }
+                        })}
                     </tbody>
                 </table>
-                <button style={{
-                    width: "8rem",
-                    height: "2rem"
-                }}> Create Income </button>
+                <Popup
+                    contentStyle={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
+                        gap: '1.2rem'
+                    }}
+                    trigger={<button> Add Income Source </button>}
+                    modal
+                    nested
+                    onClose={resetInputs}
+                >
+                    <h3> Create Income </h3>
+
+                    <div className="flex column centered">
+                        <label htmlFor="title"> Income Title </label>
+                        <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} style={{ marginTop: "0.25rem" }} placeholder="Spotify" />
+                    </div>
+
+                    <div className="flex column centered">
+                        <label htmlFor="amount"> Income Amount </label>
+                        <span>
+                            $
+                            <input type="text" id="amount" value={amount} onChange={(e) => {
+                                if (e.target.value.length == 0) {
+                                    setAmount("0");
+                                } else {
+                                    setAmount(parseNum(e.target.value).toString());
+                                }
+                            }} style={{ marginTop: "0.25rem" }} placeholder="$0.00" />
+                        </span>
+                    </div>
+
+                    <div className="flex column">
+                        <label htmlFor="state"> State </label>
+                        <select onChange={(e) => setType(e.target.value)} style={{ marginTop: "0.25rem" }} value={type}>
+                            <option value="once"> One Time </option>
+                            <option value="daily"> Daily </option>
+                            <option value="weekly"> Weekly </option>
+                            <option value="biweekly"> Bi-Weekly </option>
+                            <option value="monthly"> Monthly </option>
+                            <option value="yearly"> Yearly </option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <input type="submit" value="Create" onClick={createIncome} />
+                    </div>
+                </Popup>
 
 
                 <h2> Expenses </h2>
@@ -85,41 +213,71 @@ const Dashboard: NextPage = (props) => {
                         <tr>
                             <th>Name</th>
                             <th>Amount</th>
-                            <th>Date</th>
                             <th>Recurring</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Spotify</td>
-                            <td>$4.99</td>
-                            <td>11/11/2021</td>
-                            <td>Monthly</td>
-                        </tr>
-                        <tr>
-                            <td>Disney Plus</td>
-                            <td>$9.99</td>
-                            <td>11/11/2021</td>
-                            <td>Monthly</td>
-                        </tr>
-                        <tr>
-                            <td>Amazon Prime</td>
-                            <td>$59.99</td>
-                            <td>01/26/2021</td>
-                            <td>Yearly</td>
-                        </tr>
-                        <tr>
-                            <td>Car Payment</td>
-                            <td>$358.23</td>
-                            <td>11/11/2021</td>
-                            <td>Monthly</td>
-                        </tr>
+                        {financeData.finances.map((x: any) => {
+                            if (x.type == "EXPENSE") {
+                                return <tr>
+                                    <td> {x.title} </td>
+                                    <td> ${parseFloat(x.amount).toLocaleString('en-US')} </td>
+                                    <td> {x.period} </td>
+                                </tr>
+                            }
+                        })}
                     </tbody>
                 </table>
-                <button style={{
-                    width: "8rem",
-                    height: "2rem"
-                }}> Create Expense </button>
+                <Popup
+                    contentStyle={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
+                        gap: '1.2rem'
+                    }}
+                    trigger={<button> Add Expense </button>}
+                    modal
+                    nested
+                    onClose={resetInputs}
+                >
+                    <h3> Create Expense </h3>
+
+                    <div className="flex column centered">
+                        <label htmlFor="title"> Expense Title </label>
+                        <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} style={{ marginTop: "0.25rem" }} placeholder="Spotify" />
+                    </div>
+
+                    <div className="flex column centered">
+                        <label htmlFor="amount"> Expense Amount </label>
+                        <span>
+                            $
+                            <input type="text" id="amount" value={amount} onChange={(e) => {
+                                if (e.target.value.length == 0) {
+                                    setAmount("0");
+                                } else {
+                                    setAmount(parseNum(e.target.value).toString());
+                                }
+                            }} style={{ marginTop: "0.25rem" }} placeholder="$0.00" />
+                        </span>
+                    </div>
+
+                    <div className="flex column">
+                        <label htmlFor="state"> State </label>
+                        <select onChange={(e) => setType(e.target.value)} style={{ marginTop: "0.25rem" }} value={type}>
+                            <option value="once"> One Time </option>
+                            <option value="daily"> Daily </option>
+                            <option value="weekly"> Weekly </option>
+                            <option value="biweekly"> Bi-Weekly </option>
+                            <option value="monthly"> Monthly </option>
+                            <option value="yearly"> Yearly </option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <input type="submit" value="Create" onClick={createExpense} />
+                    </div>
+                </Popup>
             </div>
         </Container>
     )

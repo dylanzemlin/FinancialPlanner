@@ -182,3 +182,9 @@ tbody:before {
     transition: 0.25s ease;
     background: var(--color-bg-scrollbar-thumb-hover);
 }
+
+/* Popup Styling */
+.popup-content {
+    background-color: var(--color-bg-secondary) !important;
+    color: white;
+}

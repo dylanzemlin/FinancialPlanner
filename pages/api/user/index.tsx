@@ -26,15 +26,15 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
 
         const bod = JSON.parse(req.body);
 
-        const newFinanceDoc = await new Finance({
+        await new Finance({
             incomePeriod: -1,
-            baseIncome: -1
+            baseIncome: -1,
+            userId: session?.user.sub ?? ''
         }).save();
 
-        const newUserDoc = await new User({
+        await new User({
             name: bod.name,
             age: bod.age,
-            financeId: newFinanceDoc.id,
             authId: session?.user.sub ?? ''
         }).save();
 

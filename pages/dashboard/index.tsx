@@ -13,19 +13,20 @@ import NewUser from '../../modules/dashboard/newuser';
 const Dashboard: NextPage = (props) => {
     const { user, error, isLoading } = useUser();
     const { response: userData, responseError, fetching } = useApi('/api/user');
+    const { response: financeData, responseError: financeError, fetching: financeFetching } = useApi('/api/user/finance/');
     const router = useRouter();
 
-    if (error || responseError) {
+    if (error || responseError || financeError) {
         return (
             <p> Error: {error + " | " + responseError} </p>
         );
     }
 
-    if (user == undefined) {
+    if (user == undefined || financeData == undefined) {
         return <Container title="ENGR 1411 | Dashboard" loading={true} />
     }
 
-    if (userData == undefined) {
+    if (userData == undefined || financeFetching) {
         return <Container title="ENGR 1411 | Dashboard" loading={true} />
     }
 
@@ -47,6 +48,38 @@ const Dashboard: NextPage = (props) => {
         }
     }
 
+    const calculateTotalFinanceType = (type: string): number => {
+        let sum = 0;
+        financeData.finances.filter((x: any) => x.type == type).forEach((x: any) => {
+            sum += parseFloat(x.amount);
+        });
+        return sum;
+    };
+
+    const calculateLargestFinanceType = (type: string): number => {
+        let largest = 0;
+        financeData.finances.filter((x: any) => x.type == type).forEach((x: any) => {
+            if(parseFloat(x.amount) > largest) {
+                largest = parseFloat(x.amount);
+            }
+        });
+        return largest; 
+    };
+
+    const calculateSmallestFinanceType = (type: string): number => {
+        let smallest = Math.pow(2, 50); // this is so bad
+        financeData.finances.filter((x: any) => x.type == type).forEach((x: any) => {
+            if(parseFloat(x.amount) < smallest) {
+                smallest = parseFloat(x.amount);
+            }
+        });
+        return smallest; 
+    };
+
+    const calculateAverageFinanceType = (type: string): number => {
+        return financeData.finances.length == 0 ? 0 : ( calculateTotalFinanceType(type) / financeData.finances.length );
+    };
+
     return (
         <Container title="ENGR 1411 | Dashboard" className={"flex"} loading={isLoading || fetching}>
             <Navbar />
@@ -60,18 +93,18 @@ const Dashboard: NextPage = (props) => {
                     <div className="flex" style={{ gap: "3rem" }}>
                         <div>
                             <h3> Income </h3>
-                            <p> Total Income: $0 </p>
+                            <p> Total Income: ${calculateTotalFinanceType("INCOME").toLocaleString()} </p>
                             <p> Estimated Income: $0 </p>
                         </div>
 
                         <div>
                             <h3> Expenses </h3>
-                            <p> Total Expenses: $0 </p>
+                            <p> Total Expenses: ${calculateTotalFinanceType("EXPENSE").toLocaleString()} </p>
                             <p> Estimated Expenses: $0 </p>
 
-                            <p> Largest Expense: $0 </p>
-                            <p> Smallest Expense: $0 </p>
-                            <p> Average Expense: $0 </p>
+                            <p> Largest Expense: ${calculateLargestFinanceType("EXPENSE").toLocaleString()} </p>
+                            <p> Smallest Expense: ${calculateSmallestFinanceType("EXPENSE").toLocaleString()} </p>
+                            <p> Average Expense: ${calculateAverageFinanceType("EXPENSE").toLocaleString()} </p>
                         </div>
                     </div>
 
