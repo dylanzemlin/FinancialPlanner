@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 
 import '../styles/globals.css'
 import 'react-toastify/dist/ReactToastify.css';
+import 'reactjs-popup/dist/index.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
     useEffect(() => {
