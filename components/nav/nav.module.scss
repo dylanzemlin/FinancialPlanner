@@ -1,12 +1,10 @@
 .nav {
-    width: 12rem;
+    width: fit-content;
     height: 100%;
     margin-right: 1rem;
     background-color: var(--color-bg-secondary);
 
     &.collapsed {
-        width: fit-content;
-
         .navitem p {
             display: none;
         }
@@ -31,6 +29,7 @@
 
     p {
         margin-right: 1.2rem;
+        margin-left: 1.4rem;
     }
 }
 
