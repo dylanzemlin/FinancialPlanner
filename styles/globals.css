@@ -22,9 +22,12 @@ body[data-theme="light"] {
     --color-text-secondary: #076963;
     --color-bg-primary: #dadada;
     --color-bg-secondary: #b9b5b5;
+    --color-bg-accent: rgb(63, 4, 63);
+    --color-bg-error: rgb(180, 30, 30);
 
-    --color-graph-chart: #000000;
-
+    --color-graph-chart: #fff;
+    --color-graph-title: #fff;
+    
     --color-bg-scrollbar-track: #404040;
     --color-bg-scrollbar-thumb: #343434;
     --color-bg-scrollbar-thumb-hover: #303030;
@@ -59,6 +62,10 @@ a {
 *::before,
 *::after {
     box-sizing: border-box;
+}
+
+*[data-changing="true"] {
+    transition: background 0.25s ease;
 }
 
 /* Default Styles */

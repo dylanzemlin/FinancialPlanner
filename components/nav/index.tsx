@@ -16,6 +16,11 @@ const Navbar: NextPage = () => {
     const changeTheme = ((themeName: string) => {
         localStorage.setItem('1411-theme', themeName);
         document.body.dataset.theme = themeName;
+        document.body.dataset.changing = "true";
+
+        setTimeout(() => {
+            document.body.dataset.changing = "false";
+        }, 400)
 
         setTheme(themeName);
     });
