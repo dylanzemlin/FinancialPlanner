@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 
 export interface FinanceItem {
-    type: 'INCOME' | 'EXPENSE',
-    category: 'GROCERY' | 'SCHOOL' | 'ENTERTAINMENT' | 'GAS' | 'FOOD' | string;
+    type: string,
+    category: string;
     title: string,
     period: string,
 
