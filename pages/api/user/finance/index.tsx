@@ -85,7 +85,29 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
         
         return res.status(200).json({ code: 200 });
     } else if (req.method == 'DELETE') {
-        // Delete a finance
+        let body: any = undefined;
+        try {
+            body = JSON.parse(req.body);
+        } catch {
+            return res.status(400).json({ code: 400, dataText: `Invalid Body Provided` });
+        }
+
+        const financeId = body.id;
+        if(financeId == undefined) {
+            return res.status(400).json({ code: 400, dataText: `Invalid Finance Id Provided` });
+        }
+
+        await FinanceModel.updateOne({
+            userId: session?.user.sub ?? ''
+        }, {
+            $pull: {
+                finances: {
+                    id: financeId
+                }
+            }
+        });
+
+        return res.status(200).json({ code: 200 });
     } else if (req.method == 'PATCH') {
         // Patch a finance
     }
