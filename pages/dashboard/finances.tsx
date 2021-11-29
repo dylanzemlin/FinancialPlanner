@@ -87,6 +87,7 @@ const Dashboard: NextPage = (props) => {
 		setType("weekly");
         setStartDate(Moment().format("MM/DD/YYYY"));
         setEndDate("");
+        setCategory("entertainment");
 	};
 
 	const validateInputs = (): boolean => {
