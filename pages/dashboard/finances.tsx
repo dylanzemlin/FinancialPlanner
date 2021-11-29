@@ -39,7 +39,7 @@ const FinanceDashboard: NextPage = (props) => {
 		>
 			<Navbar />
 
-			<div className="flex column width-fill">
+			<div className="flex column width-fill" style={{ paddingRight: "1rem" }}>
 				<h1
 					style={{
 						borderBottom: "2px solid var(--color-bg-secondary)",
