@@ -35,5 +35,6 @@ export default (url: string, options = {}) => {
 		};
 		fetchData();
 	}, []);
+    
 	return state;
 };
