@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useState } from "react";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import * as OUtils from "../../utils/ou-utils";
 
 const StudentAuthentication: NextPage = (props) => {
@@ -8,22 +8,24 @@ const StudentAuthentication: NextPage = (props) => {
 	const [userIdVal, setUserId] = useState("");
 
 	const authenticateUser = async () => {
-        console.log(cookieVal);
-        console.log(userIdVal);
+		console.log(cookieVal);
+		console.log(userIdVal);
 
-		const userData = await fetch('/api/user/student/information', {
-            method: 'POST',
-            body: JSON.stringify({
-                cookie: cookieVal,
-                userId: userIdVal
-            })
-        })
-        if(userData == undefined) {
-            toast.error("Failed to fetch OU Student Information, please check your cookie and try again!");
-            return;
-        }
+		const userData = await fetch("/api/user/student/information", {
+			method: "POST",
+			body: JSON.stringify({
+				cookie: cookieVal,
+				userId: userIdVal,
+			}),
+		});
+		if (userData == undefined) {
+			toast.error(
+				"Failed to fetch OU Student Information, please check your cookie and try again!"
+			);
+			return;
+		}
 
-        console.log(await userData.json());
+		console.log(await userData.json());
 	};
 
 	return (

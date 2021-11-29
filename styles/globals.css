@@ -45,12 +45,12 @@ body[data-theme="dark"] {
 	--color-graph-chart: #fff;
 	--color-graph-title: #fff;
 
-    --color-nav-background: #181818;
-    --color-nav-item: #242424;
-    --color-nav-item-selected: #323232;
+	--color-nav-background: #181818;
+	--color-nav-item: #242424;
+	--color-nav-item-selected: #323232;
 
-    --color-table-border: #141414;
-    --color-table-cell: rgb(3, 68, 59);
+	--color-table-border: #141414;
+	--color-table-cell: rgb(3, 68, 59);
 
 	--color-bg-scrollbar-track: #404040;
 	--color-bg-scrollbar-thumb: #343434;
@@ -58,10 +58,15 @@ body[data-theme="dark"] {
 }
 
 h1 {
-    color: var(--color-text-primary);
+	color: var(--color-text-primary);
 }
 
-h2, h3, h4, h5, h6, p {
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
 	color: var(--color-text-secondary);
 }
 

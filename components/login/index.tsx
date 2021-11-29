@@ -1,16 +1,14 @@
-import { NextPage } from 'next';
-import Container from '../../modules/container';
-import Styles from './login.module.scss';
+import { NextPage } from "next";
+import Container from "../../modules/container";
+import Styles from "./login.module.scss";
 
 const Login: NextPage = () => {
-    return (
-        <Container className={Styles.login}>
-            <h1> Welcome to your financial planner </h1>
+	return (
+		<Container className={Styles.login}>
+			<h1> Welcome to your financial planner </h1>
 
-            <a href="/api/auth/login">
-                Login
-            </a>
-        </Container>
-    )
-}
+			<a href="/api/auth/login">Login</a>
+		</Container>
+	);
+};
 export default Login;

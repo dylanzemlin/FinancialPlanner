@@ -25,7 +25,7 @@ const Dashboard: NextPage = (props) => {
 	const [startDate, setStartDate] = useState(Moment().format("MM/DD/YYYY"));
 	const [endDate, setEndDate] = useState("");
 	const [amount, setAmount] = useState("0");
-    const [category, setCategory] = useState("entertainment");
+	const [category, setCategory] = useState("entertainment");
 	const [type, setType] = useState("weekly");
 
 	const router = useRouter();
@@ -128,7 +128,7 @@ const Dashboard: NextPage = (props) => {
 		}
 	};
 
-    const createExpense = async () => {
+	const createExpense = async () => {
 		if (!validateInputs()) return;
 
 		let financePost = await fetch("/api/user/finance/", {
@@ -137,7 +137,7 @@ const Dashboard: NextPage = (props) => {
 				financeType: "EXPENSE",
 				financeStart: startDate,
 				financeEnd: endDate,
-                financeCategory: category,
+				financeCategory: category,
 				financeAmount: amount,
 				financePeriod: type,
 				financeTitle: title,
@@ -148,7 +148,9 @@ const Dashboard: NextPage = (props) => {
 			// Refresh Page
 			router.reload();
 		} else {
-			toast.error(`Failed to create expense: ${await financePost.text()}`);
+			toast.error(
+				`Failed to create expense: ${await financePost.text()}`
+			);
 		}
 	};
 
@@ -327,7 +329,7 @@ const Dashboard: NextPage = (props) => {
 					</Popup>
 				</div>
 
-                <h2> Expenses </h2>
+				<h2> Expenses </h2>
 				<div className="table">
 					<table id="incomeTable">
 						<thead>
@@ -335,7 +337,7 @@ const Dashboard: NextPage = (props) => {
 								<th>Name</th>
 								<th>Amount</th>
 								<th>Period</th>
-                                <th>Category</th>
+								<th>Category</th>
 								<th>Start Date</th>
 								<th>End Date</th>
 								<th>Actions</th>
@@ -355,7 +357,7 @@ const Dashboard: NextPage = (props) => {
 												).toLocaleString("en-US")}
 											</td>
 											<td> {x.period} </td>
-                                            <td> {x.category} </td>
+											<td> {x.category} </td>
 											<td>
 												{Moment(x.start).format(
 													"MM/DD/YYYY"
@@ -450,14 +452,17 @@ const Dashboard: NextPage = (props) => {
 							</select>
 						</div>
 
-                        <div className="flex column">
+						<div className="flex column">
 							<label htmlFor="category"> * Category </label>
 							<select
 								onChange={(e) => setCategory(e.target.value)}
 								style={{ marginTop: "0.25rem" }}
 								value={category}
 							>
-								<option value="entertainment"> Entertainment </option>
+								<option value="entertainment">
+									{" "}
+									Entertainment{" "}
+								</option>
 								<option value="grocery"> Grocery </option>
 								<option value="food"> Food </option>
 								<option value="gas"> Gas </option>
@@ -497,7 +502,7 @@ const Dashboard: NextPage = (props) => {
 							/>
 						</div>
 					</Popup>
-                </div>
+				</div>
 			</div>
 		</Container>
 	);

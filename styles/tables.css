@@ -1,7 +1,7 @@
 .table {
 	padding: 1rem;
 	background-color: var(--color-table-border);
-    width: 100%;
+	width: 100%;
 }
 
 table {
@@ -22,17 +22,17 @@ thead {
 }
 
 .tableActions {
-    display: flex;
-    gap: 0.8rem;
+	display: flex;
+	gap: 0.8rem;
 }
 
 .tableAction {
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
 }
 
 .tableAction:hover {
-    color: var(--color-bg-accent);
+	color: var(--color-bg-accent);
 }

@@ -72,38 +72,42 @@ export function calculateYearlyFinances(
 	date: Date,
 	data: IFinance
 ): YearlyFinancialReport {
-    const mnthMap: Record<number, number> = {};
+	const mnthMap: Record<number, number> = {};
 
-    let reports: MonthlyFinancialReport[] = [];
-    for(let i = 0; i <= 12; i++) {
-        let newDate = new Date(date.getFullYear(), i, 1);
-        let financialReport = calculateMonthlyFinances(newDate, data);
-        reports.push(financialReport);
-        mnthMap[i] = financialReport.profit;
-    }
-
-    const totalIncome = reports.map(x => x.gross.income).reduce((a, b) => a + b);
-    const totalExpenses = reports.map(x => x.gross.expense).reduce((a, b) => a + b);
-    const catMap: Record<string, number> = {};
-    for (let item of reports) {
-        for(let key of Object.keys(item.categoryMap)) {
-            if(key in catMap) {
-                catMap[key] += item.categoryMap[key];
-            } else {
-                catMap[key] = item.categoryMap[key];
-            }
-        }
+	let reports: MonthlyFinancialReport[] = [];
+	for (let i = 0; i <= 12; i++) {
+		let newDate = new Date(date.getFullYear(), i, 1);
+		let financialReport = calculateMonthlyFinances(newDate, data);
+		reports.push(financialReport);
+		mnthMap[i] = financialReport.profit;
 	}
 
-    return {
-        gross: {
-            income: totalIncome,
-            expense: totalExpenses
-        },
-        profit: totalIncome - totalExpenses,
-        categoryMap: catMap,
-        monthMap: mnthMap
-    }
+	const totalIncome = reports
+		.map((x) => x.gross.income)
+		.reduce((a, b) => a + b);
+	const totalExpenses = reports
+		.map((x) => x.gross.expense)
+		.reduce((a, b) => a + b);
+	const catMap: Record<string, number> = {};
+	for (let item of reports) {
+		for (let key of Object.keys(item.categoryMap)) {
+			if (key in catMap) {
+				catMap[key] += item.categoryMap[key];
+			} else {
+				catMap[key] = item.categoryMap[key];
+			}
+		}
+	}
+
+	return {
+		gross: {
+			income: totalIncome,
+			expense: totalExpenses,
+		},
+		profit: totalIncome - totalExpenses,
+		categoryMap: catMap,
+		monthMap: mnthMap,
+	};
 }
 
 export interface MonthlyFinancialReport {
@@ -122,5 +126,5 @@ export interface YearlyFinancialReport {
 	};
 	profit: number;
 	categoryMap: Record<string, number>;
-    monthMap: Record<number, number>;
+	monthMap: Record<number, number>;
 }
