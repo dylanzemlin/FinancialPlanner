@@ -33,7 +33,7 @@ export function compareDates(
 		year: boolean;
 	}
 ): number {
-	if (isNaN(thisDate.getTime()) || isNaN(thatDate.getTime())) {
+	if (isNaN(thisDate?.getTime()) || isNaN(thatDate?.getTime())) {
 		throw new Error("Invalid date object passed into compareDates");
 	}
 
