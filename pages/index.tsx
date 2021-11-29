@@ -5,15 +5,15 @@ import Loading from "../modules/loading/loading";
 import { useRouter } from "next/router";
 
 export default function Index() {
-	const { user, error, isLoading } = useUser();
-	const router = useRouter();
+    const { user, error, isLoading } = useUser();
+    const router = useRouter();
 
-	if (isLoading) return <Loading />;
-	if (error) return <div>Error: {error.message}</div>;
-	if (user) {
-		router.push("/dashboard");
-		return <Loading />;
-	}
+    if (isLoading) return <Loading />;
+    if (error) return <div>Error: {error.message}</div>;
+    if (user) {
+        router.push("/dashboard");
+        return <Loading />;
+    }
 
-	return <Login />;
+    return <Login />;
 }

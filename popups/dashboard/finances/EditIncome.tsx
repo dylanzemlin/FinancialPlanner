@@ -11,7 +11,7 @@ import Moment from "moment";
 const EditIncome: NextPage<{ current: any }> = (props) => {
     const [title, setTitle] = useState(props.current.title as string);
     const [startDate, setStartDate] = useState(Moment(props.current.start).format("MM/DD/YYYY"));
-    const [endDate, setEndDate] = useState((props.current.end as string) ?? "");
+    const [endDate, setEndDate] = useState(props.current.end == undefined ? "" : Moment(props.current.end).format("MM/DD/YYYY"));
     const [amount, setAmount] = useState(props.current.amount as number);
     const [type, setType] = useState(props.current.type as string);
 

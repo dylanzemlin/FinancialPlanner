@@ -53,6 +53,7 @@ const Dashboard: NextPage = (props) => {
 			value: number;
 		}[]
 	> = {};
+
 	let allData: { name: string; value: number }[] = [];
 	for (let key in summary.categoryMap) {
 		if (!(key in data)) {
@@ -70,7 +71,7 @@ const Dashboard: NextPage = (props) => {
 	}
 
 	let colorIdx = 0;
-	const colors: string[] = ["#123456", "#581235", "#f9e23e", "#0a230f"];
+	const colors: string[] = ["#0fafaa", "#581235", "#f9e23e", "#3a2fff"];
 
 	return (
 		<Container
@@ -87,42 +88,37 @@ const Dashboard: NextPage = (props) => {
 						marginBottom: "0.2rem",
 					}}
 				>
-					{" "}
-					Welcome back, {userData.name}!{" "}
+					Welcome back, {userData.name}!
 				</h1>
 
 				<div style={{ width: "100%", marginBottom: "2rem" }}>
 					<h2>
-						{" "}
-						Summary for{" "}
+						Summary for
 						{new Date().toLocaleString("default", {
 							month: "long",
-						})}{" "}
-						({date.getMonth() + 1}/01/{date.getFullYear()} to{" "}
+						})}
+						({date.getMonth() + 1}/01/{date.getFullYear()} to
 						{date.getMonth() + 1}/{date.getDate()}/
-						{date.getFullYear()}):{" "}
+						{date.getFullYear()}):
 					</h2>
 
 					<div className="flex" style={{ gap: "3rem" }}>
 						<div>
 							<h3> Statistics </h3>
 							<p>
-								{" "}
 								Gross Income: $
-								{summary.gross.income.toLocaleString()}{" "}
+								{summary.gross.income.toLocaleString()}
 							</p>
 							<p>
-								{" "}
 								Gross Expenses: $
-								{summary.gross.expense.toLocaleString()}{" "}
+								{summary.gross.expense.toLocaleString()}
 							</p>
 							<p> Profit: ${summary.profit.toLocaleString()} </p>
 						</div>
 					</div>
 
 					<h3 style={{ width: "100%", textAlign: "center" }}>
-						{" "}
-						Expenses{" "}
+						Expenses
 					</h3>
 					<ResponsiveContainer width="100%" height={400}>
 						<PieChart>

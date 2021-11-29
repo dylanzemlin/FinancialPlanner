@@ -20,7 +20,7 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
         }
 
         return res.status(200).json({ code: 200, finances: userFinances.finances });
-    } else if (req.method == 'POST') {
+    } else if (req.method == 'POST' || req.method == 'PATCH') {
 
         let body: any = undefined;
         try {
@@ -58,13 +58,24 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
             financeBody.category = postCategory;
         }
 
-        await FinanceModel.updateOne({
-            userId: session?.user.sub ?? ''
-        }, {
-            $push: {
-                finances: financeBody
-            }
-        });
+        if(req.method == 'POST') {
+            await FinanceModel.updateOne({
+                userId: session?.user.sub ?? ''
+            }, {
+                $push: {
+                    finances: financeBody
+                }
+            });
+        } else {
+            await FinanceModel.updateOne({
+                userId: session?.user.sub ?? '',
+                "finances.id": postId
+            }, {
+                $set: {
+                    "finances.$": financeBody
+                }
+            });
+        }
         
         return res.status(200).json({ code: 200 });
     } else if (req.method == 'DELETE') {
@@ -91,8 +102,6 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
         });
 
         return res.status(200).json({ code: 200 });
-    } else if (req.method == 'PATCH') {
-        
     }
 
     res.status(405).json({ code: 405, dataText: `Method ${req.method} not allowed` });
