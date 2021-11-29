@@ -54,16 +54,27 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
             return res.status(400).json({ code: 400, dataText: `Invalid Title Length: ${postTitle.length}` });
         }
 
+        const postStart: string = body.financeStart ?? "";
+        const postEnd: string | undefined = body.financeEnd == "" ? undefined : body.financeEnd;
+        const postCategory: string = body.financeCategory;
+
+        let financeBody: any = {
+            title: postTitle,
+            period: postPeriod,
+            amount: postAmount,
+            start: postStart,
+            end: postEnd,
+            type: postType
+        };
+        if(postType == "EXPENSE") {
+            financeBody.category = postCategory;
+        }
+
         await FinanceModel.updateOne({
             userId: session?.user.sub ?? ''
         }, {
             $push: {
-                finances: {
-                    title: postTitle,
-                    period: postPeriod,
-                    amount: postAmount,
-                    type: postType
-                }
+                finances: financeBody
             }
         });
         
