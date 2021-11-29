@@ -12,10 +12,10 @@ const Dashboard: NextPage = (props) => {
 	const { user, error, isLoading } = useUser();
 	const { response: userData, responseError, fetching } = useApi("/api/user");
 	let {
-		response: financeData,
-		responseError: financeError,
-		fetching: financeFetching,
-	} = useApi("/api/user/finance/");
+		response: studentData,
+		responseError: studentError,
+		fetching: studentFetching,
+	} = useApi("/api/user/student/information");
 
 	if (error || responseError) {
 		return <p> Error: {error + " | " + responseError} </p>;
@@ -29,16 +29,16 @@ const Dashboard: NextPage = (props) => {
 
 	if (
 		userData == undefined ||
-		financeData == undefined ||
+		studentData == undefined ||
 		fetching ||
-		financeFetching
+		studentFetching
 	) {
 		return (
 			<Container title="ENGR 1411 | Student Dashboard" loading={true} />
 		);
 	}
 
-	if (userData?.code == 404 || financeError) {
+	if (userData?.code == 404 || studentError) {
 		return (
 			<Container title="ENGR 1411 | Student Dashboard" loading={true} />
 		);
