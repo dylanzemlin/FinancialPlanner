@@ -85,6 +85,7 @@ const Dashboard: NextPage = (props) => {
 		setTitle("");
 		setAmount("0.0");
 		setType("weekly");
+        setStartDate(Moment().format("MM/DD/YYYY"));
 	};
 
 	const validateInputs = (): boolean => {
