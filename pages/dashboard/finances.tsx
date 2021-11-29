@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Popup } from "reactjs-popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHammer } from "@fortawesome/free-solid-svg-icons";
+import { v4 as uuidv4 } from 'uuid';
 import React, { useState } from "react";
 import Navbar from "../../components/nav";
 import Moment from "moment";
@@ -120,6 +121,7 @@ const Dashboard: NextPage = (props) => {
 				financeAmount: amount,
 				financePeriod: type,
 				financeTitle: title,
+                financeId: uuidv4()
 			}),
 		});
 
@@ -144,6 +146,7 @@ const Dashboard: NextPage = (props) => {
 				financeAmount: amount,
 				financePeriod: type,
 				financeTitle: title,
+                financeId: uuidv4()
 			}),
 		});
 
