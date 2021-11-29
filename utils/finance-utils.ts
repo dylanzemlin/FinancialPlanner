@@ -12,6 +12,14 @@ export function calculateMonthlyFinances(
 	date: Date,
 	data: IFinance
 ): MonthlyFinancialReport {
+    // TODO: We need to take into account the different periods of incomes
+    // for example, we must loop through all yearly incomes and find out if they fall on this month
+    // I don't believe there is any need to check for monthly
+    // For weekly we simply multiply by 3, 4 or 5 weeks depending on how many fell within this month
+    // For bi-weekly, we need to determine how many of those weeks fell within our month. Likely just two, but check into this
+
+    // The same must be done for expenses as well (Such as netflix, spotify, etc)
+
 	const filteredItems: FinanceItem[] = [];
 	for (let finance of data.finances) {
 		const startDateCompare = compareDates(new Date(finance.start), date, {
