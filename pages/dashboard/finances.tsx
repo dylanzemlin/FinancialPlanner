@@ -35,7 +35,7 @@ const FinanceDashboard: NextPage = (props) => {
 
             <div
                 className="flex column width-fill"
-                style={{ paddingRight: "1rem" }}
+                style={{ paddingRight: "1rem", overflowY: "scroll" }}
             >
                 <h1
                     style={{
