@@ -24,7 +24,7 @@ body[data-theme="light"] {
 	--color-bg-primary: #dadada;
 	--color-bg-secondary: #b9b5b5;
 	--color-bg-accent: rgb(63, 4, 63);
-	--color-bg-error: rgb(180, 30, 30);
+	--color-bg-error: #ff2f44;
 
 	--color-graph-chart: #fff;
 	--color-graph-title: #fff;
@@ -40,7 +40,7 @@ body[data-theme="dark"] {
 	--color-bg-primary: #080808;
 	--color-bg-secondary: #141414;
 	--color-bg-accent: rgb(63, 4, 63);
-	--color-bg-error: rgb(180, 30, 30);
+	--color-bg-error: #ff2f44;
 
 	--color-graph-chart: #fff;
 	--color-graph-title: #fff;
