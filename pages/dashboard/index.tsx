@@ -1,20 +1,21 @@
 // pages/index.js
 import { useUser } from '@auth0/nextjs-auth0';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import * as FinanceUtils from '../../utils/finance-utils';
 
-import { CartesianGrid, Label, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import React from 'react';
 import Navbar from '../../components/nav';
 import useApi from '../../lib/useApi';
 import Container from '../../modules/container';
 import NewUser from '../../modules/dashboard/newuser';
 
+import ConvertCase from 'js-convert-case';
+
 const Dashboard: NextPage = (props) => {
     const { user, error, isLoading } = useUser();
     const { response: userData, responseError, fetching } = useApi('/api/user');
     const { response: financeData, responseError: financeError, fetching: financeFetching } = useApi('/api/user/finance/');
-    const router = useRouter();
 
     if (error || responseError || financeError) {
         return (
@@ -35,50 +36,31 @@ const Dashboard: NextPage = (props) => {
     }
 
     const date = new Date();
-    const data: any[] = [];
-
-    for (let m = 6; m <= 12; m++) {
-        for (let i = 1; i < 28; i += 3) {
-            let x = Math.floor(Math.random() * 800) + 500;
-            data.push({
-                date: `${m}/${i}/2021`,
-                estimated: x - Math.floor(Math.random() * 50),
-                spending: x
-            });
+    const summary = FinanceUtils.calculateMonthlyFinances(date, financeData);
+    let data: Record<string, {
+        name: string;
+        value: number;
+    }[]> = {};
+    let allData: { name: string, value: number }[] = [];
+    for(let key in summary.categoryMap) {
+        if(!(key in data)) {
+            data[key] = [];
         }
+
+        data[key].push({
+            name: key,
+            value: summary.categoryMap[key]
+        });
+        allData.push({ name: ConvertCase.toSentenceCase(key), value: summary.categoryMap[key] });
     }
 
-    const calculateTotalFinanceType = (type: string): number => {
-        let sum = 0;
-        financeData.finances.filter((x: any) => x.type == type).forEach((x: any) => {
-            sum += parseFloat(x.amount);
-        });
-        return sum;
-    };
-
-    const calculateLargestFinanceType = (type: string): number => {
-        let largest = 0;
-        financeData.finances.filter((x: any) => x.type == type).forEach((x: any) => {
-            if(parseFloat(x.amount) > largest) {
-                largest = parseFloat(x.amount);
-            }
-        });
-        return largest; 
-    };
-
-    const calculateSmallestFinanceType = (type: string): number => {
-        let smallest = Math.pow(2, 50); // this is so bad
-        financeData.finances.filter((x: any) => x.type == type).forEach((x: any) => {
-            if(parseFloat(x.amount) < smallest) {
-                smallest = parseFloat(x.amount);
-            }
-        });
-        return smallest; 
-    };
-
-    const calculateAverageFinanceType = (type: string): number => {
-        return financeData.finances.length == 0 ? 0 : ( calculateTotalFinanceType(type) / financeData.finances.length );
-    };
+    let colorIdx = 0;
+    const colors: string[] = [
+        '#123456',
+        '#581235',
+        '#f9e23e',
+        '#0a230f'
+    ]
 
     return (
         <Container title="ENGR 1411 | Dashboard" className={"flex"} loading={isLoading || fetching}>
@@ -92,39 +74,33 @@ const Dashboard: NextPage = (props) => {
 
                     <div className="flex" style={{ gap: "3rem" }}>
                         <div>
-                            <h3> Income </h3>
-                            <p> Total Income: ${calculateTotalFinanceType("INCOME").toLocaleString()} </p>
-                            <p> Estimated Income: $0 </p>
-                        </div>
-
-                        <div>
-                            <h3> Expenses </h3>
-                            <p> Total Expenses: ${calculateTotalFinanceType("EXPENSE").toLocaleString()} </p>
-                            <p> Estimated Expenses: $0 </p>
-
-                            <p> Largest Expense: ${calculateLargestFinanceType("EXPENSE").toLocaleString()} </p>
-                            <p> Smallest Expense: ${calculateSmallestFinanceType("EXPENSE").toLocaleString()} </p>
-                            <p> Average Expense: ${calculateAverageFinanceType("EXPENSE").toLocaleString()} </p>
+                            <h3> Statistics </h3>
+                            <p> Gross Income: ${summary.gross.income.toLocaleString()} </p>
+                            <p> Gross Expenses: ${summary.gross.expense.toLocaleString()} </p>
+                            <p> Profit: ${summary.profit.toLocaleString()} </p>
                         </div>
                     </div>
 
-                    <h3 style={{ width: "100%", textAlign: "center" }}> Spending & Expenses </h3>
-                    <ResponsiveContainer width="95%" height={400}>
-                        <LineChart
-                            data={data}
-                            margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-                        >
-                            <XAxis dataKey="date" height={60} minTickGap={15}>
-                                <Label value="Date" position="end" dy={20} fill={"var(--color-text-primary)"} offset={10} />
-                            </XAxis>
-                            <YAxis dataKey="spending">
-                                <Label value="Amount" position="end" dx={-20} angle={90} fill={"var(--color-text-primary)"} offset={10} />
-                            </YAxis>
-
-                            <CartesianGrid stroke="var(--color-graph-chart)" />
-                            <Line dot={false} type="natural" dataKey="spending" stroke="#ff7300" yAxisId={0} />
-                            <Line dot={false} type="natural" dataKey="estimated" stroke="#0ff0ff" yAxisId={0} />
-                        </LineChart>
+                    <h3 style={{ width: "100%", textAlign: "center" }}> Expenses </h3>
+                    <ResponsiveContainer width="100%" height={400}>
+                        <PieChart>
+                            <Pie
+                                data={allData}
+                                cx="50%"
+                                cy="50%"
+                                dataKey="value"
+                                nameKey="name"
+                                stroke="#fff"
+                                label={true}
+                                labelLine={true}
+                            >
+                                { [...Object.keys(data)].map(key => {
+                                    return <Cell fill={`${colors[colorIdx++ % colors.length]}`}/>
+                                }) }
+                            </Pie>
+                            <Tooltip />
+                            <Legend fill="#fff" />
+                        </PieChart>
                     </ResponsiveContainer>
                 </div>
             </div>
@@ -132,4 +108,4 @@ const Dashboard: NextPage = (props) => {
     )
 }
 
-export default Dashboard; ``
+export default Dashboard;

@@ -1,0 +1,28 @@
+.flex {
+	display: flex;
+}
+
+.flex.centered {
+	align-items: center;
+	justify-content: center;
+}
+
+.flex.column {
+	flex-direction: column;
+}
+
+.height-fill {
+	height: 100%;
+}
+
+.height-fit {
+	height: fit-content;
+}
+
+.width-fill {
+	width: 100%;
+}
+
+.width-fit {
+	width: fit-content;
+}

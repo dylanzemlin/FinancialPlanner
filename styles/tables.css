@@ -1,0 +1,38 @@
+.table {
+	padding: 1rem;
+	background-color: var(--color-table-border);
+    width: 100%;
+}
+
+table {
+	width: 100%;
+	border-spacing: 0 5px;
+}
+
+td {
+	padding: 0.3rem;
+}
+
+tbody > tr {
+	background-color: var(--color-table-cell);
+}
+
+thead {
+	text-align: left;
+}
+
+.tableActions {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.tableAction {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tableAction:hover {
+    color: var(--color-bg-accent);
+}

@@ -2,9 +2,14 @@ import mongoose from 'mongoose'
 
 export interface FinanceItem {
     type: string,
+    category: string;
     title: string,
-    amount: string,
-    period: string
+    period: string,
+
+    amount: number,
+
+    start: Date,
+    end?: Date
 }
 
 export interface IFinance {
@@ -16,9 +21,14 @@ const FinanceSchema = new mongoose.Schema<IFinance>({
     userId: String,
     finances: [{
         type: String,
+        category: String,
         title: String,
-        amount: String,
-        period: String
+        period: String,
+
+        amount: Number,
+
+        start: Date,
+        end: Date
     }],
 }, { typeKey: '$type' })
 

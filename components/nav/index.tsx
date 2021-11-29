@@ -1,4 +1,4 @@
-import { faArrowLeft, faArrowRight, faChartLine, faCog, faHome, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight, faChartLine, faCog, faHandPaper, faHome, faMoon, faSchool, faSun, faUniversity } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NextPage } from 'next';
 import React, { useEffect, useState } from 'react';
@@ -38,6 +38,13 @@ const Navbar: NextPage = () => {
                 <FontAwesomeIcon icon={faChartLine} className={Styles.navicon} />
                 <p className={Styles.navbody}>
                     Finances
+                </p>
+            </a>
+
+            <a href="/dashboard/student" className={Styles.navitem}>
+                <FontAwesomeIcon icon={faUniversity} className={Styles.navicon} />
+                <p className={Styles.navbody}>
+                    Student
                 </p>
             </a>
 
