@@ -7,6 +7,7 @@ import useApi from "../../lib/useApi";
 import Container from "../../modules/container";
 
 import Authenticate from '../../modules/student/authenticate';
+import Information from '../../modules/student/information';
 
 const Dashboard: NextPage = (props) => {
 	const { user, error, isLoading } = useUser();
@@ -62,7 +63,7 @@ const Dashboard: NextPage = (props) => {
 					Student Dashboard
 				</h1>
 
-                <Authenticate />
+                { studentData == undefined ? <Authenticate /> : <Information info={studentData.dataBody} /> }
 
 			</div>
 		</Container>
