@@ -14,7 +14,7 @@ export function calculateMonthlyFinances(
 ): MonthlyFinancialReport {
 	const filteredItems: FinanceItem[] = [];
 	for (let finance of data.finances) {
-		const startDateCompare = compareDates(finance.start, date, {
+		const startDateCompare = compareDates(new Date(finance.start), date, {
 			day: false,
 			month: true,
 			year: true,
@@ -22,7 +22,7 @@ export function calculateMonthlyFinances(
 		if (startDateCompare > 0) continue; // If the finance started after the "date", ignore it
 
 		if (finance.end != undefined) {
-			const endDateCompare = compareDates(finance.end, date, {
+			const endDateCompare = compareDates(new Date(finance.end), date, {
 				day: false,
 				month: true,
 				year: true,
@@ -46,11 +46,11 @@ export function calculateMonthlyFinances(
 	const income = filteredItems
 		.filter((x) => x.type == "INCOME")
 		.map((x) => x.amount)
-		.reduce((a, b) => a + b);
+		.reduce((a, b) => a + b, 0);
 	const expense = filteredItems
 		.filter((x) => x.type == "EXPENSE")
 		.map((x) => x.amount)
-		.reduce((a, b) => a + b);
+		.reduce((a, b) => a + b, 0);
 	return {
 		gross: {
 			income: income,
