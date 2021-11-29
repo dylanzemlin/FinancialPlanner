@@ -18,6 +18,24 @@
 	align-items: center;
 }
 
+.mobile {
+    .navitem {
+        display: none;
+    }
+
+    &.collapsed {
+        .navitem {
+            display: flex;
+        }
+    }
+
+    .navburger {
+        position: absolute;
+        left: 1%;
+        top: 0.5%;
+    }
+}
+
 .navitem {
 	display: flex;
 	align-items: center;
