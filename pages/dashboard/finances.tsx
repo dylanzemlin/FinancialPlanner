@@ -1,5 +1,5 @@
 // pages/index.js
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
@@ -13,7 +13,7 @@ import Moment from "moment";
 import useApi from "../../lib/useApi";
 import Container from "../../modules/container";
 
-const Dashboard: NextPage = (props) => {
+const FinanceDashboard: NextPage = (props) => {
 	const { user, error, isLoading } = useUser();
 	const { response: userData, responseError, fetching } = useApi("/api/user");
 	let {
@@ -514,4 +514,4 @@ const Dashboard: NextPage = (props) => {
 	);
 };
 
-export default Dashboard;
+export default withPageAuthRequired(FinanceDashboard);

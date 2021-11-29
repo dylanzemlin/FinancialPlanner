@@ -1,5 +1,5 @@
 // pages/index.js
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { NextPage } from "next";
 import React from "react";
 import Navbar from "../../components/nav";
@@ -9,7 +9,7 @@ import Container from "../../modules/container";
 import Authenticate from "../../modules/student/authenticate";
 import Information from "../../modules/student/information";
 
-const Dashboard: NextPage = (props) => {
+const StudentDashboard: NextPage = (props) => {
 	const { user, error, isLoading } = useUser();
 	const { response: userData, responseError, fetching } = useApi("/api/user");
 	let {
@@ -73,4 +73,4 @@ const Dashboard: NextPage = (props) => {
 	);
 };
 
-export default Dashboard;
+export default withPageAuthRequired(StudentDashboard);

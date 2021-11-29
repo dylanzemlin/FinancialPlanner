@@ -1,5 +1,5 @@
 // pages/index.js
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { NextPage } from "next";
 import * as FinanceUtils from "../../utils/finance-utils";
 
@@ -158,4 +158,4 @@ const Dashboard: NextPage = (props) => {
 	);
 };
 
-export default Dashboard;
+export default withPageAuthRequired(Dashboard);
