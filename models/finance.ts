@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 
 export interface FinanceItem {
+    id: string,
+
     type: string,
     category: string;
     title: string,
@@ -20,6 +22,7 @@ export interface IFinance {
 const FinanceSchema = new mongoose.Schema<IFinance>({
     userId: String,
     finances: [{
+        id: String,
         type: String,
         category: String,
         title: String,
