@@ -54,9 +54,13 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
             return res.status(400).json({ code: 400, dataText: `Invalid Title Length: ${postTitle.length}` });
         }
 
+        // TODO: Add type checking for the fields belows
         const postStart: string = body.financeStart ?? "";
         const postEnd: string | undefined = body.financeEnd == "" ? undefined : body.financeEnd;
         const postCategory: string = body.financeCategory;
+        
+        // TODO: Even though the chance is extremely low, check for duplicate id
+        const postId: string = body.financeId;
 
         let financeBody: any = {
             title: postTitle,
@@ -64,7 +68,8 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
             amount: postAmount,
             start: postStart,
             end: postEnd,
-            type: postType
+            type: postType,
+            id: postId
         };
         if(postType == "EXPENSE") {
             financeBody.category = postCategory;
