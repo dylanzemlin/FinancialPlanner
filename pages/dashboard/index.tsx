@@ -71,7 +71,7 @@ const Dashboard: NextPage = (props) => {
     }
 
     let colorIdx = 0;
-    const colors: string[] = ["#0fafaa", "#581235", "#f9e23e", "#3a2fff"];
+    const colors: string[] = ["#46BDDF", "#52D273", "#E84F64", "#E47255", "#E3C351"];
 
     return (
         <Container
@@ -95,8 +95,7 @@ const Dashboard: NextPage = (props) => {
                     <h2>
                         Summary for {new Date().toLocaleString("default", {
                             month: "long",
-                        })}
-                        ({date.getMonth() + 1}/01/{date.getFullYear()} to
+                        })} ({date.getMonth() + 1}/01/{date.getFullYear()} to
                         {date.getMonth() + 1}/{date.getDate()}/
                         {date.getFullYear()}):
                     </h2>
@@ -128,21 +127,18 @@ const Dashboard: NextPage = (props) => {
                                 dataKey="value"
                                 nameKey="name"
                                 stroke="#fff"
-                                label={true}
+                                label={(data) => `$${((data.payload.value) as number).toFixed(3)}`}
                                 labelLine={true}
                             >
                                 {[...Object.keys(data)].map((key) => {
                                     return (
                                         <Cell
-                                            fill={`${colors[
-                                                colorIdx++ % colors.length
-                                                ]
-                                                }`}
+                                            fill={`${colors[colorIdx++ % colors.length]}`}
                                         />
                                     );
                                 })}
                             </Pie>
-                            <Tooltip />
+                            <Tooltip contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }} />
                             <Legend fill="#fff" />
                         </PieChart>
                     </ResponsiveContainer>

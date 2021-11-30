@@ -7,6 +7,7 @@ import "../styles/globals.css";
 import "../styles/helpers.css";
 import "../styles/scrollbar.css";
 import "../styles/tables.css";
+import "../styles/charts.css";
 
 import "react-toastify/dist/ReactToastify.css";
 import "reactjs-popup/dist/index.css";

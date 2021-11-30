@@ -18,29 +18,16 @@ html {
 	margin: 0;
 }
 
-body[data-theme="light"] {
-	--color-text-primary: #27201a;
-	--color-text-secondary: #076963;
-	--color-bg-primary: #dadada;
-	--color-bg-secondary: #b9b5b5;
-	--color-bg-accent: rgb(63, 4, 63);
-	--color-bg-error: #ff2f44;
-
-	--color-graph-chart: #fff;
-	--color-graph-title: #fff;
-
-	--color-bg-scrollbar-track: #404040;
-	--color-bg-scrollbar-thumb: #343434;
-	--color-bg-scrollbar-thumb-hover: #303030;
-}
-
 body[data-theme="dark"] {
+    --color-primary: #46BDDF;
+    --color-error: #E24D61;
+    --color-warning: #E57255;
+    --color-success: #52D273;
+
 	--color-text-primary: #ffffff;
 	--color-text-secondary: #e3e3e3;
-	--color-bg-primary: #080808;
-	--color-bg-secondary: #141414;
-	--color-bg-accent: rgb(63, 4, 63);
-	--color-bg-error: #ff2f44;
+	--color-bg-primary: #282828;
+	--color-bg-secondary: #333333;
 
 	--color-graph-chart: #fff;
 	--color-graph-title: #fff;
@@ -50,7 +37,7 @@ body[data-theme="dark"] {
 	--color-nav-item-selected: #323232;
 
 	--color-table-border: #141414;
-	--color-table-cell: rgb(3, 68, 59);
+	--color-table-cell: #E5C453;
 
 	--color-bg-scrollbar-track: #404040;
 	--color-bg-scrollbar-thumb: #343434;
