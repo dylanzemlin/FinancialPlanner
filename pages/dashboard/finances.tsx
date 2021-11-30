@@ -12,6 +12,7 @@ import DeleteExpense from "../../popups/dashboard/finances/DeleteExpense";
 import EditExpense from "../../popups/dashboard/finances/EditExpense";
 import EditIncome from "../../popups/dashboard/finances/EditIncome";
 import ConvertCase from "js-convert-case";
+import moment from "moment";
 
 const FinanceDashboard: NextPage = (props) => {
     let {
@@ -62,6 +63,15 @@ const FinanceDashboard: NextPage = (props) => {
                         <tbody>
                             {finance.finances
                                 .filter((y: any) => y.type == "INCOME")
+                                .filter((y: any) => {
+                                    // To reduce the table size, lets only show current month income
+                                    // if they occur once. Any other expense that occurs more than once
+                                    // can be shown still
+                                    if(y.period == 'once' && 
+                                        !moment().isSame(moment(y.start), 'month')) return false;
+                                    else return true;
+                                })
+                                .sort((x: any, y: any) => x.period.localeCompare(y.period))
                                 .map((x: any) => {
                                     return (
                                         <tr key={x.id}>
@@ -115,6 +125,15 @@ const FinanceDashboard: NextPage = (props) => {
                         <tbody>
                             {finance.finances
                                 .filter((y: any) => y.type == "EXPENSE")
+                                .filter((y: any) => {
+                                    // To reduce the table size, lets only show current month expenses
+                                    // if they occur once. Any other expense that occurs more than once
+                                    // can be shown still
+                                    if(y.period == 'once' && 
+                                        !moment().isSame(moment(y.start), 'month')) return false;
+                                    else return true;
+                                })
+                                .sort((x: any, y: any) => x.period.localeCompare(y.period))
                                 .map((x: any) => {
                                     return (
                                         <tr key={x.id}>
