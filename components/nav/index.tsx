@@ -8,6 +8,7 @@ import {
     faHome,
     faMoon,
     faSchool,
+    faSignOutAlt,
     faSun,
     faUniversity,
 } from "@fortawesome/free-solid-svg-icons";
@@ -100,6 +101,14 @@ const Navbar: NextPage = () => {
                         className={Styles.navicon}
                     />
                 )}
+            </a>
+
+            <a href="/api/auth/logout" className={Styles.navitem}>
+                <FontAwesomeIcon 
+                    icon={faSignOutAlt}
+                    className={Styles.navicon}
+                />
+                <p className={Styles.navbody}>Logout</p>
             </a>
 
             {width >= 750 &&
