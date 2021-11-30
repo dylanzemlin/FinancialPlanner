@@ -14,27 +14,32 @@ import "react-toastify/dist/ReactToastify.css";
 import "reactjs-popup/dist/index.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-	useEffect(() => {
-		if (document?.body != undefined) {
-			let theme = localStorage.getItem("1411-theme");
-			if (theme == undefined) {
-				localStorage.setItem("1411-theme", "dark");
-			}
+    useEffect(() => {
+        if (document?.body != undefined) {
+            let theme = localStorage.getItem("1411-theme");
+            if (theme == undefined) {
+                localStorage.setItem("1411-theme", "dark");
+            }
 
-			document.body.dataset.theme = theme ?? "dark";
-		}
-	});
+            document.body.dataset.theme = theme ?? "dark";
+        }
+    });
 
-	return (
-		<UserProvider>
+    return (
+        <UserProvider>
             <Head>
                 {/* https://www.iconfinder.com/icons/2354426/book_list_notebook_planner_icon */}
                 <link rel="shortcut icon" href="/images/favicon.ico" />
+
+                <meta name="description" content="A easy to use financial planner for eveeryone" />
+                <meta name="keywords" content="financial, planner, ou, university of oklahoma, norman, money, debt" />
+                <meta name="author" content="Dylan Zemlin" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             </Head>
 
-			<Component {...pageProps} />
-			<ToastContainer />
-		</UserProvider>
-	);
+            <Component {...pageProps} />
+            <ToastContainer />
+        </UserProvider>
+    );
 }
 export default MyApp;
