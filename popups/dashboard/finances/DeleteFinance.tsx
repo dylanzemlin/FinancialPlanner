@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import Popup from "reactjs-popup";
 
-const DeleteExpense: NextPage<{ id: string }> = (props) => {
+const DeleteFinance: NextPage<{ id: string }> = (props) => {
     const router = useRouter();
 
     const onDelete = async () => {
@@ -48,4 +48,4 @@ const DeleteExpense: NextPage<{ id: string }> = (props) => {
         </Popup>
     );
 };
-export default DeleteExpense;
+export default DeleteFinance;
