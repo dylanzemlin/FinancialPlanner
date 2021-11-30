@@ -117,8 +117,11 @@ const NewUser: NextPage = () => {
     return (
         <Container title="ENGR 1411 | Welcome!">
             <div style={{ paddingLeft: "1rem", paddingRight: "1rem" }}>
-                <h1> Hi There! </h1>
-                <p> You seem to be new here, so we need you to answer a few questions to continue </p>
+                <h1> Welcome to the 1411 Financial Planner! </h1>
+                <p> 
+                    To get started, we need to collect some information about you.
+                    Everything below is securely stored and used only for financial calculations such as state taxes, etc.
+                </p>
 
                 <div style={{ maxWidth: "15rem" }}>
                     <form autoComplete="off" style={{ gap: "1rem" }} className="flex column" onSubmit={onFormSubmitted}>
