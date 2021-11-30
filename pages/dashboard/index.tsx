@@ -81,7 +81,7 @@ const Dashboard: NextPage = (props) => {
         >
             <Navbar />
 
-            <div style={{ overflowY: "scroll", width: "100%" }}>
+            <div style={{ overflowY: "scroll", width: "100%", display: "flex", flexDirection: "column" }}>
                 <h1
                     style={{
                         borderBottom: "2px solid var(--color-bg-secondary)",
@@ -114,34 +114,42 @@ const Dashboard: NextPage = (props) => {
                             <p> Profit: ${summary.profit.toLocaleString()} </p>
                         </div>
                     </div>
+                </div>
 
-                    <h3 style={{ width: "100%", textAlign: "center" }}>
-                        Expenses
-                    </h3>
-                    <ResponsiveContainer width="100%" height={400}>
-                        <PieChart>
-                            <Pie
-                                data={allData}
-                                cx="50%"
-                                cy="50%"
-                                dataKey="value"
-                                nameKey="name"
-                                stroke="#fff"
-                                label={(data) => `$${((data.payload.value) as number).toFixed(3)}`}
-                                labelLine={true}
-                            >
-                                {[...Object.keys(data)].map((key) => {
-                                    return (
-                                        <Cell
-                                            fill={`${colors[colorIdx++ % colors.length]}`}
-                                        />
-                                    );
-                                })}
-                            </Pie>
-                            <Tooltip contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }} />
-                            <Legend fill="#fff" />
-                        </PieChart>
-                    </ResponsiveContainer>
+                <div style={{ width: "100%", marginTop: "auto", marginBottom: "5rem", display: "grid", gridTemplateColumns: "1fr" }}>
+                    <div>
+                        <h3 style={{ width: "100%", textAlign: "center" }}>
+                            Expenses
+                        </h3>
+                        <ResponsiveContainer width="100%" height={400}>
+                            <PieChart>
+                                <Pie
+                                    data={allData}
+                                    cx="50%"
+                                    cy="50%"
+                                    dataKey="value"
+                                    nameKey="name"
+                                    stroke="#fff"
+                                    label={(data) => `$${((data.payload.value) as number).toFixed(3)}`}
+                                    labelLine={true}
+                                >
+                                    {[...Object.keys(data)].map((key) => {
+                                        return (
+                                            <Cell
+                                                key={key}
+                                                fill={`${colors[colorIdx++ % colors.length]}`}
+                                            />
+                                        );
+                                    })}
+                                </Pie>
+                                <Tooltip
+                                    formatter={(data: any) => `$${(data as number).toFixed(3)}`}
+                                    contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }}
+                                />
+                                <Legend fill="#fff" />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
                 </div>
             </div>
         </Container>

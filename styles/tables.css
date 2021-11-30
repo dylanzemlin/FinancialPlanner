@@ -34,5 +34,5 @@ thead {
 }
 
 .tableAction:hover {
-	color: var(--color-bg-accent);
+	color: var(--color-accent-primary);
 }

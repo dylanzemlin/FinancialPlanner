@@ -51,7 +51,14 @@ const CreateExpense: NextPage = (props) => {
 			gap: "1.2rem"
 		}}
         className="popup"
-		trigger={<button style={{ marginTop: "0.4rem" }}>Add Expense</button>}
+        trigger={<button style={{
+            marginTop: "0.4rem",
+            padding: "0.35rem 0.6rem",
+            width: "100%",
+            textAlign: "left",
+            background: "var(--color-table-cell)",
+            border: "1px solid var(--color-accent-primary)"
+        }}>Add Expense</button>}
 		modal
 		nested
 	>

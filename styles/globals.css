@@ -19,25 +19,28 @@ html {
 }
 
 body[data-theme="dark"] {
-    --color-primary: #46BDDF;
-    --color-error: #E24D61;
-    --color-warning: #E57255;
-    --color-success: #52D273;
+	--color-primary: #46bddf;
+	--color-error: #e24d61;
+	--color-warning: #e57255;
+	--color-success: #52d273;
 
 	--color-text-primary: #ffffff;
 	--color-text-secondary: #e3e3e3;
-	--color-bg-primary: #282828;
-	--color-bg-secondary: #333333;
+
+	--color-bg-primary: #121212;
+    --color-bg-secondary: #202020;
+
+	--color-accent-primary: #bb86fc;
+	--color-accent-secondary: #01dac5;
 
 	--color-graph-chart: #fff;
 	--color-graph-title: #fff;
 
-	--color-nav-background: #181818;
-	--color-nav-item: #242424;
-	--color-nav-item-selected: #323232;
+	--color-nav-background: #1d1d1d;
+	--color-nav-item: #121212;
 
 	--color-table-border: #141414;
-	--color-table-cell: #E5C453;
+	--color-table-cell: #1d1d1d;
 
 	--color-bg-scrollbar-track: #404040;
 	--color-bg-scrollbar-thumb: #343434;
@@ -107,20 +110,19 @@ input[type="submit"]:hover {
 
 /* Button Styling */
 button {
-	background-color: var(--color-bg-primary);
-	border: 2px solid var(--color-bg-accent);
+	background-color: var(--color-bg-secondary);
+	border: none;
 	width: fit-content;
 	color: var(--color-text-primary);
 }
 
 button:hover {
 	cursor: pointer;
-	filter: brightness(140%);
 	transition: 0.25s ease;
+    filter: brightness(130%);
 }
 
 /* Popup Styling */
-
 
 /* HI - For anyone seeing this, I am sorry. This CSS is horrible, but it works for now :D */
 
@@ -130,27 +132,27 @@ button:hover {
 }
 
 .popup-content > h3 {
-    text-align: center;
+	text-align: center;
 }
 
 .popup-content > * {
-    width: 45% !important;
+	width: 45% !important;
 }
 
 .popup-content > * > input {
-    width: 100%;
+	width: 100%;
 }
 
 .popup-content > * > span {
-    width: 100%;
-    display: flex;
-    align-items: center;
+	width: 100%;
+	display: flex;
+	align-items: center;
 }
 
 .popup-content > * > span > input {
-    width: 100%;
+	width: 100%;
 }
 
 .popup-content:last-child {
-    padding-bottom: 2rem;
+	padding-bottom: 2rem;
 }
