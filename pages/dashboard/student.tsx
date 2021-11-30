@@ -63,7 +63,7 @@ const StudentDashboard: NextPage = (props) => {
 					Student Dashboard
 				</h1>
 
-				{studentData == undefined ? (
+				{studentData?.code != 200 ? (
 					<Authenticate />
 				) : (
 					<Information info={studentData.dataBody} />
