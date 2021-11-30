@@ -15,6 +15,15 @@ export function calculateOccurancesBetween(start: Date, end: Date, finance: Fina
     let occurances: number = 0;
     let curDate = Moment(finance.start);
 
+    // I do not think this is needed, but keep it incase something acts up later
+    // if(finance.period == 'once') {
+    //     if(curDate.isSameOrAfter(start) && curDate.isSameOrBefore(end)) {
+    //         return 1;
+    //     }
+
+    //     return 0;
+    // }
+
     // To be safe we are going to include a timeout to avoid infinite loops
     // The timeout specified leaves room for up to 5 years of a daily finance to be calculated
     let timeout = 0;
@@ -22,12 +31,8 @@ export function calculateOccurancesBetween(start: Date, end: Date, finance: Fina
         const compare = compareDates(curDate.toDate(), end, 'day');
         if (compare > 0) break;
 
-        if (start != undefined) {
-            const startCompare = compareDates(start, curDate.toDate(), 'day');
-            if (startCompare <= 0) {
-                occurances++;
-            }
-        } else {
+        const startCompare = compareDates(start, curDate.toDate(), 'day');
+        if (startCompare <= 0) {
             occurances++;
         }
 
@@ -37,7 +42,6 @@ export function calculateOccurancesBetween(start: Date, end: Date, finance: Fina
             case 'bi-weekly': curDate = curDate.add(2, 'weeks'); break;
             case 'weekly': curDate = curDate.add(1, 'weeks'); break;
             case 'daily': curDate = curDate.add(1, 'day'); break;
-            case 'once': return 1;
             default: return occurances; // This shouldn't happen realistically, but to be safe
         }
     }
@@ -98,10 +102,13 @@ export function calculateMonthlyFinances(
 
     const theMap: Record<string, number> = {};
     for (let item of filteredItems.filter((x) => x.type == "EXPENSE")) {
+        const cost = (item.amount * calculateOccurancesInMonth(date, item, stopToday));
+        if(cost == 0) continue; // Skip items with zero cost
+
         if (item.category in theMap) {
-            theMap[item.category] += (item.amount * calculateOccurancesInMonth(date, item, stopToday));
+            theMap[item.category] += cost;
         } else {
-            theMap[item.category] = item.amount;
+            theMap[item.category] = cost;
         }
     }
 
