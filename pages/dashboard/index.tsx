@@ -95,8 +95,7 @@ const Dashboard: NextPage = (props) => {
                     <h2>
                         Summary for {new Date().toLocaleString("default", {
                             month: "long",
-                        })} ({date.getMonth() + 1}/01/{date.getFullYear()} to
-                        {date.getMonth() + 1}/{date.getDate()}/
+                        })} ({date.getMonth() + 1}/01/{date.getFullYear()} to {date.getMonth() + 1}/{date.getDate()}/
                         {date.getFullYear()}):
                     </h2>
 
