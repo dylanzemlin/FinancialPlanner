@@ -10,7 +10,7 @@ import Moment from 'moment';
  * @param finance The finance itself
  * @returns The number of times the finance occurs until the date
  */
-export function calculateOccurancesUntilDate(date: Date, finance: FinanceItem): number {
+export function calculateOccurancesUntilDate(date: Date, finance: FinanceItem, start?: Date): number {
     let occurances: number = 0;
     let curDate = Moment(finance.start);
 
@@ -18,16 +18,25 @@ export function calculateOccurancesUntilDate(date: Date, finance: FinanceItem): 
     // The timeout specified leaves room for up to 5 years of a daily finance to be calculated
     let timeout = 0;
     while (timeout++ <= (365 * 5)) {
-        const compare = compareDates(curDate.toDate(), date, { day: true, month: true, year: true });
-        if(compare > 0) break;
+        const compare = compareDates(curDate.toDate(), date, 'day');
+        if (compare > 0) break;
 
-        occurances++;
-        switch(finance.period) {
-            case 'yearly': curDate = curDate.add('1', 'year'); break;
-            case 'monthly': curDate = curDate.add('1', 'month'); break;
-            case 'bi-weekly': curDate = curDate.add('2', 'weeks'); break;
-            case 'weekly': curDate = curDate.add('1', 'week'); break;
-            case 'daily': curDate = curDate.add('1', 'day'); break;
+        if (start != undefined) {
+            const startCompare = compareDates(start, curDate.toDate(), 'day');
+            if (startCompare <= 0) {
+                occurances++;
+            }
+        } else {
+            occurances++;
+        }
+
+        switch (finance.period) {
+            case 'yearly': curDate = curDate.add(1, 'year'); break;
+            case 'monthly': curDate = curDate.add(1, 'months'); break;
+            case 'bi-weekly': curDate = curDate.add(2, 'weeks'); break;
+            case 'weekly': curDate = curDate.add(1, 'weeks'); break;
+            case 'daily': curDate = curDate.add(1, 'day'); break;
+            case 'once': return 1;
             default: return occurances; // This shouldn't happen realistically, but to be safe
         }
     }
@@ -45,7 +54,11 @@ export function calculateOccurancesUntilDate(date: Date, finance: FinanceItem): 
  */
 export function calculateOccurancesInMonth(date: Date, finance: FinanceItem): number {
     const moment = Moment(date);
-    return calculateOccurancesUntilDate(new Date(date.getFullYear(), date.getMonth(), moment.daysInMonth()), finance)
+    return calculateOccurancesUntilDate(
+        new Date(date.getFullYear(), date.getMonth(), moment.daysInMonth()),
+        finance,
+        new Date(date.getFullYear(), date.getMonth(), 1)
+    )
 }
 
 /**
@@ -59,30 +72,13 @@ export function calculateMonthlyFinances(
     date: Date,
     data: IFinance
 ): MonthlyFinancialReport {
-    // TODO: We need to take into account the different periods of incomes
-    // for example, we must loop through all yearly incomes and find out if they fall on this month
-    // I don't believe there is any need to check for monthly
-    // For weekly we simply multiply by 3, 4 or 5 weeks depending on how many fell within this month
-    // For bi-weekly, we need to determine how many of those weeks fell within our month. Likely just two, but check into this
-
-    // The same must be done for expenses as well (Such as netflix, spotify, etc)
-
     const filteredItems: FinanceItem[] = [];
     for (let finance of data.finances) {
-        const startDateCompare = compareDates(new Date(finance.start), date, {
-            day: false,
-            month: true,
-            year: true,
-        });
+        const startDateCompare = compareDates(new Date(finance.start), date, 'month');
         if (startDateCompare > 0) continue; // If the finance started after the "date", ignore it
 
         if (finance.end != undefined) {
-            const endDateCompare = compareDates(new Date(finance.end), date, {
-                day: false,
-                month: true,
-                year: true,
-            });
-
+            const endDateCompare = compareDates(new Date(finance.end), date, 'month');
             if (endDateCompare < 0) continue; // If the finance ended in the past, ignore it
         }
 
@@ -92,7 +88,7 @@ export function calculateMonthlyFinances(
     const theMap: Record<string, number> = {};
     for (let item of filteredItems.filter((x) => x.type == "EXPENSE")) {
         if (item.category in theMap) {
-            theMap[item.category] += item.amount;
+            theMap[item.category] += (item.amount * calculateOccurancesInMonth(date, item));
         } else {
             theMap[item.category] = item.amount;
         }
@@ -100,11 +96,15 @@ export function calculateMonthlyFinances(
 
     const income = filteredItems
         .filter((x) => x.type == "INCOME")
-        .map((x) => x.amount)
+        .map((x) => (x.amount * calculateOccurancesInMonth(date, x)))
         .reduce((a, b) => a + b, 0);
     const expense = filteredItems
         .filter((x) => x.type == "EXPENSE")
-        .map((x) => x.amount)
+        .map((x) => {
+            const y = (x.amount * calculateOccurancesInMonth(date, x));
+            console.log(`${x.title}: ${y} - ${calculateOccurancesInMonth(date, x)}`);
+            return y;
+        })
         .reduce((a, b) => a + b, 0);
     return {
         gross: {
