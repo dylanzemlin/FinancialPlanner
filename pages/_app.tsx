@@ -28,6 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<UserProvider>
             <Head>
+                {/* https://www.iconfinder.com/icons/2354426/book_list_notebook_planner_icon */}
                 <link rel="shortcut icon" href="/images/favicon.ico" />
             </Head>
 
