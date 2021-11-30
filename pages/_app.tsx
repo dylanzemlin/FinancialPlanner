@@ -2,9 +2,10 @@ import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { ToastContainer } from "react-toastify";
+import Head from 'next/head';
 
-import "../styles/globals.css";
 import "../styles/helpers.css";
+import "../styles/globals.css";
 import "../styles/scrollbar.css";
 import "../styles/tables.css";
 import "../styles/charts.css";
@@ -26,8 +27,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	return (
 		<UserProvider>
-			<Component {...pageProps} />
+            <Head>
+                <link rel="shortcut icon" href="/images/favicon.ico" />
+            </Head>
 
+			<Component {...pageProps} />
 			<ToastContainer />
 		</UserProvider>
 	);
