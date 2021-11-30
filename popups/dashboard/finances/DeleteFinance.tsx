@@ -47,8 +47,8 @@ const DeleteFinance: NextPage<{
             <button
                 onClick={(e) => onDelete()}
                 style={{
-                    border: "1px solid var(--color-bg-error)",
                     padding: "0.3rem 0.8rem",
+                    boxShadow: "0px 0px 15px 1px var(--color-bg-primary)"
                 }}
             >
                 Delete
