@@ -145,14 +145,18 @@ export function calculateYearlyFinances(
     date: Date,
     data: IFinance
 ): YearlyFinancialReport {
-    const mnthMap: Record<number, number> = {};
+    const mnthMap: Record<number, { income: number, expense: number, profit: number }> = {};
 
     let reports: MonthlyFinancialReport[] = [];
-    for (let i = 0; i <= 12; i++) {
+    for (let i = 1; i <= 11; i++) {
         let newDate = new Date(date.getFullYear(), i, 1);
         let financialReport = calculateMonthlyFinances(newDate, data);
         reports.push(financialReport);
-        mnthMap[i] = financialReport.profit;
+        mnthMap[i] = {
+            profit: financialReport.profit,
+            income: financialReport.gross.income,
+            expense: financialReport.gross.expense
+        }
     }
 
     const totalIncome = reports
@@ -199,5 +203,5 @@ export interface YearlyFinancialReport {
     };
     profit: number;
     categoryMap: Record<string, number>;
-    monthMap: Record<number, number>;
+    monthMap: Record<number, { income: number, expense: number, profit: number }>;
 }
