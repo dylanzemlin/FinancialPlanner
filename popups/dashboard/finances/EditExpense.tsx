@@ -113,9 +113,11 @@ const EditExpense: NextPage<{ current: any }> = (props) => {
                 >
                     <option value="entertainment"> Entertainment </option>
                     <option value="grocery"> Grocery </option>
-                    <option value="food"> Food </option>
+                    <option value="food"> Food & Drinks </option>
                     <option value="gas"> Gas </option>
+                    <option value="payment"> Payments (Credit, Loans) </option>
                     <option value="school"> School </option>
+                    <option value="other"> Other </option>
                 </select>
             </div>
 
