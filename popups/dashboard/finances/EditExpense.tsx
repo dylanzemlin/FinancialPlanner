@@ -14,7 +14,7 @@ const EditExpense: NextPage<{ current: any }> = (props) => {
     const [endDate, setEndDate] = useState((props.current.end as string) ?? "");
     const [amount, setAmount] = useState(props.current.amount as number);
     const [category, setCategory] = useState(props.current.category as string);
-    const [type, setType] = useState(props.current.type as string);
+    const [period, setPeriod] = useState(props.current.period as string);
 
     const router = useRouter();
 
@@ -27,7 +27,7 @@ const EditExpense: NextPage<{ current: any }> = (props) => {
                 financeEnd: endDate,
                 financeCategory: category,
                 financeAmount: amount,
-                financePeriod: type,
+                financePeriod: period,
                 financeTitle: title,
                 financeId: props.current.id,
             }),
@@ -88,11 +88,12 @@ const EditExpense: NextPage<{ current: any }> = (props) => {
             </div>
 
             <div className="flex column">
-                <label htmlFor="state"> State </label>
+                <label htmlFor="period"> Period </label>
                 <select
-                    onChange={(e) => setType(e.target.value)}
+                    onChange={(e) => setPeriod(e.target.value)}
                     style={{ marginTop: "0.25rem" }}
-                    value={type}
+                    value={period}
+                    id="period"
                 >
                     <option value="once"> One Time </option>
                     <option value="daily"> Daily </option>

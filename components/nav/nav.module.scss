@@ -19,6 +19,11 @@
 }
 
 .mobile {
+    width: fit-content;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+    background-color: var(--color-bg-primary);
+
     .navitem {
         display: none;
     }
@@ -27,12 +32,11 @@
         .navitem {
             display: flex;
         }
-    }
 
-    .navburger {
-        position: absolute;
-        left: 1%;
-        top: 0.5%;
+        .navburger {
+            margin-bottom: 1rem;
+            margin-top: 0.9rem;
+        }
     }
 }
 

@@ -48,6 +48,7 @@ const CreateIncome: NextPage = (props) => {
 			flexDirection: "column",
 			gap: "1.2rem",
 		}}
+        className="popup"
 		trigger={<button style={{ marginTop: "0.4rem" }}>Add Income</button>}
 		modal
 		nested
