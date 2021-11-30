@@ -12,7 +12,7 @@ const Loading: NextPage = () => {
             }}
             className={"flex centered"}
         >
-            <Loader type="ThreeDots" color="#00BFFF" height={100} width={100} />
+            <Loader type="ThreeDots" color="var(--color-accent-primary)" height={100} width={100} />
         </div>
     );
 };
