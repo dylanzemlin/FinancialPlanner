@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import Popup from "reactjs-popup";
 
-const ConfirmDelete: NextPage<{ id: string }> = (props) => {
+const DeleteExpense: NextPage<{ id: string }> = (props) => {
     const router = useRouter();
 
     const onDelete = async () => {
@@ -48,4 +48,4 @@ const ConfirmDelete: NextPage<{ id: string }> = (props) => {
         </Popup>
     );
 };
-export default ConfirmDelete;
+export default DeleteExpense;

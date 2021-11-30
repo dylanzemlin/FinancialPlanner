@@ -8,7 +8,7 @@ import useApi from "../../lib/useApi";
 import Container from "../../modules/container";
 import CreateExpense from "../../popups/dashboard/finances/CreateExpense";
 import CreateIncome from "../../popups/dashboard/finances/CreateIncome";
-import ConfirmDelete from "../../popups/dashboard/finances/ConfirmDelete";
+import DeleteExpense from "../../popups/dashboard/finances/DeleteExpense";
 import EditExpense from "../../popups/dashboard/finances/EditExpense";
 import EditIncome from "../../popups/dashboard/finances/EditIncome";
 import ConvertCase from "js-convert-case";
@@ -87,7 +87,7 @@ const FinanceDashboard: NextPage = (props) => {
                                             </td>
                                             <td className="tableActions">
                                                 <EditIncome current={x} />
-                                                <ConfirmDelete id={x.id} />
+                                                <DeleteExpense id={x.id} />
                                             </td>
                                         </tr>
                                     );
@@ -141,7 +141,7 @@ const FinanceDashboard: NextPage = (props) => {
                                             </td>
                                             <td className="tableActions">
                                                 <EditExpense current={x} />
-                                                <ConfirmDelete id={x.id} />
+                                                <DeleteExpense id={x.id} />
                                             </td>
                                         </tr>
                                     );
