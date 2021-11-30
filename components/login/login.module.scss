@@ -1,6 +1,5 @@
 .login {
 	display: flex;
-	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 
@@ -25,4 +24,17 @@
 			cursor: pointer;
 		}
 	}
+
+    .content {
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+
+        h1 {
+            margin-bottom: 0;
+        }
+
+        
+    }
 }
