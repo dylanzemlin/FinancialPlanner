@@ -80,7 +80,8 @@ export function calculateOccurancesInMonth(date: Date, finance: FinanceItem, sto
  */
 export function calculateMonthlyFinances(
     date: Date,
-    data: IFinance
+    data: IFinance,
+    stopToday?: boolean
 ): MonthlyFinancialReport {
     const filteredItems: FinanceItem[] = [];
     for (let finance of data.finances) {
@@ -98,7 +99,7 @@ export function calculateMonthlyFinances(
     const theMap: Record<string, number> = {};
     for (let item of filteredItems.filter((x) => x.type == "EXPENSE")) {
         if (item.category in theMap) {
-            theMap[item.category] += (item.amount * calculateOccurancesInMonth(date, item));
+            theMap[item.category] += (item.amount * calculateOccurancesInMonth(date, item, stopToday));
         } else {
             theMap[item.category] = item.amount;
         }
@@ -106,13 +107,13 @@ export function calculateMonthlyFinances(
 
     const income = filteredItems
         .filter((x) => x.type == "INCOME")
-        .map((x) => (x.amount * calculateOccurancesInMonth(date, x)))
+        .map((x) => (x.amount * calculateOccurancesInMonth(date, x, stopToday)))
         .reduce((a, b) => a + b, 0);
     const expense = filteredItems
         .filter((x) => x.type == "EXPENSE")
         .map((x) => {
-            const y = (x.amount * calculateOccurancesInMonth(date, x));
-            console.log(`${x.title}: ${y} - ${calculateOccurancesInMonth(date, x)}`);
+            const y = (x.amount * calculateOccurancesInMonth(date, x, stopToday));
+            console.log(`${x.title}: ${y} - ${calculateOccurancesInMonth(date, x, stopToday)}`);
             return y;
         })
         .reduce((a, b) => a + b, 0);

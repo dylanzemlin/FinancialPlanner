@@ -45,7 +45,7 @@ const Dashboard: NextPage = (props) => {
     }
 
     const date = new Date();
-    const summary = FinanceUtils.calculateMonthlyFinances(date, financeData);
+    const summary = FinanceUtils.calculateMonthlyFinances(date, financeData, true);
     let data: Record<
         string,
         {
