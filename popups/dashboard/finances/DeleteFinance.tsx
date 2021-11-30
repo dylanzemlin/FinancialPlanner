@@ -3,7 +3,11 @@ import { useRouter } from "next/router";
 import React from "react";
 import Popup from "reactjs-popup";
 
-const DeleteFinance: NextPage<{ id: string }> = (props) => {
+const DeleteFinance: NextPage<{ 
+    id: string,
+    title: string,
+    amount: string
+}> = (props) => {
     const router = useRouter();
 
     const onDelete = async () => {
@@ -34,6 +38,10 @@ const DeleteFinance: NextPage<{ id: string }> = (props) => {
             <p>
                 Are you sure you want to delete this finance? This action is not
                 reversable.
+            </p>
+            
+            <p>
+                Finance: { props.title } for ${ props.amount }
             </p>
 
             <button

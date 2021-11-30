@@ -97,7 +97,7 @@ const FinanceDashboard: NextPage = (props) => {
                                             </td>
                                             <td className="tableActions">
                                                 <EditIncome current={x} />
-                                                <DeleteFinance id={x.id} />
+                                                <DeleteFinance title={x.title} amount={x.amount} id={x.id} />
                                             </td>
                                         </tr>
                                     );
@@ -160,7 +160,7 @@ const FinanceDashboard: NextPage = (props) => {
                                             </td>
                                             <td className="tableActions">
                                                 <EditExpense current={x} />
-                                                <DeleteFinance id={x.id} />
+                                                <DeleteFinance title={x.title} amount={x.amount} id={x.id} />
                                             </td>
                                         </tr>
                                     );
