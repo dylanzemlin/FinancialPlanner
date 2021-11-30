@@ -24,6 +24,7 @@ thead {
 .tableActions {
 	display: flex;
 	gap: 0.8rem;
+    align-items: center;
 }
 
 .tableAction {
@@ -31,6 +32,11 @@ thead {
 	border: none;
 	padding: 0;
 	margin: 0;
+}
+
+.tableAction > * {
+    width: 15px;
+    height: 15px;
 }
 
 .tableAction:hover {
