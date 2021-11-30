@@ -6,11 +6,12 @@ import Moment from 'moment';
  * 
  * Calculates the number of times a finance occurs up until a specified date
  * 
- * @param date The end date
+ * @param start The start date
+ * @param end The end date
  * @param finance The finance itself
  * @returns The number of times the finance occurs until the date
  */
-export function calculateOccurancesUntilDate(date: Date, finance: FinanceItem, start?: Date): number {
+export function calculateOccurancesBetween(start: Date, end: Date, finance: FinanceItem): number {
     let occurances: number = 0;
     let curDate = Moment(finance.start);
 
@@ -18,7 +19,7 @@ export function calculateOccurancesUntilDate(date: Date, finance: FinanceItem, s
     // The timeout specified leaves room for up to 5 years of a daily finance to be calculated
     let timeout = 0;
     while (timeout++ <= (365 * 5)) {
-        const compare = compareDates(curDate.toDate(), date, 'day');
+        const compare = compareDates(curDate.toDate(), end, 'day');
         if (compare > 0) break;
 
         if (start != undefined) {
@@ -50,15 +51,24 @@ export function calculateOccurancesUntilDate(date: Date, finance: FinanceItem, s
  * 
  * @param date The month to be checked
  * @param finance The finance to be checked
+ * @param stopToday If true, will stop counting on the current day of the month (if valid)
  * @returns The number of times the finance occurs in the specified month
  */
-export function calculateOccurancesInMonth(date: Date, finance: FinanceItem): number {
+export function calculateOccurancesInMonth(date: Date, finance: FinanceItem, stopToday?: boolean): number {
     const moment = Moment(date);
-    return calculateOccurancesUntilDate(
+    if(stopToday && moment.isSame(Moment(new Date()), 'month')) {
+        return calculateOccurancesBetween(
+            new Date(date.getFullYear(), date.getMonth(), 1),
+            new Date(),
+            finance,
+        );
+    }
+
+    return calculateOccurancesBetween(
+        new Date(date.getFullYear(), date.getMonth(), 1),
         new Date(date.getFullYear(), date.getMonth(), moment.daysInMonth()),
         finance,
-        new Date(date.getFullYear(), date.getMonth(), 1)
-    )
+    );
 }
 
 /**
