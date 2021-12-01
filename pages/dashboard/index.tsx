@@ -61,8 +61,8 @@ const Dashboard: NextPage = (props) => {
 
     let lineData: {
         month: string;
-        expense: number;
-        income: number;
+        Expense: number;
+        Income: number;
     }[] = [];
     const allSummary = FinanceUtils.calculateYearlyFinances(new Date(), financeData);
     for (let monthIdx in allSummary.monthMap) {
@@ -70,8 +70,8 @@ const Dashboard: NextPage = (props) => {
 
         lineData.push({
             month: Moment(parseInt(monthIdx) + 1, 'M').format('MMM'),
-            expense: monthData.expense,
-            income: monthData.income
+            Expense: monthData.expense,
+            Income: monthData.income
         });
     }
 
@@ -91,7 +91,7 @@ const Dashboard: NextPage = (props) => {
         });
     }
 
-    const yearlySummedData: { month: string, income: number, expense: number }[] = [];
+    const yearlySummedData: { month: string, Income: number, Expense: number }[] = [];
     let sumIncome = 0;
     let sumExpense = 0;
     for(let monthIdx in allSummary.monthMap) {
@@ -99,8 +99,8 @@ const Dashboard: NextPage = (props) => {
         sumExpense += allSummary.monthMap[monthIdx].expense;
         yearlySummedData.push({
             month: Moment(parseInt(monthIdx) + 1, 'M').format('MMM'),
-            expense: sumExpense,
-            income: sumIncome
+            Expense: sumExpense,
+            Income: sumIncome
         })
     }
 
@@ -117,7 +117,7 @@ const Dashboard: NextPage = (props) => {
         }
 
         yearlyPieData[key].push({
-            name: key,
+            name: ConvertCase.toSentenceCase(key),
             value: allSummary.categoryMap[key],
         });
         yearlyAllPieData.push({
@@ -127,7 +127,7 @@ const Dashboard: NextPage = (props) => {
     }
 
     let colorIdx = 0;
-    const colors: string[] = ["#46BDDF", "#52D273", "#E84F64", "#E47255", "#E3C351"];
+    const colors: string[] = ["#46BDDF", "#E84F64", "#52D273", "#E47255", "#E3C351"];
 
     return (
         <Container
@@ -234,14 +234,14 @@ const Dashboard: NextPage = (props) => {
                                     <YAxis />
                                     <CartesianGrid stroke="#eee" />
 
-                                    <Line dot={false} type="linear" dataKey="income" stroke="#44ff0f" />
-                                    <Line dot={false} type="linear" dataKey="expense" stroke="#d124ff" />
+                                    <Line dot={false} type="linear" dataKey="Income" stroke="#44ff0f" />
+                                    <Line dot={false} type="linear" dataKey="Expense" stroke="#d124ff" />
 
                                     <Tooltip
                                         formatter={(data: any) => `$${(data as number).toFixed(3)}`}
                                         contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }}
                                     />
-                                    <Legend fill="#fff" />
+                                    <Legend formatter={(data: any) => ConvertCase.toSentenceCase(data)} fill="#fff" />
                                 </LineChart>
                             </ResponsiveContainer>
                         </div>
@@ -292,14 +292,14 @@ const Dashboard: NextPage = (props) => {
                                     <YAxis />
                                     <CartesianGrid stroke="#eee" />
 
-                                    <Line dot={false} type="linear" dataKey="income" stroke="#44ff0f" />
-                                    <Line dot={false} type="linear" dataKey="expense" stroke="#d124ff" />
+                                    <Line dot={false} type="linear" dataKey="Income" stroke="#44ff0f" />
+                                    <Line dot={false} type="linear" dataKey="Expense" stroke="#d124ff" />
 
                                     <Tooltip
                                         formatter={(data: any) => `$${(data as number).toFixed(3)}`}
                                         contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }}
                                     />
-                                    <Legend fill="#fff" />
+                                    <Legend formatter={(data: any) => ConvertCase.toSentenceCase(data)} fill="#fff" />
                                 </LineChart>
                             </ResponsiveContainer>
                         </div>
