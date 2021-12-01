@@ -122,17 +122,34 @@ const Dashboard: NextPage = (props) => {
                     </h2>
 
                     <div className="flex" style={{ gap: "3rem" }}>
-                        <div>
-                            <h3> Statistics </h3>
-                            <p>
-                                Gross Income: $
-                                {summary.gross.income.toLocaleString()}
-                            </p>
-                            <p>
-                                Gross Expenses: $
-                                {summary.gross.expense.toLocaleString()}
-                            </p>
-                            <p> Profit: ${summary.profit.toLocaleString()} </p>
+                        <div className="flex" style={{ gap: "3rem" }}>
+                            <div>
+                                <h3> Monthly Statistics </h3>
+                                <p>
+                                    Gross Income: $
+                                    {summary.gross.income.toLocaleString()}
+                                </p>
+                                <p>
+                                    Gross Expenses: $
+                                    {summary.gross.expense.toLocaleString()}
+                                </p>
+                                <p> Profit: ${summary.profit.toLocaleString()} </p>
+                            </div>
+                        </div>
+
+                        <div className="flex" style={{ gap: "3rem" }}>
+                            <div>
+                                <h3> Yearly Statistics </h3>
+                                <p>
+                                    Gross Income: $
+                                    {allSummary.gross.income.toLocaleString()}
+                                </p>
+                                <p>
+                                    Gross Expenses: $
+                                    {allSummary.gross.expense.toLocaleString()}
+                                </p>
+                                <p> Profit: ${allSummary.profit.toLocaleString()} </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -141,7 +158,7 @@ const Dashboard: NextPage = (props) => {
                     <div style={{ marginRight: "1rem", marginTop: "auto", marginBottom: "5rem", display: "grid", gridTemplateColumns: "1fr 1fr" }}>
                         <div>
                             <h3 style={{ width: "100%", textAlign: "center" }}>
-                                Expenses
+                                Monthly Expenses
                             </h3>
                             <ResponsiveContainer width="100%" height={400}>
                                 <PieChart>
@@ -175,7 +192,7 @@ const Dashboard: NextPage = (props) => {
 
                         <div>
                             <h3 style={{ width: "100%", textAlign: "center" }}>
-                                Income & Expenses over { new Date().getFullYear() }
+                                Monthly Income & Expenses over { new Date().getFullYear() }
                             </h3>
                             <ResponsiveContainer width="100%" height={400}>
                                 <LineChart data={lineData}>
@@ -183,8 +200,8 @@ const Dashboard: NextPage = (props) => {
                                     <YAxis />
                                     <CartesianGrid stroke="#eee" />
 
-                                    <Line dot={false} type="natural" dataKey="income" stroke="#123456" />
-                                    <Line dot={false} type="natural" dataKey="expense" stroke="#d124ff" />
+                                    <Line dot={false} type="linear" dataKey="income" stroke="#44ff0f" />
+                                    <Line dot={false} type="linear" dataKey="expense" stroke="#d124ff" />
 
                                     <Tooltip
                                         formatter={(data: any) => `$${(data as number).toFixed(3)}`}
