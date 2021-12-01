@@ -69,7 +69,7 @@ const Dashboard: NextPage = (props) => {
     const date = new Date(
         year,
         parseInt(Moment(month, 'MMMM').format('MM')) - 1,
-        new Date().getDate()
+        Moment(month, 'MMMM').daysInMonth()
     );
 
     const monthlyFinances = FinanceUtils.calculateMonthlyFinances(date, financeData, true);
