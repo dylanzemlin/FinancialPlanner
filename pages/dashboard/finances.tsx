@@ -26,6 +26,7 @@ const FinanceDashboard: NextPage = (props) => {
         );
     }
 
+    let lastDate = Moment(new Date(1900, 1, 1));
     return (
         <Container
             title="ENGR 1411 | Finance Dashboard"
@@ -71,7 +72,7 @@ const FinanceDashboard: NextPage = (props) => {
                                         !moment().isSame(moment(y.start), 'month')) return false;
                                     else return true;
                                 })
-                                .sort((x: any, y: any) => x.period.localeCompare(y.period))
+                                .sort((x: any, y: any) => Moment(x.start).isAfter(y.start))
                                 .map((x: any) => {
                                     return (
                                         <tr key={x.id}>
@@ -125,16 +126,44 @@ const FinanceDashboard: NextPage = (props) => {
                         <tbody>
                             {finance.finances
                                 .filter((y: any) => y.type == "EXPENSE")
-                                .filter((y: any) => {
-                                    // To reduce the table size, lets only show current month expenses
-                                    // if they occur once. Any other expense that occurs more than once
-                                    // can be shown still
-                                    if(y.period == 'once' && 
-                                        !moment().isSame(moment(y.start), 'month')) return false;
-                                    else return true;
-                                })
-                                .sort((x: any, y: any) => x.period.localeCompare(y.period))
+                                .sort((x: any, y: any) => Moment(y.start).valueOf() - Moment(x.start).valueOf())
                                 .map((x: any) => {
+                                    if(!Moment(x.start).isSame(lastDate, 'month')) {
+                                        lastDate = Moment(x.start);
+                                        return ([
+                                            <tr className="tableSubHeader">
+                                                { Moment(lastDate).format("MMMM YY") }
+                                            </tr>,
+                                            <tr key={x.id}>
+                                                <td> {x.title} </td>
+                                                <td>
+                                                    $
+                                                    {parseFloat(
+                                                        x.amount
+                                                    ).toLocaleString("en-US")}
+                                                </td>
+                                                <td> {ConvertCase.toSentenceCase(x.period)} </td>
+                                                <td> {ConvertCase.toSentenceCase(x.category)} </td>
+                                                <td>
+                                                    {Moment(x.start).format(
+                                                        "MM/DD/YYYY"
+                                                    )}
+                                                </td>
+                                                <td>
+                                                    {x.end != undefined
+                                                        ? Moment(x.end).format(
+                                                            "MM/DD/YYYY"
+                                                        )
+                                                        : "None"}
+                                                </td>
+                                                <td className="tableActions">
+                                                    <EditExpense current={x} />
+                                                    <DeleteFinance title={x.title} amount={x.amount} id={x.id} />
+                                                </td>
+                                            </tr>
+                                        ])
+                                    }
+
                                     return (
                                         <tr key={x.id}>
                                             <td> {x.title} </td>
