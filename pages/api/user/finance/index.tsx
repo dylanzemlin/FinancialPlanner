@@ -20,7 +20,7 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
         }
 
         return res.status(200).json({ code: 200, finances: userFinances.finances });
-    } else if (req.method == 'POST') {
+    } else if (req.method == 'POST' || req.method == 'PATCH') {
 
         let body: any = undefined;
         try {
@@ -33,30 +33,17 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
             return res.status(400).json({ code: 400, dataText: `Invalid Body Provided` });
         }
 
-        // Create New Finance
+        // TODO: Add type checking for the fields belows
         const postType: string = body.financeType ?? "NONE";
-        if(postType != 'EXPENSE' && postType != 'INCOME') {
-            return res.status(400).json({ code: 400, dataText: `Invalid Type: ${postType}` });
-        }
-
         const postAmount: number = body.financeAmount ?? 0;
-        if(isNaN(postAmount) || postAmount <= 0) {
-            return res.status(400).json({ code: 400, dataText: `Invalid Amount: ${postAmount}` });
-        }
-
         const postPeriod: string = body.financePeriod ?? "NONE";
-        if(!(['once', 'daily', 'weekly', 'biweekly', 'monthly', 'yearly'].includes(postPeriod))) {
-            return res.status(400).json({ code: 400, dataText: `Invalid Period: ${postPeriod}` });
-        }
-
         const postTitle: string = body.financeTitle ?? "";
-        if(postTitle.length <= 0 || postTitle.length >= 20) {
-            return res.status(400).json({ code: 400, dataText: `Invalid Title Length: ${postTitle.length}` });
-        }
-
         const postStart: string = body.financeStart ?? "";
         const postEnd: string | undefined = body.financeEnd == "" ? undefined : body.financeEnd;
         const postCategory: string = body.financeCategory;
+        
+        // TODO: Even though the chance is extremely low, check for duplicate id
+        const postId: string = body.financeId;
 
         let financeBody: any = {
             title: postTitle,
@@ -64,25 +51,57 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
             amount: postAmount,
             start: postStart,
             end: postEnd,
-            type: postType
+            type: postType,
+            id: postId
         };
         if(postType == "EXPENSE") {
             financeBody.category = postCategory;
         }
 
-        await FinanceModel.updateOne({
-            userId: session?.user.sub ?? ''
-        }, {
-            $push: {
-                finances: financeBody
-            }
-        });
+        if(req.method == 'POST') {
+            await FinanceModel.updateOne({
+                userId: session?.user.sub ?? ''
+            }, {
+                $push: {
+                    finances: financeBody
+                }
+            });
+        } else {
+            await FinanceModel.updateOne({
+                userId: session?.user.sub ?? '',
+                "finances.id": postId
+            }, {
+                $set: {
+                    "finances.$": financeBody
+                }
+            });
+        }
         
         return res.status(200).json({ code: 200 });
     } else if (req.method == 'DELETE') {
-        // Delete a finance
-    } else if (req.method == 'PATCH') {
-        // Patch a finance
+        let body: any = undefined;
+        try {
+            body = JSON.parse(req.body);
+        } catch {
+            return res.status(400).json({ code: 400, dataText: `Invalid Body Provided` });
+        }
+
+        const financeId = body.id;
+        if(financeId == undefined) {
+            return res.status(400).json({ code: 400, dataText: `Invalid Finance Id Provided` });
+        }
+
+        await FinanceModel.updateOne({
+            userId: session?.user.sub ?? ''
+        }, {
+            $pull: {
+                finances: {
+                    id: financeId
+                }
+            }
+        });
+
+        return res.status(200).json({ code: 200 });
     }
 
     res.status(405).json({ code: 405, dataText: `Method ${req.method} not allowed` });

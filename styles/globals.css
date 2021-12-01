@@ -18,39 +18,29 @@ html {
 	margin: 0;
 }
 
-body[data-theme="light"] {
-	--color-text-primary: #27201a;
-	--color-text-secondary: #076963;
-	--color-bg-primary: #dadada;
-	--color-bg-secondary: #b9b5b5;
-	--color-bg-accent: rgb(63, 4, 63);
-	--color-bg-error: rgb(180, 30, 30);
-
-	--color-graph-chart: #fff;
-	--color-graph-title: #fff;
-
-	--color-bg-scrollbar-track: #404040;
-	--color-bg-scrollbar-thumb: #343434;
-	--color-bg-scrollbar-thumb-hover: #303030;
-}
-
 body[data-theme="dark"] {
+	--color-primary: #46bddf;
+	--color-error: #e24d61;
+	--color-warning: #e57255;
+	--color-success: #52d273;
+
 	--color-text-primary: #ffffff;
 	--color-text-secondary: #e3e3e3;
-	--color-bg-primary: #080808;
-	--color-bg-secondary: #141414;
-	--color-bg-accent: rgb(63, 4, 63);
-	--color-bg-error: rgb(180, 30, 30);
+
+	--color-bg-primary: #121212;
+    --color-bg-secondary: #202020;
+
+	--color-accent-primary: #bb86fc;
+	--color-accent-secondary: #01dac5;
 
 	--color-graph-chart: #fff;
 	--color-graph-title: #fff;
 
-    --color-nav-background: #181818;
-    --color-nav-item: #242424;
-    --color-nav-item-selected: #323232;
+	--color-nav-background: #1d1d1d;
+	--color-nav-item: #121212;
 
-    --color-table-border: #141414;
-    --color-table-cell: rgb(3, 68, 59);
+	--color-table-border: #141414;
+	--color-table-cell: #1d1d1d;
 
 	--color-bg-scrollbar-track: #404040;
 	--color-bg-scrollbar-thumb: #343434;
@@ -58,10 +48,15 @@ body[data-theme="dark"] {
 }
 
 h1 {
-    color: var(--color-text-primary);
+	color: var(--color-text-primary);
 }
 
-h2, h3, h4, h5, h6, p {
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
 	color: var(--color-text-secondary);
 }
 
@@ -115,20 +110,49 @@ input[type="submit"]:hover {
 
 /* Button Styling */
 button {
-	background-color: var(--color-bg-primary);
-	border: 2px solid var(--color-bg-accent);
+	background-color: var(--color-bg-secondary);
+	border: none;
 	width: fit-content;
 	color: var(--color-text-primary);
 }
 
 button:hover {
 	cursor: pointer;
-	filter: brightness(140%);
 	transition: 0.25s ease;
+    filter: brightness(130%);
 }
 
 /* Popup Styling */
+
+/* HI - For anyone seeing this, I am sorry. This CSS is horrible, but it works for now :D */
+
 .popup-content {
 	background-color: var(--color-bg-secondary) !important;
 	color: white;
+}
+
+.popup-content > h3 {
+	text-align: center;
+}
+
+.popup-content > * {
+	width: 45% !important;
+}
+
+.popup-content > * > input {
+	width: 100%;
+}
+
+.popup-content > * > span {
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.popup-content > * > span > input {
+	width: 100%;
+}
+
+.popup-content:last-child {
+	padding-bottom: 2rem;
 }

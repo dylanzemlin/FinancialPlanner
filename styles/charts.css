@@ -1,0 +1,8 @@
+.recharts-tooltip-item-list > * {
+    color: var(--color-text-primary) !important;
+}
+
+.recharts-default-tooltip {
+    border-radius: 5px !important;
+    border: 2px solid #000000 !important;
+}
