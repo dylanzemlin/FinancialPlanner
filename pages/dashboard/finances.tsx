@@ -1,7 +1,8 @@
 // pages/index.js
+import { getEarliestFinanceDateForYear, getEarliestFinanceYear } from "../../utils/date-utils";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { NextPage } from "next";
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../../components/nav";
 import Moment from "moment";
 import useApi from "../../lib/useApi";
@@ -12,6 +13,7 @@ import DeleteFinance from "../../popups/dashboard/finances/DeleteFinance";
 import EditExpense from "../../popups/dashboard/finances/EditExpense";
 import EditIncome from "../../popups/dashboard/finances/EditIncome";
 import ConvertCase from "js-convert-case";
+import { calculateOccurancesInMonth } from "../../utils/finance-utils";
 
 const FinanceDashboard: NextPage = (props) => {
     let {
@@ -19,11 +21,30 @@ const FinanceDashboard: NextPage = (props) => {
         fetching,
     } = useApi("/api/user/finance/");
 
+    const [month, setMonth] = useState("all");
+    const [year, setYear] = useState(parseInt(Moment().format("YYYY")));
+
     if (finance == undefined || fetching) {
         return (
             <Container title="ENGR 1411 | Finance Dashboard" loading={true} />
         );
     }
+
+    let years: number[] = [];
+    for (let i = getEarliestFinanceYear(finance); i <= new Date().getFullYear(); i++) {
+        years.push(i);
+    }
+
+    let months: string[] = [];
+    for (let i = getEarliestFinanceDateForYear(finance, year).getMonth(); i <= (year != new Date().getFullYear() ? 11 : new Date().getMonth()); i++) {
+        months.push(Moment(i + 1, 'M').format('MMMM'));
+    }
+
+    const date = new Date(
+        year,
+        month == "all" ? 1 : parseInt(Moment(month, 'MMMM').format('MM')) - 1,
+        new Date().getDate()
+    );
 
     return (
         <Container
@@ -46,7 +67,36 @@ const FinanceDashboard: NextPage = (props) => {
                     Finances
                 </h1>
 
-                <h2> Income Sources </h2>
+                <div className="flex" style={{ gap: "2rem", marginTop: "0.75rem" }}>
+                    <div className="flex column">
+                        <label htmlFor="month"> Month </label>
+                        <select
+                            onChange={(e) => setMonth(e.target.value)}
+                            style={{ marginTop: "0.25rem", width: "fit-content" }}
+                            value={month}
+                        >
+                            {months.map((month) => {
+                                return <option value={month}> {month} </option>
+                            })}
+
+                            <option value="all"> All </option>
+                        </select>
+                    </div>
+                    <div className="flex column">
+                        <label htmlFor="year"> Year </label>
+                        <select
+                            onChange={(e) => setYear(parseInt(e.target.value))}
+                            style={{ marginTop: "0.25rem", width: "fit-content" }}
+                            value={year}
+                        >
+                            {years.map((year) => {
+                                return <option value={year}> {year} </option>
+                            })}
+                        </select>
+                    </div>
+                </div>
+
+                <h2> Income </h2>
                 <div className="table">
                     <table id="incomeTable">
                         <thead>
@@ -62,6 +112,15 @@ const FinanceDashboard: NextPage = (props) => {
                         <tbody>
                             {finance.finances
                                 .filter((y: any) => y.type == "INCOME")
+                                .filter((y: any ) => {
+                                    if(month == 'all') {
+                                        return Moment(year, 'YYYY').isSame(y.start, 'year')
+                                            || Moment(year, 'YYYY').isSame(y.end ?? '0001', 'year');
+                                    }
+
+                                    let occurances = calculateOccurancesInMonth(date, y);
+                                    return occurances >= 1;
+                                })
                                 .sort((x: any, y: any) => Moment(y.start).valueOf() - Moment(x.start).valueOf())
                                 .map((x: any) => {
                                     return (
@@ -116,6 +175,16 @@ const FinanceDashboard: NextPage = (props) => {
                         <tbody>
                             {finance.finances
                                 .filter((y: any) => y.type == "EXPENSE")
+                                .filter((y: any ) => {
+                                    if(month == 'all') {
+                                        return Moment(year, 'YYYY').isSame(y.start, 'year') 
+                                            || Moment(year, 'YYYY').isSame(y.end ?? '0001', 'year')
+                                    }
+                                    
+                                    let occurances = calculateOccurancesInMonth(date, y);
+                                    console.log(`${month}:${year} | ${y.title} -> ${occurances}`);
+                                    return occurances >= 1;
+                                })
                                 .sort((x: any, y: any) => Moment(y.start).valueOf() - Moment(x.start).valueOf())
                                 .map((x: any) => {
                                     return (
