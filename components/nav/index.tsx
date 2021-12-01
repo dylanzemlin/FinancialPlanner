@@ -23,7 +23,7 @@ import Styles from "./nav.module.scss";
 const Navbar: NextPage = () => {
     const [theme, setTheme] = useState("dark");
     const { height, width } = useWindowDimensions();
-    const [isCollapsed, setCollapsed] = useState(width > 550);
+    const [isCollapsed, setCollapsed] = useState(true);
 
     useEffect(() => {
         let theme = localStorage.getItem("1411-theme") ?? "dark";
