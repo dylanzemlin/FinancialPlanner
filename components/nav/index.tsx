@@ -58,6 +58,14 @@ const Navbar: NextPage = () => {
                 <p className={Styles.navbody}>Dashboard</p>
             </a>
 
+            <a href="/dashboard/savings" className={Styles.navitem}>
+                <FontAwesomeIcon
+                    icon={faMoneyBill}
+                    className={Styles.navicon}
+                />
+                <p className={Styles.navbody}>Savings</p>
+            </a>
+
             <a href="/dashboard/finances" className={Styles.navitem}>
                 <FontAwesomeIcon
                     icon={faMoneyCheck}
