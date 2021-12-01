@@ -15,14 +15,9 @@ export function calculateOccurancesBetween(start: Date, end: Date, finance: Fina
     let occurances: number = 0;
     let curDate = Moment(finance.start);
 
-    // I do not think this is needed, but keep it incase something acts up later
-    // if(finance.period == 'once') {
-    //     if(curDate.isSameOrAfter(start) && curDate.isSameOrBefore(end)) {
-    //         return 1;
-    //     }
-
-    //     return 0;
-    // }
+    if(finance.end != undefined) {
+        if(Moment(finance.end).isBefore(start, 'day')) return 0;
+    }
 
     // To be safe we are going to include a timeout to avoid infinite loops
     // The timeout specified leaves room for up to 5 years of a daily finance to be calculated
@@ -40,7 +35,7 @@ export function calculateOccurancesBetween(start: Date, end: Date, finance: Fina
             case 'yearly': curDate = curDate.add(1, 'year'); break;
             case 'monthly': curDate = curDate.add(1, 'months'); break;
             case 'biweekly': curDate = curDate.add(2, 'weeks'); break;
-            case 'weekly': curDate = curDate.add(1, 'weeks'); break;
+            case 'weekly': curDate = curDate.add(1, 'week'); break;
             case 'daily': curDate = curDate.add(1, 'day'); break;
             default: return occurances; // This shouldn't happen realistically, but to be safe
         }
