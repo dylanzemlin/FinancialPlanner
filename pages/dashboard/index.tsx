@@ -16,13 +16,14 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../../components/nav";
 import useApi from "../../lib/useApi";
 import Container from "../../modules/container";
 import NewUser from "../../modules/dashboard/newuser";
 import ConvertCase from "js-convert-case";
 import Moment from "moment";
+import { getEarliestFinanceDateForYear, getEarliestFinanceYear } from "../../utils/date-utils";
 
 const Dashboard: NextPage = (props) => {
     const { user, error, isLoading } = useUser();
@@ -32,6 +33,9 @@ const Dashboard: NextPage = (props) => {
         responseError: financeError,
         fetching: financeFetching,
     } = useApi("/api/user/finance/");
+
+    const [month, setMonth] = useState(Moment().format("MMMM"));
+    const [year, setYear] = useState(parseInt(Moment().format("YYYY")));
 
     if (error || responseError || financeError) {
         return <p> Error: {error + " | " + responseError} </p>;
@@ -49,8 +53,26 @@ const Dashboard: NextPage = (props) => {
         return <NewUser />;
     }
 
-    const date = new Date();
-    const summary = FinanceUtils.calculateMonthlyFinances(date, financeData, true);
+    let colorIdx = 0;
+    const colors: string[] = ["#46BDDF", "#E84F64", "#52D273", "#E47255", "#E3C351"];
+
+    let years: number[] = [];
+    for (let i = getEarliestFinanceYear(financeData); i <= new Date().getFullYear(); i++) {
+        years.push(i);
+    }
+
+    let months: string[] = [];
+    for (let i = getEarliestFinanceDateForYear(financeData, year).getMonth(); i <= (year != new Date().getFullYear() ? 11 : new Date().getMonth()); i++) {
+        months.push(Moment(i + 1, 'M').format('MMMM'));
+    }
+
+    const date = new Date(
+        year,
+        parseInt(Moment(month, 'MMMM').format('MM')) - 1,
+        new Date().getDate()
+    );
+
+    const monthlyFinances = FinanceUtils.calculateMonthlyFinances(date, financeData, true);
     let data: Record<
         string,
         {
@@ -59,16 +81,16 @@ const Dashboard: NextPage = (props) => {
         }[]
     > = {};
 
-    let lineData: {
+    let yearlyLineData: {
         month: string;
         Expense: number;
         Income: number;
     }[] = [];
-    const allSummary = FinanceUtils.calculateYearlyFinances(new Date(), financeData);
-    for (let monthIdx in allSummary.monthMap) {
-        const monthData = allSummary.monthMap[monthIdx];
+    const yearlyFinances = FinanceUtils.calculateYearlyFinances(new Date(year, 1, 1), financeData);
+    for (let monthIdx in yearlyFinances.monthMap) {
+        const monthData = yearlyFinances.monthMap[monthIdx];
 
-        lineData.push({
+        yearlyLineData.push({
             month: Moment(parseInt(monthIdx) + 1, 'M').format('MMM'),
             Expense: monthData.expense,
             Income: monthData.income
@@ -76,58 +98,55 @@ const Dashboard: NextPage = (props) => {
     }
 
     let allData: { name: string; value: number }[] = [];
-    for (let key in summary.categoryMap) {
+    for (let key in monthlyFinances.categoryMap) {
         if (!(key in data)) {
             data[key] = [];
         }
 
         data[key].push({
             name: key,
-            value: summary.categoryMap[key],
+            value: monthlyFinances.categoryMap[key],
         });
         allData.push({
             name: ConvertCase.toSentenceCase(key),
-            value: summary.categoryMap[key],
+            value: monthlyFinances.categoryMap[key],
         });
     }
 
     const yearlySummedData: { month: string, Income: number, Expense: number }[] = [];
-    let sumIncome = 0;
-    let sumExpense = 0;
-    for(let monthIdx in allSummary.monthMap) {
-        sumIncome += allSummary.monthMap[monthIdx].income;
-        sumExpense += allSummary.monthMap[monthIdx].expense;
+    let yearlySumIncome = 0;
+    let yearlySumExpense = 0;
+    for (let monthIdx in yearlyFinances.monthMap) {
+        yearlySumIncome += yearlyFinances.monthMap[monthIdx].income;
+        yearlySumExpense += yearlyFinances.monthMap[monthIdx].expense;
         yearlySummedData.push({
-            month: Moment(parseInt(monthIdx) + 1, 'M').format('MMM'),
-            Expense: sumExpense,
-            Income: sumIncome
+            month: Moment(parseInt(monthIdx) - 1, 'M').format('MMM'),
+            Expense: yearlySumExpense,
+            Income: yearlySumIncome
         })
     }
 
     let yearlyPieData: Record<string,
-    {
-        name: string;
-        value: number;
-    }[]
+        {
+            name: string;
+            value: number;
+        }[]
     > = {};
     let yearlyAllPieData: { name: string; value: number }[] = [];
-    for(let key in allSummary.categoryMap) {
+    for (let key in yearlyFinances.categoryMap) {
         if (!(key in yearlyPieData)) {
             yearlyPieData[key] = [];
         }
 
         yearlyPieData[key].push({
             name: ConvertCase.toSentenceCase(key),
-            value: allSummary.categoryMap[key],
+            value: yearlyFinances.categoryMap[key],
         });
         yearlyAllPieData.push({
             name: ConvertCase.toSentenceCase(key),
-            value: allSummary.categoryMap[key],
+            value: yearlyFinances.categoryMap[key],
         });
     }
-
-    let colorIdx = 0;
-    const colors: string[] = ["#46BDDF", "#E84F64", "#52D273", "#E47255", "#E3C351"];
 
     return (
         <Container
@@ -149,11 +168,36 @@ const Dashboard: NextPage = (props) => {
 
                 <div style={{ width: "100%", marginBottom: "2rem" }}>
                     <h2>
-                        Summary for {new Date().toLocaleString("default", {
-                            month: "long",
-                        })} ({date.getMonth() + 1}/01/{date.getFullYear()} to {date.getMonth() + 1}/{date.getDate()}/
+                        Summary for {Moment(date).format("MMMM")} ({date.getMonth() + 1}/01/{date.getFullYear()} to {date.getMonth() + 1}/{date.getDate()}/
                         {date.getFullYear()}):
                     </h2>
+
+                    <div className="flex" style={{ gap: "2rem", marginBottom: "2rem" }}>
+                        <div className="flex column">
+                            <label htmlFor="month"> Month </label>
+                            <select
+                                onChange={(e) => setMonth(e.target.value)}
+                                style={{ marginTop: "0.25rem", width: "fit-content" }}
+                                value={month}
+                            >
+                                {months.map((month) => {
+                                    return <option value={month}> {month} </option>
+                                })}
+                            </select>
+                        </div>
+                        <div className="flex column">
+                            <label htmlFor="year"> Year </label>
+                            <select
+                                onChange={(e) => setYear(parseInt(e.target.value))}
+                                style={{ marginTop: "0.25rem", width: "fit-content" }}
+                                value={year}
+                            >
+                                {years.map((year) => {
+                                    return <option value={year}> {year} </option>
+                                })}
+                            </select>
+                        </div>
+                    </div>
 
                     <div className="flex" style={{ gap: "3rem" }}>
                         <div className="flex" style={{ gap: "3rem" }}>
@@ -161,13 +205,13 @@ const Dashboard: NextPage = (props) => {
                                 <h3> Monthly Statistics </h3>
                                 <p>
                                     Gross Income: $
-                                    {summary.gross.income.toLocaleString()}
+                                    {monthlyFinances.gross.income.toLocaleString()}
                                 </p>
                                 <p>
                                     Gross Expenses: $
-                                    {summary.gross.expense.toLocaleString()}
+                                    {monthlyFinances.gross.expense.toLocaleString()}
                                 </p>
-                                <p> Profit: ${summary.profit.toLocaleString()} </p>
+                                <p> Profit: ${monthlyFinances.profit.toLocaleString()} </p>
                             </div>
                         </div>
 
@@ -176,13 +220,13 @@ const Dashboard: NextPage = (props) => {
                                 <h3> Yearly Statistics </h3>
                                 <p>
                                     Gross Income: $
-                                    {allSummary.gross.income.toLocaleString()}
+                                    {yearlyFinances.gross.income.toLocaleString()}
                                 </p>
                                 <p>
                                     Gross Expenses: $
-                                    {allSummary.gross.expense.toLocaleString()}
+                                    {yearlyFinances.gross.expense.toLocaleString()}
                                 </p>
-                                <p> Profit: ${allSummary.profit.toLocaleString()} </p>
+                                <p> Profit: ${yearlyFinances.profit.toLocaleString()} </p>
                             </div>
                         </div>
                     </div>
@@ -192,7 +236,7 @@ const Dashboard: NextPage = (props) => {
                     <div style={{ marginRight: "1rem", marginTop: "auto", marginBottom: "5rem", display: "grid", gridTemplateColumns: "1fr 1fr" }}>
                         <div>
                             <h3 style={{ width: "100%", textAlign: "center" }}>
-                                Monthly Expenses
+                                {Moment(date).format('MMMM')} Expenses
                             </h3>
                             <ResponsiveContainer width="100%" height={400}>
                                 <PieChart>
@@ -226,16 +270,16 @@ const Dashboard: NextPage = (props) => {
 
                         <div>
                             <h3 style={{ width: "100%", textAlign: "center" }}>
-                                Monthly Income & Expenses over { new Date().getFullYear() }
+                                Monthly Income & Expenses over {year}
                             </h3>
                             <ResponsiveContainer width="100%" height={400}>
-                                <LineChart data={lineData}>
+                                <LineChart data={yearlyLineData}>
                                     <XAxis dataKey="month" />
                                     <YAxis />
                                     <CartesianGrid stroke="#eee" />
 
-                                    <Line dot={false} type="linear" dataKey="Income" stroke="#44ff0f" />
-                                    <Line dot={false} type="linear" dataKey="Expense" stroke="#d124ff" />
+                                    <Line strokeWidth={3} dot={false} type="linear" dataKey="Income" stroke="#44ff0f" />
+                                    <Line strokeWidth={3} dot={false} type="linear" dataKey="Expense" stroke="#d124ff" />
 
                                     <Tooltip
                                         formatter={(data: any) => `$${(data as number).toFixed(3)}`}
@@ -284,7 +328,7 @@ const Dashboard: NextPage = (props) => {
 
                         <div>
                             <h3 style={{ width: "100%", textAlign: "center" }}>
-                                Yearly Income & Expenses over { new Date().getFullYear() }
+                                Yearly Income & Expenses over {year}
                             </h3>
                             <ResponsiveContainer width="100%" height={400}>
                                 <LineChart data={yearlySummedData}>
@@ -292,8 +336,8 @@ const Dashboard: NextPage = (props) => {
                                     <YAxis />
                                     <CartesianGrid stroke="#eee" />
 
-                                    <Line dot={false} type="linear" dataKey="Income" stroke="#44ff0f" />
-                                    <Line dot={false} type="linear" dataKey="Expense" stroke="#d124ff" />
+                                    <Line strokeWidth={3} dot={false} type="linear" dataKey="Income" stroke="#44ff0f" />
+                                    <Line strokeWidth={3} dot={false} type="linear" dataKey="Expense" stroke="#d124ff" />
 
                                     <Tooltip
                                         formatter={(data: any) => `$${(data as number).toFixed(3)}`}

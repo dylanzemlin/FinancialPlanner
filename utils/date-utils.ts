@@ -1,3 +1,4 @@
+import { IFinance } from '../models/finance';
 import Moment from 'moment';
 
 // Straight from Moment
@@ -35,4 +36,47 @@ export function compareDates(
     if(thisMoment.isBefore(thatMoment, compare)) return -1;
 
 	return 0;
+}
+
+/**
+ * 
+ * Determines the earliest date in a group of finance data
+ * 
+ * @param finance The finance data
+ * @param year The year to check
+ * @returns The earliest data
+ */
+export function getEarliestFinanceDateForYear(finance: IFinance, year: number): Date {
+
+    let moment = Moment();
+
+    for(let item of finance.finances) {
+        if(Moment(item.start).isSameOrBefore(moment, 'month') && Moment(year, 'YYYY').isSame(item.start, 'year')) {
+            moment = Moment(item.start);
+        }
+    }
+
+    return moment.toDate();
+
+}
+
+/**
+ * 
+ * Determines the earliest year in a group of finance data
+ * 
+ * @param finance The finance data
+ * @returns The earliest year
+ */
+export function getEarliestFinanceYear(finance: IFinance): number {
+
+    let minYear = new Date().getFullYear();
+
+    for(let item of finance.finances) {
+        if(new Date(item.start).getFullYear() < minYear) {
+            minYear = new Date(item.start).getFullYear();
+        }
+    }
+
+    return minYear;
+
 }
