@@ -22,8 +22,7 @@ import useApi from "../../lib/useApi";
 import Container from "../../modules/container";
 import NewUser from "../../modules/dashboard/newuser";
 import ConvertCase from "js-convert-case";
-import Moment from 'moment';
-import moment from "moment";
+import Moment from "moment";
 
 const Dashboard: NextPage = (props) => {
     const { user, error, isLoading } = useUser();
@@ -70,7 +69,7 @@ const Dashboard: NextPage = (props) => {
         const monthData = allSummary.monthMap[monthIdx];
 
         lineData.push({
-            month: moment(parseInt(monthIdx) + 1, 'M').format('MMMM'),
+            month: Moment(parseInt(monthIdx) + 1, 'M').format('MMM'),
             expense: monthData.expense,
             income: monthData.income
         });
@@ -89,6 +88,41 @@ const Dashboard: NextPage = (props) => {
         allData.push({
             name: ConvertCase.toSentenceCase(key),
             value: summary.categoryMap[key],
+        });
+    }
+
+    const yearlySummedData: { month: string, income: number, expense: number }[] = [];
+    let sumIncome = 0;
+    let sumExpense = 0;
+    for(let monthIdx in allSummary.monthMap) {
+        sumIncome += allSummary.monthMap[monthIdx].income;
+        sumExpense += allSummary.monthMap[monthIdx].expense;
+        yearlySummedData.push({
+            month: Moment(parseInt(monthIdx) + 1, 'M').format('MMM'),
+            expense: sumExpense,
+            income: sumIncome
+        })
+    }
+
+    let yearlyPieData: Record<string,
+    {
+        name: string;
+        value: number;
+    }[]
+    > = {};
+    let yearlyAllPieData: { name: string; value: number }[] = [];
+    for(let key in allSummary.categoryMap) {
+        if (!(key in yearlyPieData)) {
+            yearlyPieData[key] = [];
+        }
+
+        yearlyPieData[key].push({
+            name: key,
+            value: allSummary.categoryMap[key],
+        });
+        yearlyAllPieData.push({
+            name: ConvertCase.toSentenceCase(key),
+            value: allSummary.categoryMap[key],
         });
     }
 
@@ -213,6 +247,63 @@ const Dashboard: NextPage = (props) => {
                         </div>
                     </div>
 
+                    <div style={{ marginRight: "1rem", marginTop: "auto", marginBottom: "5rem", display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+                        <div>
+                            <h3 style={{ width: "100%", textAlign: "center" }}>
+                                Yearly Expenses
+                            </h3>
+                            <ResponsiveContainer width="100%" height={400}>
+                                <PieChart>
+                                    <Pie
+                                        data={yearlyAllPieData}
+                                        cx="50%"
+                                        cy="50%"
+                                        dataKey="value"
+                                        nameKey="name"
+                                        stroke="#fff"
+                                        label={(data) => `$${((data.payload.value) as number).toFixed(3)}`}
+                                        labelLine={true}
+                                    >
+                                        {[...Object.keys(yearlyPieData)].map((key) => {
+                                            return (
+                                                <Cell
+                                                    key={key}
+                                                    fill={`${colors[colorIdx++ % colors.length]}`}
+                                                />
+                                            );
+                                        })}
+                                    </Pie>
+                                    <Tooltip
+                                        formatter={(data: any) => `$${(data as number).toFixed(3)}`}
+                                        contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }}
+                                    />
+                                    <Legend fill="#fff" />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
+
+                        <div>
+                            <h3 style={{ width: "100%", textAlign: "center" }}>
+                                Yearly Income & Expenses over { new Date().getFullYear() }
+                            </h3>
+                            <ResponsiveContainer width="100%" height={400}>
+                                <LineChart data={yearlySummedData}>
+                                    <XAxis dataKey="month" />
+                                    <YAxis />
+                                    <CartesianGrid stroke="#eee" />
+
+                                    <Line dot={false} type="linear" dataKey="income" stroke="#44ff0f" />
+                                    <Line dot={false} type="linear" dataKey="expense" stroke="#d124ff" />
+
+                                    <Tooltip
+                                        formatter={(data: any) => `$${(data as number).toFixed(3)}`}
+                                        contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }}
+                                    />
+                                    <Legend fill="#fff" />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Container>

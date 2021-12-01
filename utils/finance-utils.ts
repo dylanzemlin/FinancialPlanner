@@ -148,7 +148,7 @@ export function calculateYearlyFinances(
     const mnthMap: Record<number, { income: number, expense: number, profit: number }> = {};
 
     let reports: MonthlyFinancialReport[] = [];
-    for (let i = 1; i <= 11; i++) {
+    for (let i = 0; i <= 11; i++) {
         let newDate = new Date(date.getFullYear(), i, 1);
         let financialReport = calculateMonthlyFinances(newDate, data);
         reports.push(financialReport);
