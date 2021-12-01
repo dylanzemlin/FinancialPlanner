@@ -279,7 +279,7 @@ const Dashboard: NextPage = (props) => {
                                     <CartesianGrid stroke="#eee" />
 
                                     <Line strokeWidth={3} dot={false} type="linear" dataKey="Income" stroke="#44ff0f" />
-                                    <Line strokeWidth={3} dot={false} type="linear" dataKey="Expense" stroke="#d124ff" />
+                                    <Line strokeWidth={3} dot={false} type="linear" dataKey="Expense" stroke="#ff3f5f" />
 
                                     <Tooltip
                                         formatter={(data: any) => `$${(data as number).toFixed(3)}`}
@@ -337,7 +337,7 @@ const Dashboard: NextPage = (props) => {
                                     <CartesianGrid stroke="#eee" />
 
                                     <Line strokeWidth={3} dot={false} type="linear" dataKey="Income" stroke="#44ff0f" />
-                                    <Line strokeWidth={3} dot={false} type="linear" dataKey="Expense" stroke="#d124ff" />
+                                    <Line strokeWidth={3} dot={false} type="linear" dataKey="Expense" stroke="#ff3f5f" />
 
                                     <Tooltip
                                         formatter={(data: any) => `$${(data as number).toFixed(3)}`}
