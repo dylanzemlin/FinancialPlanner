@@ -9,3 +9,4 @@
  - Remove Copyright Content [ High Priority ]
  - Implement Student Page -> Grab student finances from OU directly [ Low Priority ]
  - Overall Code Cleanup [ Medium Priority ]
+ - Create screenshots and find linking stuff between notebook [ High Priority ]
