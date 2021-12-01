@@ -39,7 +39,7 @@ export function calculateOccurancesBetween(start: Date, end: Date, finance: Fina
         switch (finance.period) {
             case 'yearly': curDate = curDate.add(1, 'year'); break;
             case 'monthly': curDate = curDate.add(1, 'months'); break;
-            case 'bi-weekly': curDate = curDate.add(2, 'weeks'); break;
+            case 'biweekly': curDate = curDate.add(2, 'weeks'); break;
             case 'weekly': curDate = curDate.add(1, 'weeks'); break;
             case 'daily': curDate = curDate.add(1, 'day'); break;
             default: return occurances; // This shouldn't happen realistically, but to be safe

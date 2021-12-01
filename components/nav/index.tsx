@@ -6,6 +6,8 @@ import {
     faCog,
     faHandPaper,
     faHome,
+    faMoneyBill,
+    faMoneyCheck,
     faMoon,
     faSchool,
     faSignOutAlt,
@@ -58,7 +60,7 @@ const Navbar: NextPage = () => {
 
             <a href="/dashboard/finances" className={Styles.navitem}>
                 <FontAwesomeIcon
-                    icon={faChartLine}
+                    icon={faMoneyCheck}
                     className={Styles.navicon}
                 />
                 <p className={Styles.navbody}>Finances</p>
@@ -111,7 +113,7 @@ const Navbar: NextPage = () => {
                 <p className={Styles.navbody}>Logout</p>
             </a>
 
-            {width >= 750 &&
+            {/* {width >= 750 &&
                 <a
                     style={{ width: "100%" }}
                     onClick={(e) => setCollapsed(!isCollapsed)}
@@ -131,7 +133,7 @@ const Navbar: NextPage = () => {
                         />
                     )}
                 </a>
-            }
+            } */}
         </div>
     );
 };
