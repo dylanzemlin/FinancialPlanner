@@ -6,7 +6,7 @@ import mongoConnect from '../../../lib/mongo';
 export default withApiAuthRequired(async function ProtectedRoute(req, res) {
     const session = getSession(req, res);
     if(session == undefined || session == null) {
-        return res.status(403).json({ code: 403, dataText: "No authorization session found" });
+        return res.status(403).json({ code: 403, dataText: "Not Authorized" });
     }
 
     await mongoConnect();
@@ -39,6 +39,8 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
         }).save();
 
         return res.status(200).json({ code: 200, dataText: "success" });
+    } else if (req.method == 'DELETE') {
+        // TODO: Create account reset
     }
 
     return res.status(400).json({ code: 400, dataText: "Invalid method: " + req.method });

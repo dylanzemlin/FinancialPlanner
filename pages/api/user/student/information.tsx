@@ -8,7 +8,7 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
 	if (session == undefined || session == null) {
 		return res
 			.status(403)
-			.json({ code: 403, dataText: "No authorization session found" });
+			.json({ code: 403, dataText: "Not Authorized" });
 	}
 
 	await mongoConnect();

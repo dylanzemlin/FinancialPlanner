@@ -112,14 +112,17 @@ const FinanceDashboard: NextPage = (props) => {
                         <tbody>
                             {finance.finances
                                 .filter((y: any) => y.type == "INCOME")
-                                .filter((y: any ) => {
-                                    if(month == 'all') {
+                                .filter((y: any) => {
+                                    if (month == 'all') {
                                         return Moment(year, 'YYYY').isSame(y.start, 'year')
-                                            || Moment(year, 'YYYY').isSame(y.end ?? '0001', 'year');
+                                            || (
+                                                y.end != undefined
+                                                && Moment(year, 'YYYY').isSameOrBefore(y.end, 'year')
+                                                && Moment(year, 'YYYY').isSameOrAfter(y.start, 'year')
+                                            );
                                     }
 
-                                    let occurances = calculateOccurancesInMonth(date, y);
-                                    return occurances >= 1;
+                                    return calculateOccurancesInMonth(date, y) >= 1;
                                 })
                                 .sort((x: any, y: any) => Moment(y.start).valueOf() - Moment(x.start).valueOf())
                                 .map((x: any) => {
@@ -175,15 +178,17 @@ const FinanceDashboard: NextPage = (props) => {
                         <tbody>
                             {finance.finances
                                 .filter((y: any) => y.type == "EXPENSE")
-                                .filter((y: any ) => {
-                                    if(month == 'all') {
-                                        return Moment(year, 'YYYY').isSame(y.start, 'year') 
-                                            || Moment(year, 'YYYY').isSame(y.end ?? '0001', 'year')
+                                .filter((y: any) => {
+                                    if (month == 'all') {
+                                        return Moment(year, 'YYYY').isSame(y.start, 'year')
+                                            || (
+                                                y.end != undefined
+                                                && Moment(year, 'YYYY').isSameOrBefore(y.end, 'year')
+                                                && Moment(year, 'YYYY').isSameOrAfter(y.start, 'year')
+                                            );
                                     }
-                                    
-                                    let occurances = calculateOccurancesInMonth(date, y);
-                                    console.log(`${month}:${year} | ${y.title} -> ${occurances}`);
-                                    return occurances >= 1;
+
+                                    return calculateOccurancesInMonth(date, y) >= 1;
                                 })
                                 .sort((x: any, y: any) => Moment(y.start).valueOf() - Moment(x.start).valueOf())
                                 .map((x: any) => {
