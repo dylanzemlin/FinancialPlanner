@@ -1,6 +1,5 @@
 # TODO Tasks
 
- - New Page -> Savings Goal [ Supreme Priority ]
  - Implement Light Mode [ Very Low Priority ]
  - Account Page -> Maybe? [ Low Priority ]
  - Implement Student Page -> Grab student finances from OU directly [ Low Priority ]
