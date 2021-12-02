@@ -33,7 +33,7 @@ const SavingsDashboard: NextPage = (props) => {
 
         }
 
-        if([savingsGoal, monthlyContribution, timeframe].filter(x => x == 0).length < 2) {
+        if([savingsGoal, monthlyContribution, timeframe].filter(x => x == 0).length != 1) {
 
             // One field must be set to zero
             toast.error(`You must fill in two of the fields to calculate your savings goal!`);
