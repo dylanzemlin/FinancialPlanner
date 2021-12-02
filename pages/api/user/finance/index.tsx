@@ -1,21 +1,22 @@
 import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import FinanceModel from '../../../../models/finance';
 import mongoConnect from '../../../../lib/mongo';
+import Moment from 'moment';
 
 export default withApiAuthRequired(async function ProtectedRoute(req, res) {
     const session = getSession(req, res);
-    if(session == undefined || session == null) {
-        return res.status(403).json({ code: 403, dataText: "No authorization session found" });
+    if (session == undefined || session == null) {
+        return res.status(403).json({ code: 403, dataText: "Not Authorized" });
     }
 
     await mongoConnect();
 
-    if(req.method == 'GET') {
+    if (req.method == 'GET') {
         const userFinances = await FinanceModel.findOne({
             userId: session?.user.sub ?? ''
         });
 
-        if(userFinances == null) {
+        if (userFinances == null) {
             return res.status(404).json({ code: 404, dataText: `No Finances Found` });
         }
 
@@ -29,7 +30,7 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
             return res.status(400).json({ code: 400, dataText: `Invalid Body Provided` });
         }
 
-        if(body == undefined) {
+        if (body == undefined) {
             return res.status(400).json({ code: 400, dataText: `Invalid Body Provided` });
         }
 
@@ -39,9 +40,20 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
         const postPeriod: string = body.financePeriod ?? "NONE";
         const postTitle: string = body.financeTitle ?? "";
         const postStart: string = body.financeStart ?? "";
-        const postEnd: string | undefined = body.financeEnd == "" ? undefined : body.financeEnd;
+        const postEnd: string | undefined = body.financeEnd?.trim() == "" ? undefined : body.financeEnd;
         const postCategory: string = body.financeCategory;
-        
+
+        if (!Moment(postStart, 'MM/DD/YYYY', true).isValid()) {
+            return res.status(400).json({ code: 400, dataText: `Invalid start date: ${postStart}` });
+        }
+        if (postEnd != undefined! && Moment(postEnd, 'MM/DD/YYYY', true).isValid()) {
+            return res.status(400).json({ code: 400, dataText: `Invalid end date: ${postEnd}` });
+        }
+        if (postAmount <= 0) {
+            return res.status(400).json({ code: 400, dataText: `Invalid expense amount: $${postAmount}` });
+        }
+
+
         // TODO: Even though the chance is extremely low, check for duplicate id
         const postId: string = body.financeId;
 
@@ -54,11 +66,11 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
             type: postType,
             id: postId
         };
-        if(postType == "EXPENSE") {
+        if (postType == "EXPENSE") {
             financeBody.category = postCategory;
         }
 
-        if(req.method == 'POST') {
+        if (req.method == 'POST') {
             await FinanceModel.updateOne({
                 userId: session?.user.sub ?? ''
             }, {
@@ -76,7 +88,7 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
                 }
             });
         }
-        
+
         return res.status(200).json({ code: 200 });
     } else if (req.method == 'DELETE') {
         let body: any = undefined;
@@ -87,10 +99,11 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
         }
 
         const financeId = body.id;
-        if(financeId == undefined) {
+        if (financeId == undefined) {
             return res.status(400).json({ code: 400, dataText: `Invalid Finance Id Provided` });
         }
 
+        // TODO: Check if finance id actually exists
         await FinanceModel.updateOne({
             userId: session?.user.sub ?? ''
         }, {
