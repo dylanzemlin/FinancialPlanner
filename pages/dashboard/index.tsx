@@ -26,26 +26,16 @@ import Moment from "moment";
 import { getEarliestFinanceDateForYear, getEarliestFinanceYear } from "../../utils/date-utils";
 
 const Dashboard: NextPage = (props) => {
-    const { user, error, isLoading } = useUser();
-    const { response: userData, responseError, fetching } = useApi("/api/user");
+    const { response: userData, fetching } = useApi("/api/user");
     const {
         response: financeData,
-        responseError: financeError,
         fetching: financeFetching,
     } = useApi("/api/user/finance/");
 
     const [month, setMonth] = useState(Moment().format("MMMM"));
     const [year, setYear] = useState(parseInt(Moment().format("YYYY")));
 
-    if (error || responseError || financeError) {
-        return <p> Error: {error + " | " + responseError} </p>;
-    }
-
-    if (user == undefined || financeData == undefined) {
-        return <Container title="ENGR 1411 | Dashboard" loading={true} />;
-    }
-
-    if (userData == undefined || financeFetching) {
+    if (userData == undefined || financeFetching || financeData == undefined) {
         return <Container title="ENGR 1411 | Dashboard" loading={true} />;
     }
 
@@ -56,36 +46,47 @@ const Dashboard: NextPage = (props) => {
     let colorIdx = 0;
     const colors: string[] = ["#46BDDF", "#E84F64", "#52D273", "#E47255", "#E3C351"];
 
+    // List of years available to render
     let years: number[] = [];
     for (let i = getEarliestFinanceYear(financeData); i <= new Date().getFullYear(); i++) {
         years.push(i);
     }
 
+    // List of months available to render based on year
     let months: string[] = [];
     for (let i = getEarliestFinanceDateForYear(financeData, year).getMonth(); i <= (year != new Date().getFullYear() ? 11 : new Date().getMonth()); i++) {
         months.push(Moment(i + 1, 'M').format('MMMM'));
     }
 
+    // Calculate the date to render data about
     const date = new Date(
         year,
         parseInt(Moment(month, 'MMMM').format('MM')) - 1,
         Moment(month, 'MMMM').daysInMonth()
     );
 
-    const monthlyFinances = FinanceUtils.calculateMonthlyFinances(date, financeData, true);
-    let data: Record<
-        string,
-        {
-            name: string;
-            value: number;
-        }[]
-    > = {};
+    const monthlyFinances = FinanceUtils.calculateMonthlyFinances(date, financeData, false);
+    let monthlyMapData: Record<string, { name: string; value: number; }[]> = {};
 
-    let yearlyLineData: {
-        month: string;
-        Expense: number;
-        Income: number;
-    }[] = [];
+    // Calculate the monthly pie chart data
+    let monthlyData: { name: string; value: number }[] = [];
+    for (let key in monthlyFinances.categoryMap) {
+        if (!(key in monthlyMapData)) {
+            monthlyMapData[key] = [];
+        }
+
+        monthlyMapData[key].push({
+            name: key,
+            value: monthlyFinances.categoryMap[key],
+        });
+        monthlyData.push({
+            name: ConvertCase.toSentenceCase(key),
+            value: monthlyFinances.categoryMap[key],
+        });
+    }
+
+    // Calculate yearly line graph data
+    let yearlyLineData: { month: string; Expense: number; Income: number; }[] = [];
     const yearlyFinances = FinanceUtils.calculateYearlyFinances(new Date(year, 1, 1), financeData);
     for (let monthIdx in yearlyFinances.monthMap) {
         const monthData = yearlyFinances.monthMap[monthIdx];
@@ -96,23 +97,8 @@ const Dashboard: NextPage = (props) => {
             Income: monthData.income
         });
     }
-
-    let allData: { name: string; value: number }[] = [];
-    for (let key in monthlyFinances.categoryMap) {
-        if (!(key in data)) {
-            data[key] = [];
-        }
-
-        data[key].push({
-            name: key,
-            value: monthlyFinances.categoryMap[key],
-        });
-        allData.push({
-            name: ConvertCase.toSentenceCase(key),
-            value: monthlyFinances.categoryMap[key],
-        });
-    }
-
+    
+    // Calculate yearly summed line graph data
     const yearlySummedData: { month: string, Income: number, Expense: number }[] = [];
     let yearlySumIncome = 0;
     let yearlySumExpense = 0;
@@ -126,23 +112,19 @@ const Dashboard: NextPage = (props) => {
         })
     }
 
-    let yearlyPieData: Record<string,
-        {
-            name: string;
-            value: number;
-        }[]
-    > = {};
-    let yearlyAllPieData: { name: string; value: number }[] = [];
+    // Calculate the yearly pie chart data
+    let yearlyMapData: Record<string, { name: string; value: number; }[]> = {};
+    let yearlyData: { name: string; value: number }[] = [];
     for (let key in yearlyFinances.categoryMap) {
-        if (!(key in yearlyPieData)) {
-            yearlyPieData[key] = [];
+        if (!(key in yearlyMapData)) {
+            yearlyMapData[key] = [];
         }
 
-        yearlyPieData[key].push({
+        yearlyMapData[key].push({
             name: ConvertCase.toSentenceCase(key),
             value: yearlyFinances.categoryMap[key],
         });
-        yearlyAllPieData.push({
+        yearlyData.push({
             name: ConvertCase.toSentenceCase(key),
             value: yearlyFinances.categoryMap[key],
         });
@@ -152,7 +134,7 @@ const Dashboard: NextPage = (props) => {
         <Container
             title="ENGR 1411 | Dashboard"
             className={"flex"}
-            loading={isLoading || fetching}
+            loading={fetching}
         >
             <Navbar />
 
@@ -241,7 +223,7 @@ const Dashboard: NextPage = (props) => {
                             <ResponsiveContainer width="100%" height={400}>
                                 <PieChart>
                                     <Pie
-                                        data={allData}
+                                        data={monthlyData}
                                         cx="50%"
                                         cy="50%"
                                         dataKey="value"
@@ -250,7 +232,7 @@ const Dashboard: NextPage = (props) => {
                                         label={(data) => `$${((data.payload.value) as number).toFixed(3)}`}
                                         labelLine={true}
                                     >
-                                        {[...Object.keys(data)].map((key) => {
+                                        {[...Object.keys(monthlyMapData)].map((key) => {
                                             return (
                                                 <Cell
                                                     key={key}
@@ -299,7 +281,7 @@ const Dashboard: NextPage = (props) => {
                             <ResponsiveContainer width="100%" height={400}>
                                 <PieChart>
                                     <Pie
-                                        data={yearlyAllPieData}
+                                        data={yearlyData}
                                         cx="50%"
                                         cy="50%"
                                         dataKey="value"
@@ -308,7 +290,7 @@ const Dashboard: NextPage = (props) => {
                                         label={(data) => `$${((data.payload.value) as number).toFixed(3)}`}
                                         labelLine={true}
                                     >
-                                        {[...Object.keys(yearlyPieData)].map((key) => {
+                                        {[...Object.keys(yearlyMapData)].map((key) => {
                                             return (
                                                 <Cell
                                                     key={key}
