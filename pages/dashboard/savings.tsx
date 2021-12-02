@@ -9,8 +9,7 @@ import Container from "../../modules/container";
 
 const SavingsDashboard: NextPage = (props) => {
     const {
-        response: finance,
-        fetching,
+        response: finance, fetching,
     } = useApi("/api/user/finance/");
 
     const [savingsGoal, setSavingsGoal] = useState(0);
@@ -25,7 +24,7 @@ const SavingsDashboard: NextPage = (props) => {
 
     const calculateSavings = () => {
 
-        if(savingsGoal == 0 && monthlyContribution == 0 && timeframe == 0) {
+        if (savingsGoal == 0 && monthlyContribution == 0 && timeframe == 0) {
 
             // One field must be set to zero
             toast.error(`You must leave one of the fields to zero to calculate your savings goal!`);
@@ -33,7 +32,7 @@ const SavingsDashboard: NextPage = (props) => {
 
         }
 
-        if([savingsGoal, monthlyContribution, timeframe].filter(x => x == 0).length != 1) {
+        if ([savingsGoal, monthlyContribution, timeframe].filter(x => x == 0).length != 1) {
 
             // One field must be set to zero
             toast.error(`You must fill in two of the fields to calculate your savings goal!`);
@@ -41,9 +40,9 @@ const SavingsDashboard: NextPage = (props) => {
 
         }
 
-        if(savingsGoal == 0) {
-             // https://github.com/Sage-A/Design-Project-1411/blob/main/Savings%20Goal#L19
-             setSavingsGoal(monthlyContribution * timeframe);
+        if (savingsGoal == 0) {
+            // https://github.com/Sage-A/Design-Project-1411/blob/main/Savings%20Goal#L19
+            setSavingsGoal(monthlyContribution * timeframe);
         } else if (monthlyContribution == 0) {
             // https://github.com/Sage-A/Design-Project-1411/blob/main/Savings%20Goal#L23
             setMonthlyContribution(savingsGoal / timeframe);
