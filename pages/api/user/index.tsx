@@ -39,6 +39,8 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
         }).save();
 
         return res.status(200).json({ code: 200, dataText: "success" });
+    } else if (req.method == 'DELETE') {
+        // TODO: Create account reset
     }
 
     return res.status(400).json({ code: 400, dataText: "Invalid method: " + req.method });
