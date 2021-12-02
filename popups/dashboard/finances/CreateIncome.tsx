@@ -17,6 +17,22 @@ const CreateIncome: NextPage = (props) => {
     const router = useRouter();
 
     const createIncome = async () => {
+
+        if(!Moment(startDate, 'MM/DD/YYYY', true).isValid()) {
+            toast.warning(`Failed to create income: invalid start date: ${startDate}`);
+            return;
+        }
+
+        if(endDate != "" && !Moment(endDate, 'MM/DD/YYYY', true).isValid()) {
+            toast.warning(`Failed to create income: invalid end date: ${endDate}`);
+            return;
+        }
+
+        if(title.trim() == "") {
+            toast.warning(`Failed to create income: you must specify a title!`);
+            return;
+        }
+
         let financePost = await fetch("/api/user/finance/", {
             method: "POST",
             body: JSON.stringify({
