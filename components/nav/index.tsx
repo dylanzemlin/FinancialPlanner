@@ -83,7 +83,7 @@ const Navbar: NextPage = () => {
             </a>
 
             <a
-                href="/account"
+                href="/dashboard/account"
                 style={{ marginTop: "auto" }}
                 className={Styles.navitem}
             >
