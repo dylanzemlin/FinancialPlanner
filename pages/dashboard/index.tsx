@@ -211,6 +211,28 @@ const Dashboard: NextPage = (props) => {
                                 <p> Profit: ${yearlyFinances.profit.toLocaleString()} </p>
                             </div>
                         </div>
+
+                        <div className="flex" style={{ gap: "3rem" }}>
+                            <div>
+                                <h3> Average Statistics </h3>
+                                <p>
+                                    Average Income: $
+                                    {(yearlyLineData
+                                        .map(x => x.Income)
+                                        .reduce((a, b) => a + b) 
+                                        / yearlyLineData.length
+                                    ).toLocaleString()}
+                                </p>
+                                <p>
+                                    Average Expenses: $
+                                    {(yearlyLineData
+                                        .map(x => x.Expense)
+                                        .reduce((a, b) => a + b) 
+                                        / yearlyLineData.length
+                                    ).toLocaleString()}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -229,20 +251,20 @@ const Dashboard: NextPage = (props) => {
                                         dataKey="value"
                                         nameKey="name"
                                         stroke="#fff"
-                                        label={(data) => `$${((data.payload.value) as number).toFixed(3)}`}
+                                        label={(data) => `$${((data.payload.value) as number).toLocaleString()}`}
                                         labelLine={true}
                                     >
                                         {[...Object.keys(monthlyMapData)].map((key) => {
                                             return (
                                                 <Cell
-                                                    key={key}
+                                                    key={key + "-monthly"}
                                                     fill={`${colors[colorIdx++ % colors.length]}`}
                                                 />
                                             );
                                         })}
                                     </Pie>
                                     <Tooltip
-                                        formatter={(data: any) => `$${(data as number).toFixed(3)}`}
+                                        formatter={(data: any) => `$${(data as number).toLocaleString()}`}
                                         contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }}
                                     />
                                     <Legend fill="#fff" />
@@ -264,7 +286,7 @@ const Dashboard: NextPage = (props) => {
                                     <Line strokeWidth={3} dot={false} type="linear" dataKey="Expense" stroke="#ff3f5f" />
 
                                     <Tooltip
-                                        formatter={(data: any) => `$${(data as number).toFixed(3)}`}
+                                        formatter={(data: any) => `$${(data as number).toLocaleString()}`}
                                         contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }}
                                     />
                                     <Legend formatter={(data: any) => ConvertCase.toSentenceCase(data)} fill="#fff" />
@@ -287,20 +309,20 @@ const Dashboard: NextPage = (props) => {
                                         dataKey="value"
                                         nameKey="name"
                                         stroke="#fff"
-                                        label={(data) => `$${((data.payload.value) as number).toFixed(3)}`}
+                                        label={(data) => `$${((data.payload.value) as number).toLocaleString()}`}
                                         labelLine={true}
                                     >
                                         {[...Object.keys(yearlyMapData)].map((key) => {
                                             return (
                                                 <Cell
-                                                    key={key}
+                                                    key={key + "-yearly"}
                                                     fill={`${colors[colorIdx++ % colors.length]}`}
                                                 />
                                             );
                                         })}
                                     </Pie>
                                     <Tooltip
-                                        formatter={(data: any) => `$${(data as number).toFixed(3)}`}
+                                        formatter={(data: any) => `$${(data as number).toLocaleString()}`}
                                         contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }}
                                     />
                                     <Legend fill="#fff" />
@@ -322,7 +344,7 @@ const Dashboard: NextPage = (props) => {
                                     <Line strokeWidth={3} dot={false} type="linear" dataKey="Expense" stroke="#ff3f5f" />
 
                                     <Tooltip
-                                        formatter={(data: any) => `$${(data as number).toFixed(3)}`}
+                                        formatter={(data: any) => `$${(data as number).toLocaleString()}`}
                                         contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }}
                                     />
                                     <Legend formatter={(data: any) => ConvertCase.toSentenceCase(data)} fill="#fff" />

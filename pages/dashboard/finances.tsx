@@ -119,7 +119,8 @@ const FinanceDashboard: NextPage = (props) => {
                                                 y.end != undefined
                                                 && Moment(year, 'YYYY').isSameOrBefore(y.end, 'year')
                                                 && Moment(year, 'YYYY').isSameOrAfter(y.start, 'year')
-                                            );
+                                            )
+                                            || (y.end == undefined && Moment(year, 'YYYY').isSameOrAfter(y.start, 'year'))
                                     }
 
                                     return calculateOccurancesInMonth(date, y) >= 1;
@@ -185,7 +186,8 @@ const FinanceDashboard: NextPage = (props) => {
                                                 y.end != undefined
                                                 && Moment(year, 'YYYY').isSameOrBefore(y.end, 'year')
                                                 && Moment(year, 'YYYY').isSameOrAfter(y.start, 'year')
-                                            );
+                                            )
+                                            || (y.end == undefined && Moment(year, 'YYYY').isSameOrAfter(y.start, 'year'))
                                     }
 
                                     return calculateOccurancesInMonth(date, y) >= 1;
