@@ -80,9 +80,9 @@ const AccountDashboard: NextPage = (props) => {
                     </div>
                 </div>
 
-                <div style={{ marginTop: "0.3rem" }}>
+                {/* <div style={{ marginTop: "0.3rem" }}>
                     <SaveAccountSettings editedFields={{ "Full Name": { from: "Dylan Zemlin", to: "John Doe" } }} />
-                </div>
+                </div> */}
 
                 <h2 style={{ color: "var(--color-error)", marginTop: "3rem" }}>
                     Danger Zone
