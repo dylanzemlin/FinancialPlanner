@@ -46,7 +46,7 @@ export default withApiAuthRequired(async function ProtectedRoute(req, res) {
         if (!Moment(postStart, 'MM/DD/YYYY', true).isValid()) {
             return res.status(400).json({ code: 400, dataText: `Invalid start date: ${postStart}` });
         }
-        if (postEnd != undefined! && Moment(postEnd, 'MM/DD/YYYY', true).isValid()) {
+        if (postEnd != undefined! && !Moment(postEnd, 'MM/DD/YYYY', true).isValid()) {
             return res.status(400).json({ code: 400, dataText: `Invalid end date: ${postEnd}` });
         }
         if (postAmount <= 0) {

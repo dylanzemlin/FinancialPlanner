@@ -124,7 +124,7 @@ const CreateIncome: NextPage = (props) => {
         </div>
 
         <div className="flex column centered">
-            <label htmlFor="start"> * Start Date </label>
+            <label htmlFor="start"> * Start Date (MM/DD/YYYY) </label>
             <input
                 type="text"
                 id="start"
@@ -136,7 +136,7 @@ const CreateIncome: NextPage = (props) => {
         </div>
 
         <div className="flex column centered">
-            <label htmlFor="end"> End Date </label>
+            <label htmlFor="end"> End Date (MM/DD/YYYY) </label>
             <input
                 type="text"
                 id="end"

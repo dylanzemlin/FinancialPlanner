@@ -133,7 +133,7 @@ const CreateExpense: NextPage = (props) => {
 				value={category}
 			>
 				<option value="entertainment"> Entertainment </option>
-				<option value="grocery"> Grocery </option>
+				<option value="grocery"> Grocery & Shopping </option>
 				<option value="food"> Food & Drinks </option>
 				<option value="gas"> Gas </option>
                 <option value="payment"> Payments (Credit, Loans) </option>
@@ -143,7 +143,7 @@ const CreateExpense: NextPage = (props) => {
 		</div>
 
 		<div className="flex column centered">
-			<label htmlFor="start"> * Start Date </label>
+			<label htmlFor="start"> * Start Date (MM/DD/YYYY) </label>
 			<input
 				type="text"
 				id="start"
@@ -155,7 +155,7 @@ const CreateExpense: NextPage = (props) => {
 		</div>
 
 		<div className="flex column centered">
-			<label htmlFor="end"> End Date </label>
+			<label htmlFor="end"> End Date (MM/DD/YYYY) </label>
 			<input
 				type="text"
 				id="end"

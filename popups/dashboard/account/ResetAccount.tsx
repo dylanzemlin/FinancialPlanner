@@ -3,11 +3,14 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Popup from "reactjs-popup";
 import crypto from 'crypto';
+import { useRouter } from "next/router";
 
 const ResetAccount: NextPage = (props) => {
 
     const [curCode, setCode] = useState("");
     const [realCode, setRealCode] = useState(crypto.randomBytes(4).toString('hex'));
+
+    const router = useRouter();
 
     const sendResetRequest = async () => {
 
@@ -17,6 +20,16 @@ const ResetAccount: NextPage = (props) => {
         }
 
         // TODO: Send Reset Request
+        const deleteReq = await fetch('/api/user/', {
+            method: 'DELETE'
+        });
+
+        if(deleteReq.status == 200) {
+            router.push('/dashboard');
+            return;
+        }
+
+        toast.error(`There was an error resetting your profile: ${await deleteReq.text()}`);
 
     };
 

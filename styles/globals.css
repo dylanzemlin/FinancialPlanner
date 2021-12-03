@@ -28,7 +28,7 @@ body[data-theme="dark"] {
 	--color-text-secondary: #e3e3e3;
 
 	--color-bg-primary: #121212;
-    --color-bg-secondary: #202020;
+	--color-bg-secondary: #202020;
 
 	--color-accent-primary: #bb86fc;
 	--color-accent-secondary: #01dac5;
@@ -119,7 +119,19 @@ button {
 button:hover {
 	cursor: pointer;
 	transition: 0.25s ease;
-    filter: brightness(130%);
+	filter: brightness(130%);
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+	-moz-appearance: textfield;
 }
 
 /* Popup Styling */
