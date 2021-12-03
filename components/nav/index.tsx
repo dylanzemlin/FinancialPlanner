@@ -74,13 +74,13 @@ const Navbar: NextPage = () => {
                 <p className={Styles.navbody}>Savings</p>
             </a>
 
-            <a href="/dashboard/student" className={Styles.navitem}>
+            {/* <a href="/dashboard/student" className={Styles.navitem}>
                 <FontAwesomeIcon
                     icon={faUniversity}
                     className={Styles.navicon}
                 />
                 <p className={Styles.navbody}>Student</p>
-            </a>
+            </a> */}
 
             <a
                 href="/dashboard/account"
