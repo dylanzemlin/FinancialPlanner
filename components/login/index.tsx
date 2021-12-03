@@ -8,11 +8,8 @@ const Login: NextPage = () => {
 		<Container className={Styles.login}>
 			<div className={Styles.content}>
                 <h1> One Planner, One Student </h1>
-                <p> 
-                    TODO: Fill in some catch phrase thing to attract attention of coming users
-                </p>
 
-                <a href="/api/auth/login">Login</a>
+                <a style={{ marginTop:"2rem" }} href="/api/auth/login">Login</a>
             </div>
 
             {/* Consider adding a image or something here? */}
