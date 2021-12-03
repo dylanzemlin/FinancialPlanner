@@ -91,7 +91,7 @@ const Navbar: NextPage = () => {
                 <p className={Styles.navbody}>Account</p>
             </a>
 
-            <a
+            {/* <a
                 style={{ width: "100%" }}
                 onClick={(e) =>
                     changeTheme(theme == "light" ? "dark" : "light")
@@ -111,7 +111,7 @@ const Navbar: NextPage = () => {
                         className={Styles.navicon}
                     />
                 )}
-            </a>
+            </a> */}
 
             <a href="/api/auth/logout" className={Styles.navitem}>
                 <FontAwesomeIcon 

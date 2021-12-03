@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { ToastContainer } from "react-toastify";
 import Head from 'next/head';
@@ -37,7 +37,13 @@ function MyApp({ Component, pageProps }: AppProps) {
             </Head>
 
             <Component {...pageProps} />
-            <ToastContainer />
+            <ToastContainer 
+                toastStyle={{ background: "var(--color-bg-secondary)", color: "var(--color-text-primary)" }}
+                pauseOnFocusLoss={false}
+                pauseOnHover={false}
+                closeOnClick={true}
+                closeButton={false}
+            />
         </UserProvider>
     );
 }
