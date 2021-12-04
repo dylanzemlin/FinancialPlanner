@@ -13,6 +13,9 @@ html {
 	background-color: var(--color-bg-primary);
 	color: var(--color-text-primary);
 	font-family: sans-serif;
+
+    padding: 0;
+	margin: 0;
 }
 
 h1 {
@@ -37,8 +40,6 @@ a {
 *::before,
 *::after {
 	box-sizing: border-box;
-	padding: 0;
-	margin: 0;
 }
 
 /* Theme transition */

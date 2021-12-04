@@ -12,9 +12,12 @@ import "../styles/themes/dark.css";
 import "../styles/globals.css";
 
 // Component Styles
-import "../styles/scrollbar.css";
-import "../styles/tables.css";
-import "../styles/charts.css";
+import "../styles/components/scrollbar.css";
+import "../styles/components/tables.css";
+import "../styles/components/charts.css";
+import "../styles/components/input.css";
+import "../styles/components/popup.css";
+
 
 // Dependency Styles
 import "react-toastify/dist/ReactToastify.css";
