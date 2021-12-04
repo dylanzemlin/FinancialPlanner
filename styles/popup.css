@@ -1,0 +1,30 @@
+.popup-content {
+	background-color: var(--color-bg-secondary) !important;
+	color: white;
+}
+
+.popup-content > h3 {
+	text-align: center;
+}
+
+.popup-content > * {
+	width: 45% !important;
+}
+
+.popup-content > * > input {
+	width: 100%;
+}
+
+.popup-content > * > span {
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.popup-content > * > span > input {
+	width: 100%;
+}
+
+.popup-content:last-child {
+	padding-bottom: 2rem;
+}

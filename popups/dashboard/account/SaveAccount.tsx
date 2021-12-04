@@ -34,7 +34,7 @@ const SaveAccountSettings: NextPage<{
             {Object.keys(props.editedFields).map(key => {
                 const data = props.editedFields[key];
                 return <p>
-                    <b> {key} </b> { <FontAwesomeIcon icon={faArrowRight}/> } <b> {data.from} </b> to <b> {data.to} </b>.
+                    <b> {key} </b> {<FontAwesomeIcon icon={faArrowRight} />} <b> {data.from} </b> to <b> {data.to} </b>.
                 </p>
             })}
         </div>

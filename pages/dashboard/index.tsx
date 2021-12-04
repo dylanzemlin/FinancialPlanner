@@ -1,29 +1,15 @@
-// pages/index.js
-import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { getEarliestFinanceDateForYear, getEarliestFinanceYear } from "@/utils/date-utils";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { NextPage } from "next";
-import * as FinanceUtils from "../../utils/finance-utils";
-
-import {
-    CartesianGrid,
-    Cell,
-    Legend,
-    Line,
-    LineChart,
-    Pie,
-    PieChart,
-    ResponsiveContainer,
-    Tooltip,
-    XAxis,
-    YAxis,
-} from "recharts";
+import * as FinanceUtils from "@/utils/finance-utils";
+import * as Charts from "recharts";
 import React, { useState } from "react";
-import Navbar from "../../components/nav";
-import useApi from "../../lib/useApi";
-import Container from "../../modules/container";
-import NewUser from "../../modules/dashboard/newuser";
+import Navbar from "@/components/nav";
+import useApi from "@/lib/useApi";
+import Container from "@/modules/container";
+import NewUser from "@/modules/dashboard/newuser";
 import ConvertCase from "js-convert-case";
 import Moment from "moment";
-import { getEarliestFinanceDateForYear, getEarliestFinanceYear } from "../../utils/date-utils";
 
 const Dashboard: NextPage = (props) => {
     const { response: userData, fetching } = useApi("/api/user");
@@ -97,7 +83,7 @@ const Dashboard: NextPage = (props) => {
             Income: monthData.income
         });
     }
-    
+
     // Calculate yearly summed line graph data
     const yearlySummedData: { month: string, Income: number, Expense: number }[] = [];
     let yearlySumIncome = 0;
@@ -219,7 +205,7 @@ const Dashboard: NextPage = (props) => {
                                     Average Income: $
                                     {(yearlyLineData
                                         .map(x => x.Income)
-                                        .reduce((a, b) => a + b) 
+                                        .reduce((a, b) => a + b)
                                         / yearlyLineData.length
                                     ).toLocaleString()}
                                 </p>
@@ -227,7 +213,7 @@ const Dashboard: NextPage = (props) => {
                                     Average Expenses: $
                                     {(yearlyLineData
                                         .map(x => x.Expense)
-                                        .reduce((a, b) => a + b) 
+                                        .reduce((a, b) => a + b)
                                         / yearlyLineData.length
                                     ).toLocaleString()}
                                 </p>
@@ -242,9 +228,9 @@ const Dashboard: NextPage = (props) => {
                             <h3 style={{ width: "100%", textAlign: "center" }}>
                                 {Moment(date).format('MMMM')} Expenses
                             </h3>
-                            <ResponsiveContainer width="100%" height={400}>
-                                <PieChart>
-                                    <Pie
+                            <Charts.ResponsiveContainer width="100%" height={400}>
+                                <Charts.PieChart>
+                                    <Charts.Pie
                                         data={monthlyData}
                                         cx="50%"
                                         cy="50%"
@@ -256,42 +242,42 @@ const Dashboard: NextPage = (props) => {
                                     >
                                         {[...Object.keys(monthlyMapData)].map((key) => {
                                             return (
-                                                <Cell
+                                                <Charts.Cell
                                                     key={key + "-monthly"}
                                                     fill={`${colors[colorIdx++ % colors.length]}`}
                                                 />
                                             );
                                         })}
-                                    </Pie>
-                                    <Tooltip
+                                    </Charts.Pie>
+                                    <Charts.Tooltip
                                         formatter={(data: any) => `$${(data as number).toLocaleString()}`}
                                         contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }}
                                     />
-                                    <Legend fill="#fff" />
-                                </PieChart>
-                            </ResponsiveContainer>
+                                    <Charts.Legend fill="#fff" />
+                                </Charts.PieChart>
+                            </Charts.ResponsiveContainer>
                         </div>
 
                         <div>
                             <h3 style={{ width: "100%", textAlign: "center" }}>
                                 Monthly Income & Expenses over {year}
                             </h3>
-                            <ResponsiveContainer width="100%" height={400}>
-                                <LineChart data={yearlyLineData}>
-                                    <XAxis dataKey="month" />
-                                    <YAxis />
-                                    <CartesianGrid stroke="#eee" />
+                            <Charts.ResponsiveContainer width="100%" height={400}>
+                                <Charts.LineChart data={yearlyLineData}>
+                                    <Charts.XAxis dataKey="month" />
+                                    <Charts.YAxis />
+                                    <Charts.CartesianGrid stroke="#eee" />
 
-                                    <Line strokeWidth={3} dot={false} type="linear" dataKey="Income" stroke="#44ff0f" />
-                                    <Line strokeWidth={3} dot={false} type="linear" dataKey="Expense" stroke="#ff3f5f" />
+                                    <Charts.Line strokeWidth={3} dot={false} type="linear" dataKey="Income" stroke="#44ff0f" />
+                                    <Charts.Line strokeWidth={3} dot={false} type="linear" dataKey="Expense" stroke="#ff3f5f" />
 
-                                    <Tooltip
+                                    <Charts.Tooltip
                                         formatter={(data: any) => `$${(data as number).toLocaleString()}`}
                                         contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }}
                                     />
-                                    <Legend formatter={(data: any) => ConvertCase.toSentenceCase(data)} fill="#fff" />
-                                </LineChart>
-                            </ResponsiveContainer>
+                                    <Charts.Legend formatter={(data: any) => ConvertCase.toSentenceCase(data)} fill="#fff" />
+                                </Charts.LineChart>
+                            </Charts.ResponsiveContainer>
                         </div>
                     </div>
 
@@ -300,9 +286,9 @@ const Dashboard: NextPage = (props) => {
                             <h3 style={{ width: "100%", textAlign: "center" }}>
                                 Yearly Expenses
                             </h3>
-                            <ResponsiveContainer width="100%" height={400}>
-                                <PieChart>
-                                    <Pie
+                            <Charts.ResponsiveContainer width="100%" height={400}>
+                                <Charts.PieChart>
+                                    <Charts.Pie
                                         data={yearlyData}
                                         cx="50%"
                                         cy="50%"
@@ -314,42 +300,42 @@ const Dashboard: NextPage = (props) => {
                                     >
                                         {[...Object.keys(yearlyMapData)].map((key) => {
                                             return (
-                                                <Cell
+                                                <Charts.Cell
                                                     key={key + "-yearly"}
                                                     fill={`${colors[colorIdx++ % colors.length]}`}
                                                 />
                                             );
                                         })}
-                                    </Pie>
-                                    <Tooltip
+                                    </Charts.Pie>
+                                    <Charts.Tooltip
                                         formatter={(data: any) => `$${(data as number).toLocaleString()}`}
                                         contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }}
                                     />
-                                    <Legend fill="#fff" />
-                                </PieChart>
-                            </ResponsiveContainer>
+                                    <Charts.Legend fill="#fff" />
+                                </Charts.PieChart>
+                            </Charts.ResponsiveContainer>
                         </div>
 
                         <div>
                             <h3 style={{ width: "100%", textAlign: "center" }}>
                                 Yearly Income & Expenses over {year}
                             </h3>
-                            <ResponsiveContainer width="100%" height={400}>
-                                <LineChart data={yearlySummedData}>
-                                    <XAxis dataKey="month" />
-                                    <YAxis />
-                                    <CartesianGrid stroke="#eee" />
+                            <Charts.ResponsiveContainer width="100%" height={400}>
+                                <Charts.LineChart data={yearlySummedData}>
+                                    <Charts.XAxis dataKey="month" />
+                                    <Charts.YAxis />
+                                    <Charts.CartesianGrid stroke="#eee" />
 
-                                    <Line strokeWidth={3} dot={false} type="linear" dataKey="Income" stroke="#44ff0f" />
-                                    <Line strokeWidth={3} dot={false} type="linear" dataKey="Expense" stroke="#ff3f5f" />
+                                    <Charts.Line strokeWidth={3} dot={false} type="linear" dataKey="Income" stroke="#44ff0f" />
+                                    <Charts.Line strokeWidth={3} dot={false} type="linear" dataKey="Expense" stroke="#ff3f5f" />
 
-                                    <Tooltip
+                                    <Charts.Tooltip
                                         formatter={(data: any) => `$${(data as number).toLocaleString()}`}
                                         contentStyle={{ background: "var(--color-bg-secondary)", fill: "#fff" }}
                                     />
-                                    <Legend formatter={(data: any) => ConvertCase.toSentenceCase(data)} fill="#fff" />
-                                </LineChart>
-                            </ResponsiveContainer>
+                                    <Charts.Legend formatter={(data: any) => ConvertCase.toSentenceCase(data)} fill="#fff" />
+                                </Charts.LineChart>
+                            </Charts.ResponsiveContainer>
                         </div>
                     </div>
                 </div>

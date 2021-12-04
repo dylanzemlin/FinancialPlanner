@@ -1,19 +1,18 @@
-// pages/index.js
-import { getEarliestFinanceDateForYear, getEarliestFinanceYear } from "../../utils/date-utils";
+import { getEarliestFinanceDateForYear, getEarliestFinanceYear } from "@/utils/date-utils";
+import { calculateOccurancesInMonth } from "@/utils/finance-utils";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { NextPage } from "next";
 import React, { useState } from "react";
-import Navbar from "../../components/nav";
+import Navbar from "@/components/nav";
 import Moment from "moment";
-import useApi from "../../lib/useApi";
-import Container from "../../modules/container";
+import useApi from "@/lib/useApi";
+import Container from "@/modules/container";
 import CreateExpense from "../../popups/dashboard/finances/CreateExpense";
 import CreateIncome from "../../popups/dashboard/finances/CreateIncome";
 import DeleteFinance from "../../popups/dashboard/finances/DeleteFinance";
 import EditExpense from "../../popups/dashboard/finances/EditExpense";
 import EditIncome from "../../popups/dashboard/finances/EditIncome";
 import ConvertCase from "js-convert-case";
-import { calculateOccurancesInMonth } from "../../utils/finance-utils";
 
 const FinanceDashboard: NextPage = (props) => {
     let {

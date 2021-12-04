@@ -1,9 +1,9 @@
 import { NextPage } from "next";
-import React, { useState } from "react";
+import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import React, { useState } from "react";
 import Popup from "reactjs-popup";
 import crypto from 'crypto';
-import { useRouter } from "next/router";
 
 const ResetAccount: NextPage = (props) => {
 
@@ -24,7 +24,7 @@ const ResetAccount: NextPage = (props) => {
             method: 'DELETE'
         });
 
-        if(deleteReq.status == 200) {
+        if (deleteReq.status == 200) {
             router.push('/dashboard');
             return;
         }

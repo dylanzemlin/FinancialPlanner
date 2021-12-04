@@ -1,0 +1,56 @@
+select,
+input {
+	outline: none;
+	border: none;
+
+	background: var(--color-bg-primary);
+	border: 2px solid var(--color-bg-secondary);
+	border-radius: 5px;
+	padding: 0.35rem;
+
+	color: var(--color-text-primary);
+}
+
+select:focus {
+	transition: 0.25s ease;
+	filter: brightness(140%);
+}
+
+input:hover {
+	transition: 0.25s ease;
+	filter: brightness(140%);
+}
+
+input:active {
+	outline: none;
+	color: var(--color-text-primary);
+}
+
+input[type="submit"]:hover {
+	cursor: pointer;
+}
+
+button {
+	background-color: var(--color-bg-secondary);
+	border: none;
+	width: fit-content;
+	color: var(--color-text-primary);
+}
+
+button:hover {
+	cursor: pointer;
+	transition: 0.25s ease;
+	filter: brightness(130%);
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+	-moz-appearance: textfield;
+}

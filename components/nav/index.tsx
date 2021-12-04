@@ -1,29 +1,11 @@
-import {
-    faArrowLeft,
-    faArrowRight,
-    faBars,
-    faChartLine,
-    faCog,
-    faHandPaper,
-    faHome,
-    faMoneyBill,
-    faMoneyCheck,
-    faMoon,
-    faSchool,
-    faSignOutAlt,
-    faSun,
-    faUniversity,
-} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NextPage } from "next";
 import React, { useEffect, useState } from "react";
-import useWindowDimensions from "../../lib/useWindowDimensions";
+import * as Icons from "@fortawesome/free-solid-svg-icons";
 import Styles from "./nav.module.scss";
 
 const Navbar: NextPage = () => {
     const [theme, setTheme] = useState("dark");
-    const { height, width } = useWindowDimensions();
-    const [isCollapsed, setCollapsed] = useState(true);
 
     useEffect(() => {
         let theme = localStorage.getItem("1411-theme") ?? "dark";
@@ -46,40 +28,32 @@ const Navbar: NextPage = () => {
         <div
             className={[
                 Styles.nav,
-                isCollapsed ? Styles.collapsed : "",
-                width <= 550 ? Styles.mobile : "",
                 "flex column",
             ].join(" ")}
         >
-            {width <= 550 && <FontAwesomeIcon icon={faBars} onClick={(e) => setCollapsed(!isCollapsed)} className={Styles.navburger} />}
-
             <a href="/dashboard" className={Styles.navitem}>
-                <FontAwesomeIcon icon={faHome} className={Styles.navicon} />
-                <p className={Styles.navbody}>Dashboard</p>
+                <FontAwesomeIcon icon={Icons.faHome} className={Styles.navicon} />
             </a>
 
             <a href="/dashboard/finances" className={Styles.navitem}>
                 <FontAwesomeIcon
-                    icon={faMoneyCheck}
+                    icon={Icons.faMoneyCheck}
                     className={Styles.navicon}
                 />
-                <p className={Styles.navbody}>Finances</p>
             </a>
 
             <a href="/dashboard/savings" className={Styles.navitem}>
                 <FontAwesomeIcon
-                    icon={faMoneyBill}
+                    icon={Icons.faMoneyBill}
                     className={Styles.navicon}
                 />
-                <p className={Styles.navbody}>Savings</p>
             </a>
 
             {/* <a href="/dashboard/student" className={Styles.navitem}>
                 <FontAwesomeIcon
-                    icon={faUniversity}
+                    icon={Icons.faUniversity}
                     className={Styles.navicon}
                 />
-                <p className={Styles.navbody}>Student</p>
             </a> */}
 
             <a
@@ -87,8 +61,7 @@ const Navbar: NextPage = () => {
                 style={{ marginTop: "auto" }}
                 className={Styles.navitem}
             >
-                <FontAwesomeIcon icon={faCog} className={Styles.navicon} />
-                <p className={Styles.navbody}>Account</p>
+                <FontAwesomeIcon icon={Icons.faCog} className={Styles.navicon} />
             </a>
 
             {/* <a
@@ -100,13 +73,13 @@ const Navbar: NextPage = () => {
             >
                 {theme == "light" ? (
                     <FontAwesomeIcon
-                        icon={faMoon}
+                        icon={Icons.faMoon}
                         style={{ marginLeft: "0", marginRight: "0" }}
                         className={Styles.navicon}
                     />
                 ) : (
                     <FontAwesomeIcon
-                        icon={faSun}
+                        icon={Icons.faSun}
                         style={{ marginLeft: "0", marginRight: "0" }}
                         className={Styles.navicon}
                     />
@@ -114,34 +87,11 @@ const Navbar: NextPage = () => {
             </a> */}
 
             <a href="/api/auth/logout" className={Styles.navitem}>
-                <FontAwesomeIcon 
-                    icon={faSignOutAlt}
+                <FontAwesomeIcon
+                    icon={Icons.faSignOutAlt}
                     className={Styles.navicon}
                 />
-                <p className={Styles.navbody}>Logout</p>
             </a>
-
-            {/* {width >= 750 &&
-                <a
-                    style={{ width: "100%" }}
-                    onClick={(e) => setCollapsed(!isCollapsed)}
-                    className={Styles.navitem}
-                >
-                    {!isCollapsed ? (
-                        <FontAwesomeIcon
-                            icon={faArrowLeft}
-                            style={{ marginLeft: "0", marginRight: "0" }}
-                            className={Styles.navicon}
-                        />
-                    ) : (
-                        <FontAwesomeIcon
-                            icon={faArrowRight}
-                            style={{ marginLeft: "0", marginRight: "0" }}
-                            className={Styles.navicon}
-                        />
-                    )}
-                </a>
-            } */}
         </div>
     );
 };

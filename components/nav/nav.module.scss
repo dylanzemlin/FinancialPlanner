@@ -3,44 +3,30 @@
 	height: 100%;
 	margin-right: 1rem;
 	background-color: var(--color-nav-background);
-
-	&.collapsed {
-		.navitem p {
-			display: none;
-		}
-
-		.navicon {
-			margin-left: 1rem;
-			margin-right: 1rem;
-            width: 17px;
-		}
-	}
-
 	align-items: center;
-
-    box-shadow: 1px 0px 13px -5px #202020;
+	box-shadow: 1px 0px 13px -5px #202020;
 }
 
 .mobile {
-    width: fit-content;
-    margin-left: 0.5rem;
-    margin-top: 0.5rem;
-    background-color: var(--color-nav-background);
+	width: fit-content;
+	margin-left: 0.5rem;
+	margin-top: 0.5rem;
+	background-color: var(--color-nav-background);
 
-    .navitem {
-        display: none;
-    }
+	.navitem {
+		display: none;
+	}
 
-    &.collapsed {
-        .navitem {
-            display: flex;
-        }
+	&.collapsed {
+		.navitem {
+			display: flex;
+		}
 
-        .navburger {
-            margin-bottom: 1rem;
-            margin-top: 0.9rem;
-        }
-    }
+		.navburger {
+			margin-bottom: 1rem;
+			margin-top: 0.9rem;
+		}
+	}
 }
 
 .navitem {
@@ -59,14 +45,14 @@
 }
 
 .navicon {
-	margin-right: auto;
 	margin-left: 1rem;
-    width: 17px;
+	margin-right: 1rem;
+	width: 17px;
 }
 
 .navitem:hover {
 	filter: brightness(140%);
 	transition: 0.25s ease;
-    cursor: pointer;
-    color: var(--color-accent-primary);
+	cursor: pointer;
+	color: var(--color-accent-primary);
 }

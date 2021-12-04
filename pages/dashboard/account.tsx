@@ -1,12 +1,12 @@
-// pages/index.js
+
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { NextPage } from "next";
 import React, { useState } from "react";
-import Navbar from "../../components/nav";
-import useApi from "../../lib/useApi";
-import Container from "../../modules/container";
+import Navbar from "@/components/nav";
+import useApi from "@/lib/useApi";
+import Container from "@/modules/container";
 import ResetAccount from "../../popups/dashboard/account/ResetAccount";
-import SaveAccountSettings from "../../popups/dashboard/account/SaveAccount";
+// import SaveAccountSettings from "../../popups/dashboard/account/SaveAccount";
 
 const AccountDashboard: NextPage = (props) => {
 

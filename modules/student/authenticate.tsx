@@ -1,7 +1,6 @@
 import { NextPage } from "next";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import * as OUtils from "../../utils/ou-utils";
 
 const StudentAuthentication: NextPage = (props) => {
     const [cookieVal, setCookie] = useState("");

@@ -1,6 +1,6 @@
 import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0';
-import FinanceModel from '../../../../models/finance';
-import mongoConnect from '../../../../lib/mongo';
+import FinanceModel from '@/models/finance';
+import mongoConnect from '@/lib/mongo';
 import Moment from 'moment';
 
 export default withApiAuthRequired(async function ProtectedRoute(req, res) {

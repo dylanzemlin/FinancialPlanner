@@ -1,15 +1,22 @@
 import type { AppProps } from "next/app";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { ToastContainer } from "react-toastify";
 import Head from 'next/head';
 
+// Helper Styles
 import "../styles/helpers.css";
+
+// Themes & Global Styles
+import "../styles/themes/dark.css";
 import "../styles/globals.css";
+
+// Component Styles
 import "../styles/scrollbar.css";
 import "../styles/tables.css";
 import "../styles/charts.css";
 
+// Dependency Styles
 import "react-toastify/dist/ReactToastify.css";
 import "reactjs-popup/dist/index.css";
 
@@ -37,7 +44,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             </Head>
 
             <Component {...pageProps} />
-            <ToastContainer 
+            <ToastContainer
                 toastStyle={{ background: "var(--color-bg-secondary)", color: "var(--color-text-primary)" }}
                 pauseOnFocusLoss={false}
                 pauseOnHover={false}

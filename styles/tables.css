@@ -24,7 +24,7 @@ thead {
 .tableActions {
 	display: flex;
 	gap: 0.8rem;
-    align-items: center;
+	align-items: center;
 }
 
 .tableAction {
@@ -35,15 +35,15 @@ thead {
 }
 
 .tableSubHeader {
-    column-span: all;
-    width: 100%;
-    border: 1px solid var(--color-accent-primary);
-    padding: 0.2rem 0.5rem !important;
+	column-span: all;
+	width: 100%;
+	border: 1px solid var(--color-accent-primary);
+	padding: 0.2rem 0.5rem !important;
 }
 
 .tableAction > * {
-    width: 15px;
-    height: 15px;
+	width: 15px;
+	height: 15px;
 }
 
 .tableAction:hover {

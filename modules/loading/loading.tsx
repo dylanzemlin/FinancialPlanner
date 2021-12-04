@@ -1,4 +1,3 @@
-// pages/index.js
 import { NextPage } from "next";
 import Loader from "react-loader-spinner";
 

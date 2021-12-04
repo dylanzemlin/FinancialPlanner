@@ -1,4 +1,3 @@
-// pages/index.js
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
@@ -118,7 +117,7 @@ const NewUser: NextPage = () => {
         <Container title="ENGR 1411 | Welcome!">
             <div style={{ paddingLeft: "1rem", paddingRight: "1rem" }}>
                 <h1> Welcome to the 1411 Financial Planner! </h1>
-                <p> 
+                <p>
                     To get started, we need to collect some information about you.
                     Everything below is securely stored and used only for financial calculations such as state taxes, etc.
                 </p>
