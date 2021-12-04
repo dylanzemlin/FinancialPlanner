@@ -1,8 +1,8 @@
 import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0';
-import User from '../../../models/user';
-import Finance from '../../../models/finance';
-import Student from '../../../models/student';
-import mongoConnect from '../../../lib/mongo';
+import User from '@/models/user';
+import Finance from '@/models/finance';
+import Student from '@/models/student';
+import mongoConnect from '@/lib/mongo';
 
 export default withApiAuthRequired(async function ProtectedRoute(req, res) {
     const session = getSession(req, res);

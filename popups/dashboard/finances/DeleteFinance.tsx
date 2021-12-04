@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import Popup from "reactjs-popup";
 
-const DeleteFinance: NextPage<{ 
+const DeleteFinance: NextPage<{
     id: string,
     title: string,
     amount: string
@@ -39,9 +39,9 @@ const DeleteFinance: NextPage<{
                 Are you sure you want to delete this finance? This action is not
                 reversable.
             </p>
-            
+
             <p>
-                Finance: { props.title } for ${ props.amount }
+                Finance: {props.title} for ${props.amount}
             </p>
 
             <button

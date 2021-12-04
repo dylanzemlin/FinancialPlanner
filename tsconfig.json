@@ -17,13 +17,30 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "jsx": "preserve",
-        "incremental": true
+        "incremental": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/utils/*": [
+                "utils/*"
+            ],
+            "@/models/*": [
+                "models/*"
+            ],
+            "@/modules/*": [
+                "modules/*"
+            ],
+            "@/lib/*": [
+                "lib/*"
+            ],
+            "@/components/*": [
+                "components/*"
+            ]
+        }
     },
     "include": [
         "next-env.d.ts",
         "**/*.ts",
-        "**/*.tsx",
-        "pages/api/user/[userId]"
+        "**/*.tsx"
     ],
     "exclude": [
         "node_modules"

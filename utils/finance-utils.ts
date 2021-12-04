@@ -1,4 +1,4 @@
-import { FinanceItem, IFinance } from "../models/finance";
+import { FinanceItem, IFinance } from "@/models/finance";
 import { compareDates } from "./date-utils";
 import Moment from 'moment';
 
@@ -15,8 +15,8 @@ export function calculateOccurancesBetween(start: Date, end: Date, finance: Fina
     let occurances: number = 0;
     let curDate = Moment(finance.start);
 
-    if(finance.end != undefined) {
-        if(Moment(finance.end).isBefore(start, 'day')) return 0;
+    if (finance.end != undefined) {
+        if (Moment(finance.end).isBefore(start, 'day')) return 0;
     }
 
     // To be safe we are going to include a timeout to avoid infinite loops
@@ -55,7 +55,7 @@ export function calculateOccurancesBetween(start: Date, end: Date, finance: Fina
  */
 export function calculateOccurancesInMonth(date: Date, finance: FinanceItem, stopToday?: boolean): number {
     const moment = Moment(date);
-    if(stopToday && moment.isSame(Moment(new Date()), 'month')) {
+    if (stopToday && moment.isSame(Moment(new Date()), 'month')) {
         return calculateOccurancesBetween(
             new Date(date.getFullYear(), date.getMonth(), 1),
             new Date(),
@@ -98,7 +98,7 @@ export function calculateMonthlyFinances(
     const theMap: Record<string, number> = {};
     for (let item of filteredItems.filter((x) => x.type == "EXPENSE")) {
         const cost = (item.amount * calculateOccurancesInMonth(date, item, stopToday));
-        if(cost == 0) continue; // Skip items with zero cost
+        if (cost == 0) continue; // Skip items with zero cost
 
         if (item.category in theMap) {
             theMap[item.category] += cost;

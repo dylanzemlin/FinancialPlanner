@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHammer } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import { v4 as uuidv4 } from "uuid";
 import { NextPage } from "next";
 import React, { useState } from "react";
 import Popup from "reactjs-popup";

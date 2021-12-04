@@ -1,11 +1,10 @@
-// pages/index.js
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { NextPage } from "next";
 import { toast } from 'react-toastify';
 import React, { useState } from "react";
-import Navbar from "../../components/nav";
-import useApi from "../../lib/useApi";
-import Container from "../../modules/container";
+import Navbar from "@/components/nav";
+import useApi from "@/lib/useApi";
+import Container from "@/modules/container";
 
 const SavingsDashboard: NextPage = (props) => {
     const {

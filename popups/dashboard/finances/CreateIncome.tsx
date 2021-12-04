@@ -1,9 +1,9 @@
+import { useRouter } from "next/router";
 import { NextPage } from "next";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from 'uuid';
 import React, { useState } from "react";
 import Moment from 'moment';
-import { useRouter } from "next/router";
 import Popup from "reactjs-popup";
 
 const CreateIncome: NextPage = (props) => {
@@ -18,17 +18,17 @@ const CreateIncome: NextPage = (props) => {
 
     const createIncome = async () => {
 
-        if(!Moment(startDate, 'MM/DD/YYYY', true).isValid()) {
+        if (!Moment(startDate, 'MM/DD/YYYY', true).isValid()) {
             toast.warning(`Failed to create income: invalid start date: ${startDate}`);
             return;
         }
 
-        if(endDate != "" && !Moment(endDate, 'MM/DD/YYYY', true).isValid()) {
+        if (endDate != "" && !Moment(endDate, 'MM/DD/YYYY', true).isValid()) {
             toast.warning(`Failed to create income: invalid end date: ${endDate}`);
             return;
         }
 
-        if(title.trim() == "") {
+        if (title.trim() == "") {
             toast.warning(`Failed to create income: you must specify a title!`);
             return;
         }

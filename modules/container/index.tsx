@@ -1,4 +1,3 @@
-// pages/index.js
 import { NextPage } from "next";
 import Head from "next/head";
 import Loading from "../loading/loading";

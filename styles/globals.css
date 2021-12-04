@@ -13,38 +13,6 @@ html {
 	background-color: var(--color-bg-primary);
 	color: var(--color-text-primary);
 	font-family: sans-serif;
-
-	padding: 0;
-	margin: 0;
-}
-
-body[data-theme="dark"] {
-	--color-primary: #46bddf;
-	--color-error: #e24d61;
-	--color-warning: #e57255;
-	--color-success: #52d273;
-
-	--color-text-primary: #ffffff;
-	--color-text-secondary: #e3e3e3;
-
-	--color-bg-primary: #121212;
-	--color-bg-secondary: #202020;
-
-	--color-accent-primary: #bb86fc;
-	--color-accent-secondary: #01dac5;
-
-	--color-graph-chart: #fff;
-	--color-graph-title: #fff;
-
-	--color-nav-background: #1d1d1d;
-	--color-nav-item: #121212;
-
-	--color-table-border: #141414;
-	--color-table-cell: #1d1d1d;
-
-	--color-bg-scrollbar-track: #404040;
-	--color-bg-scrollbar-thumb: #343434;
-	--color-bg-scrollbar-thumb-hover: #303030;
 }
 
 h1 {
@@ -69,102 +37,11 @@ a {
 *::before,
 *::after {
 	box-sizing: border-box;
-}
-
-*[data-changing="true"] {
-	transition: background 0.25s ease;
-}
-
-/* Default Styles */
-select,
-input {
-	outline: none;
-	border: none;
-
-	background: var(--color-bg-primary);
-	border: 2px solid var(--color-bg-secondary);
-	border-radius: 5px;
-	padding: 0.35rem;
-
-	color: var(--color-text-primary);
-}
-
-select:focus {
-	transition: 0.25s ease;
-	filter: brightness(140%);
-}
-
-input:hover {
-	transition: 0.25s ease;
-	filter: brightness(140%);
-}
-
-input:active {
-	outline: none;
-	color: var(--color-text-primary);
-}
-
-input[type="submit"]:hover {
-	cursor: pointer;
-}
-
-/* Button Styling */
-button {
-	background-color: var(--color-bg-secondary);
-	border: none;
-	width: fit-content;
-	color: var(--color-text-primary);
-}
-
-button:hover {
-	cursor: pointer;
-	transition: 0.25s ease;
-	filter: brightness(130%);
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
+	padding: 0;
 	margin: 0;
 }
 
-/* Firefox */
-input[type="number"] {
-	-moz-appearance: textfield;
-}
-
-/* Popup Styling */
-
-/* HI - For anyone seeing this, I am sorry. This CSS is horrible, but it works for now :D */
-
-.popup-content {
-	background-color: var(--color-bg-secondary) !important;
-	color: white;
-}
-
-.popup-content > h3 {
-	text-align: center;
-}
-
-.popup-content > * {
-	width: 45% !important;
-}
-
-.popup-content > * > input {
-	width: 100%;
-}
-
-.popup-content > * > span {
-	width: 100%;
-	display: flex;
-	align-items: center;
-}
-
-.popup-content > * > span > input {
-	width: 100%;
-}
-
-.popup-content:last-child {
-	padding-bottom: 2rem;
+/* Theme transition */
+*[data-changing="true"] {
+	transition: background 0.25s ease;
 }

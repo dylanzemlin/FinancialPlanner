@@ -1,44 +1,44 @@
 import mongoose from "mongoose";
 
 export interface FinanceItem {
-	id: string;
+    id: string;
 
-	type: string;
-	category: string;
-	title: string;
-	period: string;
+    type: string;
+    category: string;
+    title: string;
+    period: string;
 
-	amount: number;
+    amount: number;
 
-	start: Date;
-	end?: Date;
+    start: Date;
+    end?: Date;
 }
 
 export interface IFinance {
-	userId: string;
-	finances: FinanceItem[];
+    userId: string;
+    finances: FinanceItem[];
 }
 
 const FinanceSchema = new mongoose.Schema<IFinance>(
-	{
-		userId: String,
-		finances: [
-			{
-				id: String,
-				type: String,
-				category: String,
-				title: String,
-				period: String,
+    {
+        userId: String,
+        finances: [
+            {
+                id: String,
+                type: String,
+                category: String,
+                title: String,
+                period: String,
 
-				amount: Number,
+                amount: Number,
 
-				start: Date,
-				end: Date,
-			},
-		],
-	},
-	{ typeKey: "$type" }
+                start: Date,
+                end: Date,
+            },
+        ],
+    },
+    { typeKey: "$type" }
 );
 
 export default mongoose.models.Finance ||
-	mongoose.model<IFinance>("Finance", FinanceSchema, "finances");
+    mongoose.model<IFinance>("Finance", FinanceSchema, "finances");

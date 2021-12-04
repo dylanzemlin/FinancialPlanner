@@ -1,7 +1,24 @@
 {
     "name": "1411p2",
-    "version": "0.1.0",
-    "private": true,
+    "version": "1.0.0",
+    "description": "A financial planner made for students by students",
+    "author": "Dylan Zemlin",
+    "contributors": [
+        {
+            "name": "Dylan Zemlin",
+            "email": "dylan.zemlin@ou.edu",
+            "url": "https://github.com/DylanSMR"
+        }
+    ],
+    "homepage": "https://1411p2.dylanzeml.in",
+    "bugs": {
+        "url": "https://github.com/DylanSMR/1411P2/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DylanSMR/1411P2.git"
+    },
+    "license": "mit",
     "scripts": {
         "dev": "next dev",
         "build": "next build",
