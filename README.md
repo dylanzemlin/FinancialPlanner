@@ -1,4 +1,4 @@
-# 1411P2
+# 1411P2 ![GitHub](https://img.shields.io/github/license/DylanSMR/1411P2) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/DylanSMR/1411P2)
 
 1411P2 (Course 1411, Project 2) hosts the code for Team 6's main project.
 
