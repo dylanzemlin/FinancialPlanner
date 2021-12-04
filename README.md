@@ -10,7 +10,10 @@ We created a financial planner which allows students to spend more time on their
 
 ### What can it do?
 
-This planner is capable of not only tracking income and expenses, but also interacting with your OU Student Account directly. This allows automatic coverage of student awards, loans that OU is aware of, and much more!
+ - Track user expenses and income
+ - Calculate compounding interest on a savings account
+ - Calculate a savings goal
+ - Present data in a meaningful way using graphs
 
 ## Math
 
@@ -19,18 +22,20 @@ All of the math behind this website can be found at the following links:
 
 ## Technical Information
 
-For anyone interested, the tech stack for this project is listed below.  
+For anyone interested, the primary tech stack for this project is listed below.  
 
- - NextJS | A SSR framework for React
- - Toastify | A toast framework for React
- - ReactJS-Popup | A popup framework for React
- - Recharts | A chart framework for React
- - Vercel | A hosting service for NextJS
- - Moment | A date/time formatting and parsing library
- - Auth0 | A login system
- - JS-Convert-Case | Converts strings to different cases
- - Mongoose/MongoDB | Database storage & handling
- - SASS | Better CSS
- - Font/Fort Awesome | Free Icons
- - Typescript | Type Safety FTW
- - UUID | Used here for random id generation (easier methods could have been used, but this was easy)
+ - [NextJS](https://nextjs.org/)
+ - [Vercel](https://vercel.com/)
+ - [Auth0](https://auth0.com/)
+ - [Mongoose & MongoDB](https://www.mongodb.com/)
+ - [SASS](https://sass-lang.com/)
+ - [Typescript](https://www.typescriptlang.org/)
+
+And below are smaller libraries used occasionally throughout the codebase
+ - [UUID](https://github.com/uuidjs/uuid)
+ - [JS-Convert-Case](https://github.com/huynhsamha/js-convert-case)
+ - [Toastify](https://github.com/fkhadra/react-toastify)
+ - [ReactJS-Popup](https://github.com/yjose/reactjs-popup)
+ - [Moment](https://github.com/moment/moment)
+ - [Recharts](https://github.com/recharts/recharts)
+ - [Font/Fort Awesome](https://fontawesome.com/)
