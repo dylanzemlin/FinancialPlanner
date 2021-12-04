@@ -39,3 +39,7 @@ And below are smaller libraries used occasionally throughout the codebase
  - [Moment](https://github.com/moment/moment)
  - [Recharts](https://github.com/recharts/recharts)
  - [Font/Fort Awesome](https://fontawesome.com/)
+
+## License
+
+The source code for the site is licensed under the MIT license, which you can find in the LICENSE.txt file.
