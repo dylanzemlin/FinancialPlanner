@@ -65,7 +65,7 @@ const SavingsDashboard: NextPage = (props) => {
         // https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator
         let n = compoundFrequency == 'monthly' ? 12 : 1;
         let floatRate = interestRate <= 1 ? 1 : interestRate / 100;
-        let amount = initialInvestment * ((1 + (floatRate / n)) * (compoundLength * n));
+        let amount = initialInvestment * Math.pow((1 + (floatRate / n)), (compoundLength * n));
         setInterestResponse(`If you let your initial investment of 
             $${initialInvestment} grow for 
             ${compoundLength} at a 
