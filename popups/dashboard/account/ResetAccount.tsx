@@ -73,7 +73,7 @@ const ResetAccount: NextPage = (props) => {
         </div>
 
         <div>
-            <input type="submit" value="Reset" onClick={sendResetRequest} />
+            <input disabled type="submit" value="Reset" onClick={sendResetRequest} />
         </div>
     </Popup>;
 };
