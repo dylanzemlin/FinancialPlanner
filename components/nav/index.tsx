@@ -56,13 +56,13 @@ const Navbar: NextPage = () => {
                 />
             </a> */}
 
-            <a
+            {/* <a
                 href="/dashboard/account"
                 style={{ marginTop: "auto" }}
                 className={Styles.navitem}
             >
                 <FontAwesomeIcon icon={Icons.faCog} className={Styles.navicon} />
-            </a>
+            </a> */}
 
             {/* <a
                 style={{ width: "100%" }}

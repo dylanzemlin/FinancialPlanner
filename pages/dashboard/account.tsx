@@ -84,13 +84,13 @@ const AccountDashboard: NextPage = (props) => {
                     <SaveAccountSettings editedFields={{ "Full Name": { from: "Dylan Zemlin", to: "John Doe" } }} />
                 </div> */}
 
-                <h2 style={{ color: "var(--color-error)", marginTop: "3rem" }}>
+                {/* <h2 style={{ color: "var(--color-error)", marginTop: "3rem" }}>
                     Danger Zone
                 </h2>
 
                 <div>
                     <ResetAccount />
-                </div>
+                </div> */}
             </div>
         </Container>
     );
