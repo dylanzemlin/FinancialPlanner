@@ -86,7 +86,7 @@ const Navbar: NextPage = () => {
                 )}
             </a> */}
 
-            <a href="/api/auth/logout" className={Styles.navitem}>
+            <a href="/api/auth/logout" style={{ marginTop: "auto" }} className={Styles.navitem}>
                 <FontAwesomeIcon
                     icon={Icons.faSignOutAlt}
                     className={Styles.navicon}
